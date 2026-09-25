@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0614">
+<title>Aura Farm · Essere / Avere</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0a0614;--bg2:#140a22;--card:#1a0f2e;--neon:#c44dff;--neon2:#00f5d4;
+  --pink:#ff4d9e;--gold:#ffd166;--ok:#39ff88;--bad:#ff5c7a;
+  --text:#f5f0ff;--muted:#c3b8d8;--panel:#221438;--stroke:rgba(196,77,255,.45);
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+body{display:flex;justify-content:center;align-items:stretch}
+#app{width:100%;max-width:600px;height:100%;max-height:100dvh;position:relative;background:radial-gradient(ellipse at 50% 0%,#2a1048 0%,var(--bg) 55%);overflow:hidden;box-shadow:0 0 60px rgba(196,77,255,.15)}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;padding:10px 16px 14px;overflow:hidden}
+.screen.active{display:flex}
+button{font:inherit;cursor:pointer;border:none;color:inherit;touch-action:manipulation}
+button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.hud{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 2px 8px;z-index:5;flex:0 0 auto}
+.pill{background:rgba(255,255,255,.07);border:1px solid var(--stroke);border-radius:999px;padding:6px 14px;font-size:16px;font-weight:700;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.pill .fire{display:inline-block;animation:flicker .4s infinite alternate}
+@keyframes flicker{from{transform:scale(1)}to{transform:scale(1.15) rotate(-4deg)}}
+.icon-btn{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--stroke);display:grid;place-items:center;font-size:22px;flex:0 0 auto}
+.icon-btn:active{transform:scale(.92)}
+.big-btn{width:100%;padding:14px 18px;border-radius:18px;font-weight:800;font-size:19px;letter-spacing:.02em;background:linear-gradient(135deg,var(--neon),var(--pink));box-shadow:0 8px 28px rgba(196,77,255,.45),inset 0 1px 0 rgba(255,255,255,.25);transition:transform .12s}
+.big-btn:active{transform:scale(.97)}
+.ghost-btn{background:rgba(255,255,255,.07);border:1px solid var(--stroke);border-radius:14px;padding:12px 14px;font-weight:700;font-size:18px}
+.soft{color:var(--muted);font-size:16px;line-height:1.35}
+.flash-ok,.flash-bad{pointer-events:none;position:absolute;inset:0;opacity:0;z-index:40;transition:opacity .15s}
+.flash-ok{background:radial-gradient(circle at 50% 40%,rgba(57,255,136,.3),transparent 60%)}
+.flash-bad{background:radial-gradient(circle at 50% 40%,rgba(255,92,122,.25),transparent 60%)}
+.flash-ok.show,.flash-bad.show{opacity:1}
+.shake{animation:shake .35s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-7px)}80%{transform:translateX(7px)}}
+.snap{animation:snap .28s ease}
+@keyframes snap{0%{transform:scale(.85)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+.aura-pop{position:absolute;font-weight:900;font-size:22px;color:var(--gold);text-shadow:0 0 12px var(--neon);pointer-events:none;animation:rise 700ms ease-out forwards;z-index:50}
+@keyframes rise{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-60px) scale(1.3)}}
+.modal-backdrop{position:absolute;inset:0;background:rgba(5,2,12,.85);display:none;align-items:center;justify-content:center;z-index:60;padding:16px}
+.modal-backdrop.show{display:flex}
+.modal{background:var(--panel);border:1px solid var(--stroke);border-radius:20px;padding:18px;width:100%;max-width:460px;max-height:92%;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.modal h3{margin-bottom:6px;font-size:21px}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.chart-card{background:rgba(255,255,255,.05);border:1px solid var(--stroke);border-radius:14px;padding:10px}
+.chart-card h4{color:var(--neon2);margin-bottom:6px;font-size:17px}
+.chart-card table{width:100%;font-size:18px;border-collapse:collapse}
+.chart-card td{padding:4px 2px;border-bottom:1px solid rgba(255,255,255,.07)}
+.chart-card td:first-child{color:var(--muted);width:44%}
+.chart-card td:last-child{font-weight:800}
+/* toast lives at the very top, between the HUD side buttons, so it never covers answers */
+.toast{position:absolute;left:50%;top:10px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 136px);background:rgba(20,10,34,.97);border:1px solid var(--stroke);padding:10px 14px;border-radius:14px;font-size:16px;font-weight:700;opacity:0;pointer-events:none;z-index:70;transition:opacity .2s;text-align:center}
+.toast.show{opacity:1}
+.progress-rail{height:8px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin:2px 0 6px;flex:0 0 auto}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--neon2),var(--neon));width:0%;transition:width .25s}
+.howto{font-size:16px;color:var(--muted);text-align:center;padding:2px 4px 8px;line-height:1.35;flex:0 0 auto}
+/* in-flow feedback box: reserved space, never overlaps controls */
+.fb{flex:0 0 auto;min-height:62px;border-radius:14px;padding:8px 12px;font-size:16px;line-height:1.35;text-align:center;display:flex;align-items:center;justify-content:center;border:1px solid transparent;color:var(--muted)}
+.fb b[lang="it"]{color:var(--text)}
+.fb.ok{background:rgba(57,255,136,.1);border-color:rgba(57,255,136,.5);color:#d8ffe6}
+.fb.bad{background:rgba(255,92,122,.12);border-color:rgba(255,92,122,.55);color:#ffe0e6}
+.fb.info{background:rgba(255,255,255,.05);border-color:var(--stroke);color:var(--text)}
+
+/* HOME */
+#home{background:
+  radial-gradient(ellipse at 20% 10%,rgba(196,77,255,.25),transparent 40%),
+  radial-gradient(ellipse at 90% 80%,rgba(0,245,212,.12),transparent 40%),
+  linear-gradient(180deg,#1a0a30 0%,#0a0614 100%)}
+.hero{flex:0 0 auto;text-align:center;padding:0 4px 4px;position:relative}
+.hero-art{width:100%;max-width:420px;height:110px;margin:0 auto 4px;position:relative;border-radius:14px;overflow:hidden}
+.brand{font-size:30px;font-weight:900;letter-spacing:-.02em;background:linear-gradient(90deg,#fff,var(--neon2),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(196,77,255,.5))}
+.tagline{color:var(--muted);font-size:16px;margin:2px 0 8px}
+.level-list{flex:1 1 auto;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:2px 2px 8px;-webkit-overflow-scrolling:touch}
+.level-card{flex:0 0 auto;display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid var(--stroke);border-radius:18px;padding:10px 12px;text-align:left;transition:transform .12s,border-color .12s;position:relative}
+.level-card:hover{border-color:var(--neon2)}
+.level-card:active{transform:scale(.98)}
+.level-card .thumb{width:76px;height:76px;border-radius:14px;display:grid;place-items:center;background:rgba(0,0,0,.25);overflow:hidden}
+.level-card h3{font-size:19px;margin-bottom:2px}
+.level-card p{font-size:16px;color:var(--muted);line-height:1.3}
+.mech{display:inline-block;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--neon2);background:rgba(0,245,212,.12);padding:2px 8px;border-radius:6px;margin-bottom:3px}
+.done-badge{display:inline-block;margin-left:8px;font-size:13px;font-weight:800;color:#0a0614;background:var(--ok);padding:2px 8px;border-radius:6px;vertical-align:1px}
+.home-foot{padding-top:8px;flex:0 0 auto}
+
+/* L1 SWIPE */
+.swipe-stage{flex:1 1 auto;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:4px 0}
+.swipe-card{position:relative;width:min(400px,100%);height:100%;max-height:470px;background:linear-gradient(160deg,#2a1548,#120820 70%);border:2px solid var(--stroke);border-radius:26px;padding:14px 16px 14px;display:flex;flex-direction:column;align-items:center;box-shadow:0 20px 50px rgba(0,0,0,.55),0 0 40px rgba(196,77,255,.2);user-select:none;-webkit-user-select:none;touch-action:none;will-change:transform;cursor:grab}
+.swipe-card .cue{font-size:22px;color:var(--text);font-weight:800;text-align:center;flex:0 0 auto}
+.swipe-card .illu{width:100%;flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;padding:6px 0}
+.swipe-card .illu svg{max-height:100%}
+.swipe-card .form{font-size:46px;font-weight:900;letter-spacing:-.01em;text-shadow:0 0 24px rgba(196,77,255,.6);flex:0 0 auto;line-height:1.1}
+.swipe-card .badge{margin-top:4px;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--neon2);flex:0 0 auto}
+.card-fb{display:none;width:100%;margin-top:8px;border-radius:14px;padding:10px 12px;font-size:17px;line-height:1.38;text-align:center;flex:0 0 auto}
+.card-fb .fb-title{font-weight:900;font-size:19px;margin-bottom:3px;display:block}
+.card-fb b[lang="it"]{color:#fff}
+.card-fb.ok{display:block;background:rgba(57,255,136,.12);border:1px solid rgba(57,255,136,.55);color:#d8ffe6}
+.card-fb.bad{display:block;background:rgba(255,92,122,.14);border:1px solid rgba(255,92,122,.6);color:#ffe0e6}
+.swipe-card.answered .badge{display:none}
+.swipe-card.res-ok{border-color:var(--ok)}
+.swipe-card.res-bad{border-color:var(--bad);box-shadow:0 20px 50px rgba(0,0,0,.55),0 0 30px rgba(255,92,122,.35)}
+.swipe-actions{flex:0 0 auto;display:flex;justify-content:space-around;align-items:center;padding:8px 24px 2px;min-height:84px}
+.swipe-btn{width:74px;height:74px;border-radius:50%;font-size:30px;font-weight:900;display:grid;place-items:center;border:3px solid;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.swipe-btn.no{background:rgba(255,92,122,.15);border-color:var(--bad);color:var(--bad)}
+.swipe-btn.yes{background:rgba(57,255,136,.15);border-color:var(--ok);color:var(--ok)}
+.swipe-btn:active{transform:scale(.9)}
+#btnSwipeNext{display:none;max-width:360px}
+#l1.awaiting .swipe-btn{display:none}
+#l1.awaiting #btnSwipeNext{display:block}
+.stamp{position:absolute;top:22%;left:50%;transform:translate(-50%,-50%) rotate(-18deg) scale(.6);font-size:40px;font-weight:900;letter-spacing:.08em;opacity:0;pointer-events:none;border:4px solid;padding:6px 14px;border-radius:12px;background:rgba(10,6,20,.6)}
+.stamp.match{color:var(--ok);border-color:var(--ok)}
+.stamp.nope{color:var(--bad);border-color:var(--bad)}
+.stamp.show{opacity:.95;animation:stampIn .25s ease forwards}
+@keyframes stampIn{from{transform:translate(-50%,-50%) rotate(-18deg) scale(1.4);opacity:0}to{transform:translate(-50%,-50%) rotate(-18deg) scale(1);opacity:.95}}
+
+/* L2 DRAG */
+#l2 .prompt-box{flex:0 0 auto;background:rgba(255,255,255,.05);border:1px solid var(--stroke);border-radius:18px;padding:10px 14px;text-align:center;margin-bottom:8px}
+#l2 .prompt-box .eng{font-size:18px;color:var(--text);font-weight:700;margin-bottom:6px}
+#l2 .subject-row{display:flex;align-items:center;justify-content:center;gap:14px}
+#l2 .avatar{width:64px;height:64px;border-radius:16px;background:rgba(0,0,0,.3);display:grid;place-items:center;overflow:hidden}
+#l2 .subj-label{font-size:30px;font-weight:900}
+#l2 .verb-chip{display:inline-block;margin-top:4px;padding:4px 14px;border-radius:999px;background:rgba(196,77,255,.2);border:1px solid var(--neon);font-weight:800;font-size:18px;color:#e2a6ff}
+.drop-zone{flex:0 0 auto;margin:0 auto 8px;width:92%;min-height:70px;border:3px dashed rgba(0,245,212,.55);border-radius:18px;display:grid;place-items:center;background:rgba(0,245,212,.06);font-weight:700;color:var(--neon2);font-size:18px;transition:background .15s,border-color .15s;text-align:center;padding:4px 8px}
+.drop-zone.over{background:rgba(0,245,212,.2);border-color:var(--neon2);border-style:solid}
+.drop-zone.filled{border-style:solid;border-color:var(--ok);background:rgba(57,255,136,.12);color:var(--ok);font-size:32px;font-weight:900}
+.tile-tray{flex:0 0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:8px 2px 2px}
+.conj-tile{min-height:60px;padding:10px 8px;border-radius:14px;background:linear-gradient(160deg,#3a2060,#1e1038);border:2px solid var(--stroke);font-size:24px;font-weight:800;text-align:center;touch-action:none;user-select:none;-webkit-user-select:none;box-shadow:0 6px 16px rgba(0,0,0,.35);cursor:grab}
+.conj-tile.dragging{opacity:.35}
+.conj-tile.ghost{position:fixed;left:-999px;top:-999px;pointer-events:none;z-index:80;opacity:.95;transform:scale(1.08);box-shadow:0 12px 30px rgba(196,77,255,.5);min-width:96px}
+.conj-tile.wrong{animation:shake .35s ease;border-color:var(--bad)}
+.conj-tile.tried{opacity:.4;border-color:var(--bad);text-decoration:line-through;cursor:not-allowed}
+
+/* L3 BUILD */
+#l3 .sent-card{flex:0 0 auto;background:linear-gradient(160deg,#2a1548,#140a28);border:1px solid var(--stroke);border-radius:20px;padding:10px 14px;margin-bottom:8px;position:relative;overflow:hidden}
+#l3 .sent-illu{height:72px;display:grid;place-items:center;margin-bottom:4px}
+#l3 .blank-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;font-size:28px;font-weight:800;min-height:48px;line-height:1.3}
+#l3 .blank{min-width:84px;height:42px;border-bottom:3px solid var(--neon2);display:inline-flex;align-items:center;justify-content:center;color:var(--neon2);padding:0 6px}
+#l3 .gloss{text-align:center;color:var(--text);font-size:17px;margin-top:6px}
+.build-slots{flex:0 0 auto;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;min-height:56px;padding:6px;background:rgba(0,0,0,.25);border-radius:14px;margin-bottom:8px;border:1px dashed rgba(255,255,255,.18)}
+.build-slots:empty::before{content:"Your word appears here";color:var(--muted);font-size:16px}
+.slot-chip{padding:8px 14px;border-radius:12px;background:rgba(0,245,212,.15);border:1px solid var(--neon2);font-weight:800;font-size:22px}
+.letter-tray{flex:0 0 auto;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:8px 0}
+.letter-tile{padding:10px 16px;border-radius:12px;background:linear-gradient(160deg,#3a2060,#1e1038);border:2px solid var(--stroke);font-size:24px;font-weight:800;min-width:60px;min-height:54px}
+.letter-tile.used{opacity:.25;pointer-events:none}
+.build-actions{flex:0 0 auto;display:flex;gap:10px;margin-top:4px}
+.build-actions button{flex:1}
+#l3 .fb{margin-bottom:0}
+
+/* L4 BATTLE */
+#l4{background:radial-gradient(ellipse at 50% 20%,rgba(255,92,122,.2),transparent 50%),linear-gradient(180deg,#1a0614,#0a0614)}
+.boss-area{flex:0 0 auto;text-align:center;padding:0 8px 4px}
+.boss-art{height:120px;display:grid;place-items:center;margin-bottom:2px;filter:drop-shadow(0 0 20px rgba(255,92,122,.4))}
+.boss-name{font-weight:900;font-size:19px;margin-bottom:4px}
+.hp-label{font-size:15px;color:var(--muted);margin:4px 0 3px;text-align:left}
+.hp-bar{height:14px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;border:1px solid rgba(255,92,122,.5);position:relative}
+.hp-fill{height:100%;background:linear-gradient(90deg,var(--bad),var(--gold));width:100%;transition:width .2s}
+.player-hp .hp-bar{border-color:rgba(0,245,212,.5)}
+.player-hp .hp-fill{background:linear-gradient(90deg,var(--neon2),var(--ok))}
+.battle-prompt{flex:0 0 auto;text-align:center;padding:6px 4px 4px;font-size:26px;font-weight:900}
+.battle-prompt .eng{color:var(--text);font-size:18px;font-weight:700;display:block;margin-bottom:2px}
+#l4 .fb{min-height:58px;margin:2px 0 6px}
+.target-grid{flex:0 0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-bottom:4px}
+.float-target{min-height:66px;padding:10px 6px;border-radius:16px;background:linear-gradient(160deg,#3a2060,#1e1038);border:2px solid var(--stroke);font-size:25px;font-weight:900;box-shadow:0 8px 20px rgba(0,0,0,.4);animation:floatIn .3s ease backwards;touch-action:manipulation}
+.float-target:active{transform:scale(.94)}
+.float-target.tried{opacity:.4;border-color:var(--bad);text-decoration:line-through;cursor:not-allowed}
+.target-grid.locked .float-target{pointer-events:none}
+@keyframes floatIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+.timer-chip{font-variant-numeric:tabular-nums;font-size:22px;padding:6px 16px}
+.timer-chip.low{background:rgba(255,92,122,.3);border-color:var(--bad);color:#fff;animation:pulse .8s infinite alternate}
+.timer-chip.paused{opacity:.7}
+@keyframes pulse{from{transform:scale(1);box-shadow:0 0 0 rgba(255,92,122,0)}to{transform:scale(1.1);box-shadow:0 0 18px rgba(255,92,122,.8)}}
+.hit-flash{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(circle,rgba(255,209,102,.35),transparent 55%);z-index:20}
+.hit-flash.show{animation:hitFlash .3s ease}
+@keyframes hitFlash{0%{opacity:1}100%{opacity:0}}
+
+/* END */
+#end{text-align:center;justify-content:center;gap:8px}
+.end-art{height:96px;display:grid;place-items:center;flex:0 0 auto}
+#end h2{font-size:26px}
+.end-score{font-size:44px;font-weight:900;background:linear-gradient(90deg,var(--gold),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.1}
+.lock-list{flex:0 1 auto;min-height:0;text-align:left;background:rgba(255,255,255,.05);border:1px solid var(--stroke);border-radius:14px;padding:10px 12px;font-size:16px;max-height:34vh;overflow-y:auto}
+.lock-list ul{list-style:none;padding:0}
+.lock-list li{margin:6px 0;color:var(--muted);line-height:1.35;padding-left:14px;position:relative}
+.lock-list li::before{content:"•";position:absolute;left:0;color:var(--gold)}
+.lock-list strong,.lock-list b{color:var(--text)}
+
+@media (max-width:440px){
+  .target-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .conj-tile{font-size:22px;padding:10px 4px}
+}
+@media (max-height:800px){
+  .hero-art{display:none}
+}
+@media (max-height:760px){
+  .boss-art{height:100px}
+  #l3 .sent-illu{height:58px}
+  .end-art{height:80px}
+}
+@media (max-height:680px){
+  .hero-art{display:none}
+  .howto{font-size:16px;padding-bottom:4px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- HOME -->
+  <section id="home" class="screen active">
+    <div class="hud">
+      <button class="icon-btn" id="btnMute" title="Sound" aria-label="Toggle sound">🔇</button>
+      <div class="pill" id="homeAura">✨ 0 aura</div>
+      <button class="icon-btn" id="btnChartHome" title="Chart" aria-label="Conjugation chart">📋</button>
+    </div>
+    <div class="hero">
+      <div class="hero-art" id="heroArt"></div>
+      <div class="brand" id="brandTitle">Aura Farm</div>
+      <div class="tagline" id="brandTag">Essere + Avere · Level 2 Italian · Lock in the vibes</div>
+    </div>
+    <div class="level-list" id="levelList"></div>
+    <div class="home-foot">
+      <button class="big-btn" id="btnStart">✨ Start farming</button>
+    </div>
+  </section>
+
+  <!-- L1 -->
+  <section id="l1" class="screen">
+    <div class="hud">
+      <button class="icon-btn" data-back aria-label="Back to menu">←</button>
+      <div class="pill"><span id="l1Streak">🔥 0</span></div>
+      <div class="pill" id="l1Aura">✨ 0</div>
+      <button class="icon-btn" data-chart aria-label="Conjugation chart">📋</button>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="l1Prog"></div></div>
+    <p class="howto" id="l1How">Does the Italian match the English? Swipe RIGHT or tap ✅ for yes. Swipe LEFT or tap ❌ for no.</p>
+    <div class="swipe-stage" id="swipeStage">
+      <div class="swipe-card" id="swipeCard">
+        <div class="cue" id="swipeCue">I am</div>
+        <div class="illu" id="swipeIllu"></div>
+        <div class="form" id="swipeForm" lang="it">sono</div>
+        <div class="badge">Match?</div>
+        <div class="card-fb" id="cardFb" aria-live="polite"></div>
+        <div class="stamp match" id="stampMatch">MATCH</div>
+        <div class="stamp nope" id="stampNope">NOPE</div>
+      </div>
+    </div>
+    <div class="swipe-actions">
+      <button class="swipe-btn no" id="btnSwipeNo" aria-label="No, not a match">❌</button>
+      <button class="swipe-btn yes" id="btnSwipeYes" aria-label="Yes, a match">✅</button>
+      <button class="big-btn" id="btnSwipeNext">Next card →</button>
+    </div>
+  </section>
+
+  <!-- L2 -->
+  <section id="l2" class="screen">
+    <div class="hud">
+      <button class="icon-btn" data-back aria-label="Back to menu">←</button>
+      <div class="pill"><span id="l2Streak">🔥 0</span></div>
+      <div class="pill" id="l2Aura">✨ 0</div>
+      <button class="icon-btn" data-chart aria-label="Conjugation chart">📋</button>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="l2Prog"></div></div>
+    <p class="howto">Drag the correct form onto the drop zone, or just tap it. (Keyboard: Tab to a tile, then Enter.)</p>
+    <div class="prompt-box">
+      <div class="eng" id="l2Eng">Who? · What verb?</div>
+      <div class="subject-row">
+        <div class="avatar" id="l2Avatar"></div>
+        <div>
+          <div class="subj-label" id="l2Subj" lang="it">io</div>
+          <div class="verb-chip" id="l2Verb" lang="it">essere</div>
+        </div>
+      </div>
+    </div>
+    <div class="drop-zone" id="dropZone">Drop or tap the right form</div>
+    <div class="fb" id="l2Fb" aria-live="polite"></div>
+    <div class="tile-tray" id="tileTray"></div>
+  </section>
+
+  <!-- L3 -->
+  <section id="l3" class="screen">
+    <div class="hud">
+      <button class="icon-btn" data-back aria-label="Back to menu">←</button>
+      <div class="pill"><span id="l3Streak">🔥 0</span></div>
+      <div class="pill" id="l3Aura">✨ 0</div>
+      <button class="icon-btn" data-chart aria-label="Conjugation chart">📋</button>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="l3Prog"></div></div>
+    <p class="howto">Tap tiles to build the missing verb. The English meaning is under the sentence. ⌫ Clear starts over.</p>
+    <div class="sent-card">
+      <div class="sent-illu" id="l3Illu"></div>
+      <div class="blank-row" id="l3Sentence" lang="it"></div>
+      <div class="gloss" id="l3Gloss"></div>
+    </div>
+    <div class="build-slots" id="buildSlots" lang="it"></div>
+    <div class="fb" id="l3Fb" aria-live="polite"></div>
+    <div class="letter-tray" id="letterTray" lang="it"></div>
+    <div class="build-actions">
+      <button class="ghost-btn" id="btnBuildClear">⌫ Clear</button>
+      <button class="big-btn" id="btnBuildCheck" style="padding:12px">Check ✓</button>
+    </div>
+  </section>
+
+  <!-- L4 -->
+  <section id="l4" class="screen">
+    <div class="hud">
+      <button class="icon-btn" data-back aria-label="Back to menu">←</button>
+      <div class="pill timer-chip" id="l4Timer" aria-live="off">⏱ 75</div>
+      <div class="pill" id="l4Aura">✨ 0</div>
+      <button class="icon-btn" data-chart aria-label="Conjugation chart (pauses the timer)">📋</button>
+    </div>
+    <div class="boss-area">
+      <div class="boss-art" id="bossArt"></div>
+      <div class="boss-name" id="bossName">Homework Dragon</div>
+      <div class="hp-bar" aria-label="Boss health"><div class="hp-fill" id="bossHp"></div></div>
+      <div class="player-hp">
+        <div class="hp-label">Your aura HP</div>
+        <div class="hp-bar"><div class="hp-fill" id="playerHp"></div></div>
+      </div>
+    </div>
+    <div class="battle-prompt"><span class="eng" id="bEng"></span><span id="bPrompt" lang="it"></span></div>
+    <div class="fb" id="l4Fb" aria-live="polite">Tap the right form to hit the boss. The chart 📋 pauses the timer.</div>
+    <div class="target-grid" id="battleRing" lang="it"></div>
+    <div class="hit-flash" id="hitFlash"></div>
+  </section>
+
+  <!-- END -->
+  <section id="end" class="screen">
+    <div class="end-art" id="endArt"></div>
+    <h2 id="endTitle">You ate that.</h2>
+    <div class="soft" id="endSub">Level complete</div>
+    <div class="end-score" id="endScore">0/0</div>
+    <div class="soft" id="endAura">total aura</div>
+    <div class="lock-list" id="lockList" style="display:none">
+      <div style="font-weight:800;margin-bottom:4px;color:var(--gold)">🔒 Forms to lock in</div>
+      <ul id="lockItems"></ul>
+    </div>
+    <button class="big-btn" id="btnRematch">Play again</button>
+    <button class="ghost-btn" id="btnHome">Back to menu</button>
+  </section>
+
+  <div class="flash-ok" id="flashOk"></div>
+  <div class="flash-bad" id="flashBad"></div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <div class="modal-backdrop" id="chartModal" role="dialog" aria-modal="true" aria-label="Conjugation chart">
+    <div class="modal">
+      <h3>📋 Conjugation chart</h3>
+      <p class="soft">Present tense · tap outside or Close</p>
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h4><span lang="it">essere</span> — to be</h4>
+          <table lang="it">
+            <tr><td>io</td><td>sono</td></tr>
+            <tr><td>tu</td><td>sei</td></tr>
+            <tr><td>lui / lei</td><td>è</td></tr>
+            <tr><td>noi</td><td>siamo</td></tr>
+            <tr><td>voi</td><td>siete</td></tr>
+            <tr><td>loro</td><td>sono</td></tr>
+          </table>
+        </div>
+        <div class="chart-card">
+          <h4><span lang="it">avere</span> — to have</h4>
+          <table lang="it">
+            <tr><td>io</td><td>ho</td></tr>
+            <tr><td>tu</td><td>hai</td></tr>
+            <tr><td>lui / lei</td><td>ha</td></tr>
+            <tr><td>noi</td><td>abbiamo</td></tr>
+            <tr><td>voi</td><td>avete</td></tr>
+            <tr><td>loro</td><td>hanno</td></tr>
+          </table>
+        </div>
+      </div>
+      <button class="big-btn" id="btnCloseChart" style="margin-top:14px;padding:12px">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   BRAND / THEME CONFIG — swap these for a rename later
+   ========================================================= */
+const BRAND = {
+  gameTitle: "Aura Farm",
+  tagline: "Essere + Avere · Level 2 Italian · Lock in the vibes",
+  startCta: "✨ Start farming",
+  auraLabel: "aura",
+  slang: { ok: ["Aura!", "Ate!", "Serving!", "Locked in!"] },
+  bossNames: ["Homework Dragon", "The Sleepy Goblin"],
+  accents: { neon: "#c44dff", teal: "#00f5d4", pink: "#ff4d9e", gold: "#ffd166" }
+};
+
+/* =========================================================
+   DATA
+   ========================================================= */
+const ESSERE = { io:"sono", tu:"sei", "lui/lei":"è", noi:"siamo", voi:"siete", loro:"sono" };
+const AVERE  = { io:"ho", tu:"hai", "lui/lei":"ha", noi:"abbiamo", voi:"avete", loro:"hanno" };
+const PRONOUNS = ["io","tu","lui/lei","noi","voi","loro"];
+const ENG_PR = { io:"I", tu:"you (singular)", "lui/lei":"he / she", noi:"we", voi:"you all", loro:"they" };
+const ENG_FULL = {
+  essere:{ io:"I am", tu:"you are", "lui/lei":"he / she is", noi:"we are", voi:"you all are", loro:"they are" },
+  avere: { io:"I have", tu:"you have", "lui/lei":"he / she has", noi:"we have", voi:"you all have", loro:"they have" }
+};
+const ALL_FORMS = [...new Set([...Object.values(ESSERE), ...Object.values(AVERE)])];
+
+function formFor(verb, subj){ return (verb==="essere"?ESSERE:AVERE)[subj]; }
+
+/* Which pronoun + verb does each form belong to? (used for "why" feedback) */
+const FORM_INFO = {};
+["essere","avere"].forEach(v=>PRONOUNS.forEach(s=>{ const f=formFor(v,s); (FORM_INFO[f]=FORM_INFO[f]||[]).push({verb:v,subj:s}); }));
+function describe(f){
+  const L=FORM_INFO[f]; if(!L) return null;
+  return L.map(x=>`${x.subj} + ${x.verb} (${ENG_FULL[x.verb][x.subj]})`).join(" or ");
+}
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function it(s){ return `<b lang="it">${esc(s)}</b>`; }
+/* Generic explanation: what the chosen form really is, and what was needed */
+function whyWrong(verb, subj, got){
+  const ans=formFor(verb,subj), d=describe(got);
+  const first = d ? `${it(got)} = ${d}.` : `${it(got)} is not a form of essere or avere.`;
+  return `${first} For ${subj} + ${verb} (${ENG_FULL[verb][subj]}) you need ${it(ans)}.`;
+}
+
+/* Inline SVG illustrations — offline, fancy, distinct */
+const SVG = {
+  italySky(w=280,h=140){
+    return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a1a6e"/><stop offset="100%" stop-color="#0a0614"/></linearGradient>
+      <linearGradient id="sun" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffd166"/><stop offset="100%" stop-color="#ff4d9e"/></linearGradient></defs>
+      <rect width="${w}" height="${h}" fill="url(#sky)"/>
+      <circle cx="${w*0.82}" cy="36" r="22" fill="url(#sun)" opacity=".9"/>
+      <path d="M0 ${h*0.72} Q ${w*0.25} ${h*0.55} ${w*0.5} ${h*0.7} T ${w} ${h*0.65} V ${h} H0 Z" fill="#1a3a2a"/>
+      <path d="M0 ${h*0.8} Q ${w*0.3} ${h*0.68} ${w*0.55} ${h*0.78} T ${w} ${h*0.75} V ${h} H0 Z" fill="#0d2818"/>
+      <rect x="${w*0.38}" y="${h*0.42}" width="36" height="50" rx="3" fill="#e8d5b7"/>
+      <polygon points="${w*0.36},${h*0.42} ${w*0.56},${h*0.42} ${w*0.46},${h*0.28}" fill="#c44dff"/>
+      <rect x="${w*0.45}" y="${h*0.62}" width="10" height="18" fill="#5a3a20"/>
+      <circle cx="${w*0.18}" cy="${h*0.55}" r="14" fill="#2d6a4f"/><circle cx="${w*0.22}" cy="${h*0.5}" r="11" fill="#40916c"/>
+      <text x="${w*0.08}" y="${h*0.22}" font-size="18" fill="#00f5d4" opacity=".7">✦</text>
+      <text x="${w*0.55}" y="${h*0.3}" font-size="14" fill="#ff4d9e" opacity=".6">✧</text>
+    </svg>`;
+  },
+  person(kind){
+    const looks = {
+      io:   { skin:"#f4c7a0", hair:"#2b1a10", shirt:"#c44dff", label:"🧑" },
+      tu:   { skin:"#e0a878", hair:"#5a2d0c", shirt:"#00f5d4", label:"🙂" },
+      lui:  { skin:"#c68642", hair:"#1a1a1a", shirt:"#ff4d9e", label:"🧔" },
+      lei:  { skin:"#f4c7a0", hair:"#6b3a1a", shirt:"#ffd166", label:"👩" },
+      noi:  { skin:"#f4c7a0", hair:"#2b1a10", shirt:"#7b5cff", label:"👥" },
+      voi:  { skin:"#e0a878", hair:"#3a2a1a", shirt:"#39ff88", label:"🧑‍🤝‍🧑" },
+      loro: { skin:"#c68642", hair:"#1a1a1a", shirt:"#ff8fab", label:"👫" }
+    };
+    const L = looks[kind] || looks.io;
+    // group for noi/voi/loro
+    if(kind==="noi"||kind==="voi"||kind==="loro"){
+      return `<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="32" r="16" fill="${L.skin}"/><rect x="24" y="48" width="32" height="36" rx="10" fill="${L.shirt}"/>
+        <circle cx="80" cy="32" r="16" fill="#e8b888"/><rect x="64" y="48" width="32" height="36" rx="10" fill="#00f5d4"/>
+        <ellipse cx="40" cy="22" rx="16" ry="10" fill="${L.hair}"/><ellipse cx="80" cy="22" rx="16" ry="10" fill="#2b1a10"/>
+        <text x="52" y="96" font-size="11" fill="#a89bc0" text-anchor="middle">${kind}</text>
+      </svg>`;
+    }
+    return `<svg viewBox="0 0 100 110" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="28" rx="22" ry="14" fill="${L.hair}"/>
+      <circle cx="50" cy="40" r="20" fill="${L.skin}"/>
+      <circle cx="43" cy="38" r="2.5" fill="#222"/><circle cx="57" cy="38" r="2.5" fill="#222"/>
+      <path d="M44 48 Q50 54 56 48" stroke="#a35" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <rect x="28" y="62" width="44" height="40" rx="14" fill="${L.shirt}"/>
+      <circle cx="50" cy="18" r="4" fill="${BRAND.accents.gold}" opacity=".8"/>
+    </svg>`;
+  },
+  object(kind){
+    const map = {
+      fame: `<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="60" cy="70" rx="40" ry="12" fill="#3a2060" opacity=".5"/>
+        <rect x="30" y="35" width="60" height="40" rx="8" fill="#ffd166"/>
+        <rect x="30" y="35" width="60" height="12" fill="#ff4d9e"/>
+        <circle cx="50" cy="58" r="5" fill="#c44dff"/><circle cx="70" cy="55" r="4" fill="#00f5d4"/>
+        <text x="60" y="22" font-size="16" text-anchor="middle">🍕</text></svg>`,
+      sete: `<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <path d="M45 20 h30 l8 55 a20 20 0 0 1-46 0 z" fill="#00f5d4" opacity=".85"/>
+        <path d="M48 30 h24 l5 40 a14 14 0 0 1-34 0 z" fill="#7ef" opacity=".5"/>
+        <rect x="42" y="14" width="36" height="8" rx="3" fill="#c44dff"/>
+        <text x="60" y="95" font-size="12" fill="#a89bc0" text-anchor="middle">💧</text></svg>`,
+      freddo:`<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="50" r="28" fill="#1a4060"/><circle cx="60" cy="50" r="20" fill="#4db8ff" opacity=".7"/>
+        <path d="M60 25 V75 M40 40 L80 60 M40 60 L80 40" stroke="#e8f7ff" stroke-width="3" stroke-linecap="round"/>
+        <text x="60" y="16" font-size="14" text-anchor="middle">❄️</text></svg>`,
+      caldo:`<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="50" r="26" fill="#ff4d9e"/><circle cx="60" cy="50" r="16" fill="#ffd166"/>
+        <g stroke="#ffd166" stroke-width="3" stroke-linecap="round">
+          <path d="M60 12 V22"/><path d="M60 78 V88"/><path d="M20 50 H30"/><path d="M90 50 H100"/>
+          <path d="M32 22 L38 30"/><path d="M88 78 L82 70"/><path d="M32 78 L38 70"/><path d="M88 22 L82 30"/>
+        </g></svg>`,
+      sonno:`<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="60" cy="70" rx="36" ry="14" fill="#2a1548"/>
+        <rect x="28" y="40" width="64" height="32" rx="14" fill="#7b5cff"/>
+        <circle cx="50" cy="38" r="14" fill="#f4c7a0"/>
+        <path d="M42 38 Q50 42 58 38" stroke="#333" stroke-width="2" fill="none"/>
+        <text x="85" y="30" font-size="18" fill="#ffd166">z</text>
+        <text x="95" y="18" font-size="14" fill="#ffd166">z</text></svg>`,
+      book:`<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <rect x="25" y="20" width="50" height="60" rx="4" fill="#c44dff"/>
+        <rect x="55" y="22" width="40" height="56" rx="3" fill="#00f5d4"/>
+        <line x1="55" y1="22" x2="55" y2="78" stroke="#0a0614" stroke-width="2"/>
+        <text x="60" y="55" font-size="16" text-anchor="middle">📖</text></svg>`,
+      gelato:`<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <path d="M45 55 L60 95 L75 55 Z" fill="#e8b86d"/>
+        <circle cx="60" cy="40" r="22" fill="#ff4d9e"/>
+        <circle cx="48" cy="36" r="12" fill="#00f5d4"/>
+        <circle cx="72" cy="34" r="11" fill="#ffd166"/></svg>`,
+      bike:`<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="70" r="16" fill="none" stroke="#00f5d4" stroke-width="4"/>
+        <circle cx="90" cy="70" r="16" fill="none" stroke="#c44dff" stroke-width="4"/>
+        <path d="M30 70 L55 40 H75 L90 70 M55 40 L45 70 H70" stroke="#ffd166" stroke-width="3" fill="none" stroke-linejoin="round"/>
+        <circle cx="55" cy="40" r="4" fill="#ff4d9e"/></svg>`,
+      cat:`<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="60" cy="58" rx="32" ry="24" fill="#ffd166"/>
+        <circle cx="60" cy="38" r="20" fill="#ffd166"/>
+        <polygon points="42,28 48,10 55,30" fill="#ffd166"/><polygon points="78,28 72,10 65,30" fill="#ffd166"/>
+        <circle cx="52" cy="36" r="3" fill="#222"/><circle cx="68" cy="36" r="3" fill="#222"/>
+        <path d="M56 44 Q60 48 64 44" stroke="#c44dff" fill="none" stroke-width="2"/>
+        <line x1="30" y1="40" x2="48" y2="42" stroke="#aaa" /><line x1="90" y1="40" x2="72" y2="42" stroke="#aaa"/></svg>`,
+      friends:`<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="35" r="14" fill="#f4c7a0"/><rect x="26" y="50" width="28" height="30" rx="8" fill="#c44dff"/>
+        <circle cx="80" cy="35" r="14" fill="#e0a878"/><rect x="66" y="50" width="28" height="30" rx="8" fill="#00f5d4"/>
+        <path d="M54 58 Q60 70 66 58" stroke="#ffd166" stroke-width="3" fill="none"/></svg>`,
+      dragon:`<svg viewBox="0 0 200 140" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="90" rx="55" ry="30" fill="#5b2a8a"/>
+        <path d="M60 80 Q40 40 70 50 Q90 20 110 48 Q140 30 145 70" fill="#7b3fb0"/>
+        <circle cx="78" cy="58" r="5" fill="#ffd166"/><circle cx="118" cy="55" r="5" fill="#ffd166"/>
+        <path d="M145 70 L175 50 L160 75 L185 80 L155 88 Z" fill="#39ff88"/>
+        <path d="M55 95 L30 110 L50 105" fill="#ff4d9e"/>
+        <text x="100" y="128" font-size="12" fill="#ff8fab" text-anchor="middle">📚 RAWWR homework</text>
+        <rect x="70" y="72" width="18" height="6" rx="2" fill="#ff4d9e"/><rect x="105" y="70" width="18" height="6" rx="2" fill="#ff4d9e"/>
+      </svg>`,
+      goblin:`<svg viewBox="0 0 200 140" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="95" rx="40" ry="22" fill="#1a4d2e"/>
+        <circle cx="100" cy="60" r="32" fill="#39ff88"/>
+        <polygon points="75,40 70,15 90,38" fill="#39ff88"/><polygon points="125,40 130,15 110,38" fill="#39ff88"/>
+        <path d="M81 55 Q88 61 95 55" stroke="#111" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M105 55 Q112 61 119 55" stroke="#111" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <text x="140" y="34" font-size="16" fill="#ffd166" font-weight="700">z</text><text x="152" y="20" font-size="12" fill="#ffd166" font-weight="700">z</text>
+        <path d="M88 72 Q100 82 112 72" stroke="#0a3" stroke-width="3" fill="none"/>
+        <text x="100" y="128" font-size="12" fill="#ffd166" text-anchor="middle">💤 nap energy</text>
+      </svg>`,
+      trophy:`<svg viewBox="0 0 120 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <rect x="45" y="70" width="30" height="10" fill="#c44dff"/><rect x="38" y="80" width="44" height="10" rx="3" fill="#ffd166"/>
+        <path d="M40 25 h40 v30 a20 20 0 0 1-40 0 z" fill="#ffd166"/>
+        <path d="M40 30 h-14 a18 18 0 0 0 14 28" fill="none" stroke="#ff4d9e" stroke-width="4"/>
+        <path d="M80 30 h14 a18 18 0 0 1-14 28" fill="none" stroke="#ff4d9e" stroke-width="4"/>
+        <circle cx="60" cy="42" r="8" fill="#c44dff"/></svg>`,
+      phone:`<svg viewBox="0 0 120 140" width="90" height="110" xmlns="http://www.w3.org/2000/svg">
+        <rect x="25" y="5" width="70" height="130" rx="12" fill="#1a0f2e" stroke="#c44dff" stroke-width="3"/>
+        <rect x="32" y="18" width="56" height="90" rx="4" fill="#2a1548"/>
+        <circle cx="60" cy="122" r="8" fill="#00f5d4"/>
+        <text x="60" y="55" font-size="22" text-anchor="middle">🇮🇹</text>
+        <text x="60" y="80" font-size="10" fill="#00f5d4" text-anchor="middle">SWIPE</text>
+      </svg>`
+    };
+    return map[kind] || map.book;
+  },
+  sceneForCue(cueKey){
+    // pick illustration by semantic key
+    return this.object(cueKey);
+  }
+};
+
+/* Avatar helper keyed by pronoun */
+function avatarSVG(subj){
+  const key = subj==="lui/lei" ? (Math.random()<.5?"lui":"lei") : subj;
+  return SVG.person(key==="lui/lei"?"lui":key);
+}
+
+/* =========================================================
+   SAFE LOCAL STORAGE (never throws)
+   ========================================================= */
+const store = {
+  get(k, fallback){ try{ const v = window.localStorage.getItem(k); return v==null ? fallback : JSON.parse(v); }catch(e){ return fallback; } },
+  set(k, v){ try{ window.localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const state = {
+  muted: true,
+  aura: 0,
+  streak: 0,
+  level: null,
+  done: store.get("auraFarmDone", {}) || {},
+  misses: [],
+  l1: {}, l2: {}, l3: {}, l4: {}
+};
+
+/* =========================================================
+   AUDIO (WebAudio beeps — mute default ON)
+   ========================================================= */
+let AC=null;
+function beep(freq, dur, type="sine", vol=.08){
+  if(state.muted) return;
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(), g=AC.createGain();
+    o.type=type; o.frequency.value=freq;
+    g.gain.value=vol; o.connect(g); g.connect(AC.destination);
+    o.start(); g.gain.exponentialRampToValueAtTime(.0001, AC.currentTime+dur);
+    o.stop(AC.currentTime+dur);
+  }catch(e){}
+}
+function sfxOk(){ beep(660,.08,"triangle",.07); setTimeout(()=>beep(990,.1,"triangle",.06),70); }
+function sfxBad(){ beep(180,.15,"sawtooth",.05); }
+function sfxSnap(){ beep(520,.05,"square",.04); }
+
+/* =========================================================
+   UI HELPERS
+   ========================================================= */
+function $(id){ return document.getElementById(id); }
+function clearGhosts(){ document.querySelectorAll(".ghost").forEach(g=>g.remove()); }
+function showScreen(id){
+  clearGhosts();
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $(id).classList.add("active");
+}
+function toast(msg, ms=1800){
+  const t=$("toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"), ms);
+}
+function hideToast(){ clearTimeout(toast._t); $("toast").classList.remove("show"); }
+function flash(ok){
+  const el = ok?$("flashOk"):$("flashBad");
+  el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"), 220);
+}
+function auraPop(pts, x, y){
+  const d=document.createElement("div");
+  const app=$("app").getBoundingClientRect();
+  d.className="aura-pop"; d.textContent=`+${pts} ${BRAND.auraLabel}`;
+  d.style.left=((x!=null?x:app.left+app.width*0.62)-app.left-40)+"px";
+  d.style.top=((y!=null?y:app.top+58)-app.top)+"px"; // just under the HUD, never over the prompt
+  $("app").appendChild(d); setTimeout(()=>d.remove(),700);
+}
+function addAura(n, x, y){
+  const mult = Math.min(5, 1+Math.floor(state.streak/3));
+  const gain = n*mult;
+  state.aura += gain;
+  updateAuraHUD();
+  auraPop(gain, x, y);
+  return gain;
+}
+function updateAuraHUD(){
+  const a = state.aura;
+  ["homeAura","l1Aura","l2Aura","l3Aura","l4Aura"].forEach(id=>{ const el=$(id); if(el) el.textContent=`✨ ${a} ${BRAND.auraLabel}`; });
+  ["l1Streak","l2Streak","l3Streak"].forEach(id=>{ const el=$(id); if(el) el.innerHTML = state.streak>=2 ? `<span class="fire">🔥</span> ${state.streak}` : `🔥 ${state.streak}`; });
+}
+/* wrong / right side effects (no toasts: feedback goes in the in-flow box) */
+function markWrong(){ state.streak=0; updateAuraHUD(); sfxBad(); flash(false); }
+function celebrate(){
+  state.streak++; updateAuraHUD(); sfxOk(); flash(true);
+  return state.streak%3===0 ? pick(BRAND.slang.ok)+" " : "";
+}
+function setFb(id, kind, html){ const el=$(id); el.className="fb"+(kind?" "+kind:""); el.innerHTML=html?`<span>${html}</span>`:""; }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function chartIsOpen(){ return $("chartModal").classList.contains("show"); }
+function openChart(){ $("chartModal").classList.add("show"); if(state.level===4 && $("l4").classList.contains("active")) $("l4Timer").classList.add("paused"); $("btnCloseChart").focus(); }
+function closeChart(){ $("chartModal").classList.remove("show"); $("l4Timer").classList.remove("paused"); }
+/* Misses: deduped by key, counted */
+function addMiss(key, html){
+  const m = state.misses.find(x=>x.key===key);
+  if(m) m.count++; else state.misses.push({ key, html, count:1 });
+}
+
+/* =========================================================
+   HOME
+   ========================================================= */
+const LEVEL_META = [
+  { id:1, mech:"SWIPE", title:"Swipe Match", desc:"Each card shows English and Italian. Swipe right (✅) if they match, left (❌) if they don't.", thumb:()=>SVG.object("phone") },
+  { id:2, mech:"DRAG", title:"Lock In Drop", desc:"Drag or tap the right form of essere or avere.", thumb:()=>SVG.person("io") },
+  { id:3, mech:"BUILD", title:"September Builder", desc:"Tap tiles to build the missing verb in a sentence: fame, sete & friends.", thumb:()=>SVG.object("gelato") },
+  { id:4, mech:"BATTLE", title:"Aura Battle", desc:"Timed battle vs a silly boss. Tap the right form to hit it.", thumb:()=>SVG.object("dragon") }
+];
+
+function renderHome(){
+  $("brandTitle").textContent = BRAND.gameTitle;
+  $("brandTag").textContent = BRAND.tagline;
+  $("btnStart").textContent = BRAND.startCta;
+  document.title = `${BRAND.gameTitle} · Essere / Avere`;
+  $("heroArt").innerHTML = SVG.italySky(320,110);
+  const list=$("levelList"); list.innerHTML="";
+  LEVEL_META.forEach(L=>{
+    const btn=document.createElement("button");
+    btn.className="level-card";
+    const done = state.done[L.id] ? `<span class="done-badge" aria-label="completed">✓ Done</span>` : "";
+    btn.innerHTML=`<div class="thumb">${L.thumb()}</div>
+      <div><div class="mech">${L.mech}</div>${done}<h3>${L.title}</h3><p>${L.desc}</p></div>`;
+    btn.onclick=()=>startLevel(L.id);
+    list.appendChild(btn);
+  });
+  updateAuraHUD();
+}
+
+/* =========================================================
+   L1 — SWIPE MATCH
+   ========================================================= */
+function buildL1Deck(){
+  const cues = [
+    { eng:"I am", verb:"essere", subj:"io", illu:"io", key:"io" },
+    { eng:"you are (tu, informal)", verb:"essere", subj:"tu", illu:"tu", key:"tu" },
+    { eng:"he / she is", verb:"essere", subj:"lui/lei", illu:"lei", key:"lei" },
+    { eng:"we are", verb:"essere", subj:"noi", illu:"noi", key:"noi" },
+    { eng:"you all are", verb:"essere", subj:"voi", illu:"voi", key:"voi" },
+    { eng:"they are", verb:"essere", subj:"loro", illu:"loro", key:"loro" },
+    { eng:"I have", verb:"avere", subj:"io", illu:"gelato", key:"gelato" },
+    { eng:"you have (tu, informal)", verb:"avere", subj:"tu", illu:"cat", key:"cat" },
+    { eng:"he / she has", verb:"avere", subj:"lui/lei", illu:"bike", key:"bike" },
+    { eng:"we have", verb:"avere", subj:"noi", illu:"friends", key:"friends" },
+    { eng:"you all have", verb:"avere", subj:"voi", illu:"book", key:"book" },
+    { eng:"they have", verb:"avere", subj:"loro", illu:"gelato", key:"gelato" }
+  ];
+  const illuFor = c => (c.illu in {io:1,tu:1,lei:1,noi:1,voi:1,loro:1}) ? SVG.person(c.illu) : SVG.object(c.illu);
+  const deck=[];
+  // 8 true cards (no repeats)
+  shuffle([...cues]).slice(0,8).forEach(c=>{
+    deck.push({ ...c, form: formFor(c.verb,c.subj), match:true, illuHtml: illuFor(c) });
+  });
+  // 6 trap cards: wrong form paired with a cue; never the same cue+form twice
+  const used = new Set();
+  let guard=0;
+  while(deck.filter(d=>!d.match).length<6 && guard++<200){
+    const c = pick(cues);
+    const correct = formFor(c.verb,c.subj);
+    const wrong = pick(ALL_FORMS.filter(f=>f!==correct));
+    const k = c.eng+"|"+wrong;
+    if(used.has(k)) continue;
+    used.add(k);
+    deck.push({ ...c, form:wrong, match:false, illuHtml: illuFor(c) });
+  }
+  return shuffle(deck);
+}
+
+function startL1(){
+  state.level=1; state.streak=0; state.misses=[];
+  state.l1 = { deck: buildL1Deck(), i:0, correct:0, busy:false, awaitingNext:false };
+  showScreen("l1"); hideToast();
+  updateAuraHUD();
+  renderL1Card();
+}
+
+function renderL1Card(){
+  const L=state.l1, {deck,i}=L;
+  $("l1Prog").style.width = `${(i/deck.length)*100}%`;
+  if(i>=deck.length){ finishLevel(1); return; }
+  const c=deck[i];
+  $("swipeCue").textContent = c.eng;
+  $("swipeForm").textContent = c.form;
+  $("swipeIllu").innerHTML = c.illuHtml;
+  const card=$("swipeCard");
+  card.classList.remove("answered","res-ok","res-bad");
+  $("cardFb").className="card-fb"; $("cardFb").innerHTML="";
+  $("l1").classList.remove("awaiting");
+  card.style.transition="none";
+  card.style.transform="translate(0,0) rotate(0)";
+  card.style.opacity="1";
+  $("stampMatch").classList.remove("show");
+  $("stampNope").classList.remove("show");
+  void card.offsetWidth;
+  card.style.transition="transform .08s linear";
+  L.busy=false; L.awaitingNext=false;
+}
+
+function l1FlyOff(dir){
+  const card=$("swipeCard");
+  card.style.transition="transform .28s ease, opacity .28s ease";
+  card.style.transform=`translate(${dir*560}px,0) rotate(${dir*28}deg)`;
+  card.style.opacity="0";
+}
+function l1Center(){
+  const card=$("swipeCard");
+  card.style.transition="transform .22s ease";
+  card.style.transform="translate(0,0) rotate(0)";
+}
+function l1Advance(dir){
+  const L=state.l1;
+  L.awaitingNext=false; L.busy=true;
+  l1FlyOff(dir||1);
+  setTimeout(()=>{ L.i++; renderL1Card(); }, 300);
+}
+
+/* Swipe physics — pointer events only (mouse, touch and pen share one path) */
+(function initSwipe(){
+  const card=$("swipeCard");
+  let ox=0,dx=0,dy=0,oy=0,dragging=false,pid=null;
+  function resetStamps(){ $("stampMatch").classList.remove("show"); $("stampNope").classList.remove("show"); }
+  card.addEventListener("pointerdown",e=>{
+    if(state.level!==1 || state.l1.busy || state.l1.awaitingNext) return;
+    dragging=true; pid=e.pointerId; ox=e.clientX; oy=e.clientY; dx=0; dy=0;
+    try{ card.setPointerCapture(pid); }catch(_){}
+    card.style.transition="none";
+  });
+  card.addEventListener("pointermove",e=>{
+    if(!dragging || e.pointerId!==pid) return;
+    dx=e.clientX-ox; dy=e.clientY-oy;
+    card.style.transform=`translate(${dx}px,${dy*0.3}px) rotate(${dx*0.08}deg)`;
+    if(dx>50){ $("stampMatch").classList.add("show"); $("stampNope").classList.remove("show"); }
+    else if(dx<-50){ $("stampNope").classList.add("show"); $("stampMatch").classList.remove("show"); }
+    else resetStamps();
+  });
+  function end(e){
+    if(!dragging || (e && e.pointerId!==pid)) return;
+    dragging=false; pid=null;
+    const d=dx; dx=0; dy=0;
+    if(d>90) resolveL1(true);
+    else if(d<-90) resolveL1(false);
+    else { l1Center(); resetStamps(); }
+  }
+  card.addEventListener("pointerup",end);
+  card.addEventListener("pointercancel",()=>{ if(dragging){ dragging=false; pid=null; dx=0; l1Center(); resetStamps(); } });
+  $("btnSwipeYes").onclick=()=>resolveL1(true);
+  $("btnSwipeNo").onclick=()=>resolveL1(false);
+  // Next: ignore taps in the first 450 ms (a double tap on ❌/✅ must not skip the explanation).
+  // Also listen to pointerup for touch, because Chrome can swallow the click right after a fast swipe.
+  function next(){ const L=state.l1; if(L.awaitingNext && performance.now()-(L.fbShownAt||0)>450) l1Advance(-1); }
+  $("btnSwipeNext").onclick=next;
+  $("btnSwipeNext").addEventListener("pointerup",e=>{ if(e.pointerType!=="mouse") next(); });
+})();
+
+function resolveL1(saidMatch){
+  const L=state.l1;
+  if(state.level!==1 || L.busy || L.awaitingNext) return;
+  const c=L.deck[L.i]; if(!c) return;
+  L.busy=true;
+  const need=formFor(c.verb,c.subj);
+  const correct = (saidMatch === c.match);
+  const card=$("swipeCard"); card.classList.add("answered");
+  $("stampMatch").classList.toggle("show", correct && saidMatch);
+  $("stampNope").classList.toggle("show", correct && !saidMatch);
+  card.classList.add(correct ? "res-ok" : "res-bad");
+  const fb=$("cardFb");
+  const pairing = `"${esc(c.eng)}" = ${c.subj} + ${c.verb} = ${it(need)}`;
+  if(correct){
+    L.correct++;
+    const cheer=celebrate(); addAura(10);
+    fb.className="card-fb ok";
+    fb.innerHTML = c.match
+      ? `<span class="fb-title">✓ ${cheer}Match!</span>${pairing}`
+      : `<span class="fb-title">✓ ${cheer}Right, not a match.</span>${it(c.form)} = ${describe(c.form)}.<br>${pairing}`;
+    l1Center();
+    setTimeout(()=>l1Advance(saidMatch?1:-1), c.match ? 1300 : 2300);
+  } else {
+    markWrong();
+    fb.className="card-fb bad";
+    if(c.match){
+      fb.innerHTML = `<span class="fb-title">✗ It WAS a match.</span>${pairing}. So ${it(c.form)} is correct here.`;
+      addMiss(`l1|${c.eng}|nomatch`, `"${esc(c.eng)}" = ${it(need)} · you said it was <em>not</em> a match`);
+    } else {
+      fb.innerHTML = `<span class="fb-title">✗ Not a match.</span>${it(c.form)} = ${describe(c.form)}.<br>${pairing}.`;
+      addMiss(`l1|${c.eng}|${c.form}`, `"${esc(c.eng)}" = ${it(need)} · you matched it with ${it(c.form)}, which is ${describe(c.form)}`);
+    }
+    l1Center();
+    L.busy=false; L.awaitingNext=true; L.fbShownAt=performance.now();
+    $("l1").classList.add("awaiting");
+    setTimeout(()=>{ if(L.awaitingNext) $("btnSwipeNext").focus({preventScroll:true}); }, 50);
+  }
+}
+
+/* =========================================================
+   L2 — DRAG DROP (also tap / keyboard)
+   ========================================================= */
+function buildL2Rounds(){
+  const rounds=[];
+  PRONOUNS.forEach(s=>rounds.push({subj:s, verb:"essere"}));
+  PRONOUNS.forEach(s=>rounds.push({subj:s, verb:"avere"}));
+  return shuffle(rounds).slice(0,10);
+}
+function startL2(){
+  state.level=2; state.streak=0; state.misses=[];
+  state.l2={ rounds:buildL2Rounds(), i:0, firstTry:0, busy:false, missedThis:false };
+  showScreen("l2"); hideToast(); updateAuraHUD(); renderL2();
+}
+function renderL2(){
+  clearGhosts();
+  const L=state.l2, {rounds,i}=L;
+  $("l2Prog").style.width=`${(i/rounds.length)*100}%`;
+  if(i>=rounds.length){ finishLevel(2); return; }
+  const r=rounds[i];
+  const ans=formFor(r.verb,r.subj);
+  $("l2Eng").textContent = `${ENG_FULL[r.verb][r.subj]} · ${r.verb==="essere"?"to be":"to have"}`;
+  $("l2Subj").textContent = r.subj;
+  $("l2Verb").textContent = r.verb;
+  $("l2Avatar").innerHTML = avatarSVG(r.subj);
+  const dz=$("dropZone");
+  dz.className="drop-zone"; dz.textContent="Drop or tap the right form"; dz.removeAttribute("lang");
+  L.ans=ans; L.busy=false; L.missedThis=false;
+  setFb("l2Fb","","Which form goes with "+it(r.subj)+" + "+it(r.verb)+"?");
+  let pool = ALL_FORMS.filter(f=>f!==ans);
+  shuffle(pool);
+  const tiles = shuffle([ans, ...pool.slice(0,5)]);
+  const tray=$("tileTray"); tray.innerHTML="";
+  tiles.forEach(t=>tray.appendChild(makeTile(t)));
+}
+
+function overDrop(x,y){
+  const r=$("dropZone").getBoundingClientRect();
+  return x>=r.left && x<=r.right && y>=r.top && y<=r.bottom;
+}
+/* One unified pointer path + click (tap / Enter / Space). Every drag clone is removed. */
+function makeTile(val){
+  const el=document.createElement("button");
+  el.type="button"; el.className="conj-tile"; el.lang="it"; el.textContent=val; el.dataset.val=val;
+  let start=null, pid=null, ghost=null, dragged=false;
+  function cleanup(){
+    if(ghost){ ghost.remove(); ghost=null; }
+    el.classList.remove("dragging"); $("dropZone").classList.remove("over");
+    start=null; pid=null;
+  }
+  el.addEventListener("pointerdown",e=>{
+    if(state.l2.busy || el.classList.contains("tried")) return;
+    if(e.pointerType==="mouse" && e.button!==0) return;
+    cleanup();
+    start={x:e.clientX,y:e.clientY}; pid=e.pointerId; dragged=false;
+    try{ el.setPointerCapture(pid); }catch(_){}
+  });
+  el.addEventListener("pointermove",e=>{
+    if(!start || e.pointerId!==pid) return;
+    if(!dragged && Math.hypot(e.clientX-start.x, e.clientY-start.y)>8){
+      dragged=true;
+      clearGhosts();
+      ghost=el.cloneNode(true); ghost.classList.add("ghost"); ghost.setAttribute("aria-hidden","true");
+      document.body.appendChild(ghost); el.classList.add("dragging");
+    }
+    if(ghost){
+      ghost.style.left=(e.clientX-ghost.offsetWidth/2)+"px"; ghost.style.top=(e.clientY-ghost.offsetHeight/2)+"px";
+      $("dropZone").classList.toggle("over", overDrop(e.clientX,e.clientY));
+    }
+  });
+  el.addEventListener("pointerup",e=>{
+    if(!start || e.pointerId!==pid) return;
+    const wasDrag=dragged, hit=wasDrag && overDrop(e.clientX,e.clientY);
+    cleanup();
+    if(wasDrag){ el._dragEnd=performance.now(); if(hit) submitL2(el); }
+  });
+  el.addEventListener("pointercancel",cleanup);
+  el.addEventListener("lostpointercapture",()=>{ if(start) cleanup(); });
+  el.addEventListener("click",()=>{
+    if(el._dragEnd && performance.now()-el._dragEnd<600) return; // click that follows a drag
+    submitL2(el);
+  });
+  return el;
+}
+function submitL2(el){
+  const L=state.l2;
+  if(state.level!==2 || L.busy || el.classList.contains("tried")) return;
+  const r=L.rounds[L.i]; if(!r) return;
+  const val=el.dataset.val, dz=$("dropZone");
+  if(val===L.ans){
+    L.busy=true;
+    if(!L.missedThis) L.firstTry++;
+    dz.classList.add("filled"); dz.textContent=val; dz.lang="it";
+    sfxSnap(); const cheer=celebrate(); addAura(12);
+    setFb("l2Fb","ok",`✓ ${cheer}${it(r.subj+" "+val)} = ${ENG_FULL[r.verb][r.subj]}`);
+    setTimeout(()=>{ L.i++; renderL2(); }, 1100);
+  } else {
+    L.missedThis=true;
+    el.classList.add("wrong","tried"); el.setAttribute("aria-disabled","true");
+    markWrong();
+    setFb("l2Fb","bad","✗ "+whyWrong(r.verb,r.subj,val)+" Try again.");
+    addMiss(`l2|${r.subj}|${r.verb}|${val}`, `${r.subj} + ${r.verb} (${ENG_FULL[r.verb][r.subj]}) = ${it(L.ans)} · you tried ${it(val)}${describe(val)?`, which is ${describe(val)}`:""}`);
+    setTimeout(()=>el.classList.remove("wrong"), 400);
+  }
+}
+
+/* =========================================================
+   L3 — SENTENCE BUILDER
+   verb/subj/expr/noun are metadata for feedback only (Italian unchanged)
+   ========================================================= */
+const SENTENCES = [
+  { parts:["Io","___","studente."], ans:"sono", gloss:"I am a student.", illu:"io", verb:"essere", subj:"io" },
+  { parts:["Tu","___","simpatico."], ans:"sei", gloss:"You are nice.", illu:"tu", verb:"essere", subj:"tu" },
+  { parts:["Lei","___","italiana."], ans:"è", gloss:"She is Italian.", illu:"lei", verb:"essere", subj:"lui/lei" },
+  { parts:["Noi","___","amici."], ans:"siamo", gloss:"We are friends.", illu:"friends", verb:"essere", subj:"noi" },
+  { parts:["Voi","___","studenti."], ans:"siete", gloss:"You all are students.", illu:"voi", verb:"essere", subj:"voi" },
+  { parts:["Loro","___","a Roma."], ans:"sono", gloss:"They are in Rome.", illu:"loro", verb:"essere", subj:"loro" },
+  { parts:["Io","___","fame."], ans:"ho", gloss:"I am hungry. (literally: I have hunger)", illu:"fame", verb:"avere", subj:"io", expr:"fame", noun:"hunger" },
+  { parts:["Tu","___","sete."], ans:"hai", gloss:"You are thirsty. (literally: you have thirst)", illu:"sete", verb:"avere", subj:"tu", expr:"sete", noun:"thirst" },
+  { parts:["Lui","___","freddo."], ans:"ha", gloss:"He feels cold. (literally: he has cold)", illu:"freddo", verb:"avere", subj:"lui/lei", expr:"freddo", noun:"cold" },
+  { parts:["Noi","___","caldo."], ans:"abbiamo", gloss:"We feel hot. (literally: we have heat)", illu:"caldo", verb:"avere", subj:"noi", expr:"caldo", noun:"heat" },
+  { parts:["Voi","___","sonno."], ans:"avete", gloss:"You all are sleepy. (literally: you all have sleep)", illu:"sonno", verb:"avere", subj:"voi", expr:"sonno", noun:"sleep" },
+  { parts:["Loro","___","un gelato."], ans:"hanno", gloss:"They have an ice cream.", illu:"gelato", verb:"avere", subj:"loro" }
+];
+function fullSentence(r){ return r.parts.map(p=>p==="___"?r.ans:p).join(" "); }
+function whyWrongSentence(r, got){
+  const full=fullSentence(r), d=describe(got);
+  const isEssereOnly = d && FORM_INFO[got].every(x=>x.verb==="essere");
+  if(r.expr){
+    if(r.expr==="freddo" && got==="è")
+      return `${it("Lui è freddo")} would mean he is a cold person (or cold to the touch). For <em>feeling</em> cold, Italian says ${it("avere freddo")} (literally "to have cold"), so it is ${it(full)}`;
+    if(isEssereOnly)
+      return `${it(got)} = ${d}. But Italian says ${it("avere "+r.expr)} (literally "to have ${r.noun}"), so it is ${it(full)}`;
+    return `${whyWrong(r.verb,r.subj,got)} Italian says ${it("avere "+r.expr)} (literally "to have ${r.noun}"): ${it(full)}`;
+  }
+  return `${whyWrong(r.verb,r.subj,got)} Correct: ${it(full)} (${esc(r.gloss)})`;
+}
+
+function startL3(){
+  state.level=3; state.streak=0; state.misses=[];
+  state.l3={ rounds:shuffle([...SENTENCES]).slice(0,10), i:0, built:[], firstTry:0, busy:false, missedThis:false };
+  showScreen("l3"); hideToast(); updateAuraHUD(); renderL3();
+}
+function renderL3(){
+  const L=state.l3, {rounds,i}=L;
+  $("l3Prog").style.width=`${(i/rounds.length)*100}%`;
+  if(i>=rounds.length){ finishLevel(3); return; }
+  const r=rounds[i];
+  L.built=[]; L.busy=false; L.missedThis=false;
+  $("l3Sentence").innerHTML = r.parts.map(p=> p==="___" ? `<span class="blank" id="l3Blank">···</span>` : `<span>${esc(p)}</span>`).join(" ");
+  $("l3Gloss").textContent = r.gloss;
+  const personKeys={io:1,tu:1,lei:1,voi:1,loro:1};
+  $("l3Illu").innerHTML = personKeys[r.illu] ? SVG.person(r.illu) : SVG.object(r.illu);
+  $("buildSlots").innerHTML="";
+  setFb("l3Fb","","Build the verb, then tap Check.");
+  const chunks = chunkWord(r.ans);
+  const distractors = shuffle(ALL_FORMS.filter(f=>f!==r.ans)).slice(0,3);
+  const distChunks = distractors.flatMap(d=>chunkWord(d)).slice(0,4);
+  const trayItems = shuffle([...chunks, ...distChunks]);
+  const tray=$("letterTray"); tray.innerHTML="";
+  trayItems.forEach((ch,idx)=>{
+    const b=document.createElement("button");
+    b.type="button"; b.className="letter-tile"; b.textContent=ch; b.dataset.ch=ch; b.dataset.idx=idx;
+    b.onclick=()=>tapBuildTile(b);
+    tray.appendChild(b);
+  });
+}
+function chunkWord(w){
+  if(w.length<=3) return [w];
+  if(w.length<=5) return [w.slice(0,2), w.slice(2)];
+  return [w.slice(0,2), w.slice(2,4), w.slice(4)];
+}
+function tapBuildTile(b){
+  if(state.l3.busy || b.classList.contains("used")) return;
+  b.classList.add("used");
+  state.l3.built.push({ ch:b.dataset.ch, idx:b.dataset.idx });
+  syncBuildSlots();
+}
+function syncBuildSlots(){
+  const slots=$("buildSlots");
+  slots.innerHTML="";
+  state.l3.built.forEach((x,i)=>{
+    const s=document.createElement("button");
+    s.type="button"; s.className="slot-chip"; s.textContent=x.ch; s.setAttribute("aria-label",`Remove ${x.ch}`);
+    s.onclick=()=>{
+      if(state.l3.busy) return;
+      const tile=[...$("letterTray").children].find(t=>t.dataset.idx===x.idx);
+      if(tile) tile.classList.remove("used");
+      state.l3.built.splice(i,1); syncBuildSlots();
+    };
+    slots.appendChild(s);
+  });
+  const joined=state.l3.built.map(x=>x.ch).join("");
+  const blank=$("l3Blank"); if(blank) blank.textContent = joined || "···";
+}
+$("btnBuildClear").onclick=()=>{
+  if(state.l3.busy) return;
+  state.l3.built=[];
+  [...$("letterTray").children].forEach(t=>t.classList.remove("used"));
+  syncBuildSlots();
+};
+$("btnBuildCheck").onclick=()=>{
+  const L=state.l3;
+  if(state.level!==3 || L.busy) return;
+  const r=L.rounds[L.i]; if(!r) return;
+  const got=L.built.map(x=>x.ch).join("");
+  if(!got){ setFb("l3Fb","info","Tap one or more tiles to build the verb first."); return; }
+  if(got===r.ans){
+    L.busy=true;
+    if(!L.missedThis) L.firstTry++;
+    const cheer=celebrate(); addAura(14);
+    $("l3Blank").classList.add("snap");
+    setFb("l3Fb","ok",`✓ ${cheer}${it(fullSentence(r))} = ${esc(r.gloss.replace(/ \(literally.*\)$/,""))}`);
+    setTimeout(()=>{ L.i++; renderL3(); }, 1300);
+  } else {
+    L.missedThis=true;
+    markWrong();
+    setFb("l3Fb","bad","✗ "+whyWrongSentence(r,got));
+    addMiss(`l3|${r.gloss}|${got}`, `${it(fullSentence(r))} (${esc(r.gloss)}) · you tried ${it(got)}`);
+    $("buildSlots").classList.add("shake");
+    setTimeout(()=>$("buildSlots").classList.remove("shake"),400);
+  }
+};
+
+/* =========================================================
+   L4 — AURA BATTLE
+   ========================================================= */
+function startL4(){
+  if(state.l4 && state.l4.timer) clearInterval(state.l4.timer);
+  state.level=4; state.streak=0; state.misses=[];
+  const boss = pick(BRAND.bossNames);
+  state.l4 = {
+    boss, bossHp:100, bossMax:100, playerHp:100, playerMax:100,
+    time:75, timer:null, current:null, over:false, hits:0, wrongs:0, locked:false
+  };
+  $("bossName").textContent = boss;
+  $("bossArt").innerHTML = bossArt(boss);
+  $("bossHp").style.width="100%";
+  $("playerHp").style.width="100%";
+  renderTimer();
+  $("battleRing").innerHTML="";
+  showScreen("l4"); hideToast(); updateAuraHUD();
+  setFb("l4Fb","info","Tap the right form to hit the boss. The chart 📋 pauses the timer.");
+  nextBattlePrompt();
+  state.l4.timer=setInterval(battleTick,1000);
+}
+function bossArt(boss){ return boss.includes("Goblin") ? SVG.object("goblin") : SVG.object("dragon"); }
+function renderTimer(){
+  const t=state.l4.time, el=$("l4Timer");
+  el.textContent = t<=10 ? `⏱ ${t}s left!` : `⏱ ${t}`;
+  el.classList.toggle("low", t<=10);
+}
+function battleTick(){
+  const B=state.l4;
+  if(B.over) return;
+  if(chartIsOpen() || document.hidden || !$("l4").classList.contains("active")) return; // paused
+  B.time--;
+  renderTimer();
+  if(B.time<=0){ endBattle(B.bossHp<=0); }
+}
+function nextBattlePrompt(){
+  const B=state.l4; if(B.over) return;
+  let verb, subj;
+  do { verb=pick(["essere","avere"]); subj=pick(PRONOUNS); }
+  while(B.current && B.current.verb===verb && B.current.subj===subj);
+  const ans=formFor(verb,subj);
+  B.current={ verb, subj, ans };
+  $("bEng").textContent = `${ENG_FULL[verb][subj]} · ${verb==="essere"?"to be":"to have"}`;
+  $("bPrompt").textContent = `${subj} + ${verb} = ?`;
+  spawnTargets(ans);
+}
+function spawnTargets(ans){
+  const ring=$("battleRing"); ring.innerHTML="";
+  let pool=ALL_FORMS.filter(f=>f!==ans); shuffle(pool);
+  const forms=shuffle([ans, ...pool.slice(0,5)]);
+  forms.forEach((f,i)=>{
+    const b=document.createElement("button");
+    b.type="button"; b.className="float-target"; b.textContent=f; b.lang="it";
+    b.style.animationDelay=(i*30)+"ms";
+    b.onclick=()=>hitTarget(f,b);
+    ring.appendChild(b);
+  });
+  // brief input lock so a double tap can't land on the new set of buttons
+  const B=state.l4; B.locked=true; ring.classList.add("locked");
+  clearTimeout(B._unlock); B._unlock=setTimeout(()=>{ B.locked=false; ring.classList.remove("locked"); }, 350);
+}
+function hitTarget(f, el){
+  const B=state.l4, cur=B.current;
+  if(!cur || B.over || B.locked || el.classList.contains("tried")) return;
+  if(f===cur.ans){
+    B.hits++;
+    const cheer=celebrate();
+    const dmg=12+Math.min(10,state.streak*2);
+    B.bossHp=Math.max(0, B.bossHp-dmg);
+    $("bossHp").style.width=`${(B.bossHp/B.bossMax)*100}%`;
+    addAura(8);
+    $("hitFlash").classList.remove("show"); void $("hitFlash").offsetWidth; $("hitFlash").classList.add("show");
+    $("bossArt").classList.add("shake"); setTimeout(()=>$("bossArt").classList.remove("shake"),350);
+    setFb("l4Fb","ok",`✓ ${cheer}${it(cur.subj+" "+cur.ans)} = ${ENG_FULL[cur.verb][cur.subj]}. Hit for ${dmg}!`);
+    if(B.bossHp<=0){ endBattle(true); return; }
+    nextBattlePrompt();
+  } else {
+    B.wrongs++;
+    markWrong();
+    B.playerHp=Math.max(0, B.playerHp-12);
+    $("playerHp").style.width=`${(B.playerHp/B.playerMax)*100}%`;
+    setFb("l4Fb","bad","✗ "+whyWrong(cur.verb,cur.subj,f));
+    addMiss(`l4|${cur.subj}|${cur.verb}|${f}`, `${cur.subj} + ${cur.verb} (${ENG_FULL[cur.verb][cur.subj]}) = ${it(cur.ans)} · you tried ${it(f)}, which is ${describe(f)}`);
+    el.classList.add("tried","shake"); el.setAttribute("aria-disabled","true");
+    if(B.playerHp<=0){ endBattle(false); return; }
+  }
+}
+function endBattle(won){
+  const B=state.l4;
+  if(B.over) return;
+  B.over=true;
+  clearInterval(B.timer); B.timer=null;
+  $("battleRing").classList.add("locked");
+  if(won){ addAura(40); toast("Boss defeated. Big aura."); }
+  else toast(B.time<=0 ? "Time's up! Rematch whenever." : "Aura low. Rematch whenever.");
+  setTimeout(()=>finishLevel(4, won), 900);
+}
+
+/* =========================================================
+   FINISH / END SCREEN
+   ========================================================= */
+function finishLevel(n, won){
+  if(state.level!==n || !$( "l"+n ).classList.contains("active")) return; // already finished
+  state.done[n]=true; store.set("auraFarmDone", state.done);
+  hideToast();
+  showScreen("end");
+  let correct=0, total=0, scoreLabel="";
+  if(n===1){ correct=state.l1.correct; total=state.l1.deck.length; scoreLabel="cards judged correctly"; }
+  if(n===2){ correct=state.l2.firstTry; total=state.l2.rounds.length; scoreLabel="right on the first try"; }
+  if(n===3){ correct=state.l3.firstTry; total=state.l3.rounds.length; scoreLabel="right on the first try"; }
+  if(n===4){ correct=state.l4.hits; total=state.l4.hits+state.l4.wrongs; scoreLabel="taps correct"; }
+  const titles = {
+    1: correct>=total-2 ? "You ate that swipe." : "Swipe session done.",
+    2: "Locked in.",
+    3: "Sentence arc complete.",
+    4: won ? "Boss defeated · big aura." : (state.l4.time<=0 ? "Time's up! Nice try, farm again!" : "Battle over. Nice try, farm again!")
+  };
+  $("endTitle").textContent = titles[n]||"Nice work.";
+  $("endSub").textContent = LEVEL_META[n-1].title;
+  $("endScore").textContent = `${correct}/${total}`;
+  $("endAura").textContent = `${scoreLabel} · ✨ ${state.aura} total aura`;
+  $("endArt").innerHTML = (n===4 && !won) ? bossArt(state.l4.boss) : SVG.object("trophy");
+  if(state.misses.length){
+    $("lockList").style.display="block";
+    $("lockItems").innerHTML = state.misses.map(m=>`<li>${m.html}${m.count>1?` <em>(×${m.count})</em>`:""}</li>`).join("");
+    $("lockList").scrollTop=0;
+  } else {
+    $("lockList").style.display="none";
+  }
+  $("btnRematch").onclick=()=>startLevel(n);
+  renderHome();
+}
+function startLevel(n){
+  state.aura = n===1?0:state.aura; // keep cumulative within session except fresh Swipe Match
+  closeChart();
+  if(n===1) startL1();
+  else if(n===2) startL2();
+  else if(n===3) startL3();
+  else if(n===4) startL4();
+}
+function goHome(){
+  if(state.l4 && state.l4.timer){ clearInterval(state.l4.timer); state.l4.timer=null; state.l4.over=true; }
+  state.level=null;
+  showScreen("home"); renderHome();
+}
+
+/* =========================================================
+   WIRE GLOBAL CONTROLS
+   ========================================================= */
+$("btnStart").onclick=()=>startLevel(1);
+$("btnMute").onclick=()=>{
+  state.muted=!state.muted;
+  $("btnMute").textContent = state.muted?"🔇":"🔊";
+  toast(state.muted?"Sound off":"Sound on");
+  if(!state.muted) sfxOk();
+};
+$("btnChartHome").onclick=openChart;
+$("btnCloseChart").onclick=closeChart;
+$("chartModal").addEventListener("click",e=>{ if(e.target.id==="chartModal") closeChart(); });
+document.querySelectorAll("[data-back]").forEach(b=>b.onclick=goHome);
+document.querySelectorAll("[data-chart]").forEach(b=>b.onclick=openChart);
+$("btnHome").onclick=goHome;
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape" && chartIsOpen()){ closeChart(); return; }
+  if(chartIsOpen()) return;
+  if(state.level===1 && $("l1").classList.contains("active")){
+    if(e.key==="ArrowRight" && !state.l1.awaitingNext){ e.preventDefault(); resolveL1(true); }
+    else if(e.key==="ArrowLeft" && !state.l1.awaitingNext){ e.preventDefault(); resolveL1(false); }
+  }
+});
+
+renderHome();
+</script>
+</body>
+</html>
