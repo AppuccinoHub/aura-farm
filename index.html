@@ -51,7 +51,7 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
 .chart-card td:first-child{color:var(--muted);width:44%}
 .chart-card td:last-child{font-weight:800}
 /* toast lives at the very top, between the HUD side buttons, so it never covers answers */
-.toast{position:absolute;left:50%;top:10px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 136px);background:rgba(20,10,34,.97);border:1px solid var(--stroke);padding:10px 14px;border-radius:14px;font-size:16px;font-weight:700;opacity:0;pointer-events:none;z-index:70;transition:opacity .2s;text-align:center}
+.toast{position:absolute;left:72px;right:128px;top:10px;text-align:center;/* clear of ← on the left and 🔊 📋 on the right */background:rgba(20,10,34,.97);border:1px solid var(--stroke);padding:10px 14px;border-radius:14px;font-size:16px;font-weight:700;opacity:0;pointer-events:none;z-index:70;transition:opacity .2s;text-align:center}
 .toast.show{opacity:1}
 .progress-rail{height:8px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin:2px 0 6px;flex:0 0 auto}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--neon2),var(--neon));width:0%;transition:width .25s}
@@ -200,6 +200,52 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
   .hero-art{display:none}
   .howto{font-size:16px;padding-bottom:4px}
 }
+/* AURAFX-CSS-BEGIN */
+/* ===== AURA FX (shared): sound panel, points pill, points burst ===== */
+.afx-backdrop{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(5,2,12,.78)}
+.afx-backdrop.show{display:flex}
+.afx-modal{width:100%;max-width:440px;background:#1d1030;border:2px solid #c44dff;border-radius:20px;padding:18px 16px 16px;color:#f5f0ff;box-shadow:0 10px 40px rgba(0,0,0,.6);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif}
+.afx-modal h3{font-size:22px;margin:0 0 12px;text-align:center}
+.afx-row{display:flex;align-items:center;gap:12px;width:100%;min-height:72px;margin:0 0 10px;padding:10px 12px;border-radius:16px;border:2px solid rgba(196,77,255,.55);background:#261640;color:#f5f0ff;text-align:left;font:inherit;cursor:pointer}
+.afx-row.on{border-color:#00f5d4;background:#12303a}
+.afx-ico{font-size:26px;flex:0 0 auto}
+.afx-txt{flex:1 1 auto;min-width:0}
+.afx-txt b{display:block;font-size:19px}
+.afx-txt small{display:block;font-size:15px;line-height:1.3;color:#d9d0ea;margin-top:2px}
+.afx-sw{flex:0 0 auto;width:54px;height:30px;border-radius:15px;background:#4a3a63;position:relative;transition:background .15s}
+.afx-knob{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s}
+.afx-row.on .afx-sw{background:#00c9ad}
+.afx-row.on .afx-knob{left:27px}
+.afx-state{flex:0 0 auto;width:34px;font-weight:800;font-size:17px;text-align:center}
+.afx-note{font-size:15px;color:#d9d0ea;text-align:center;margin:2px 0 12px}
+.afx-done{display:block;width:100%;min-height:52px;border-radius:14px;border:none;font:inherit;font-size:19px;font-weight:800;color:#fff;cursor:pointer;background:linear-gradient(135deg,#c44dff,#ff4d9e)}
+.afx-row:focus-visible,.afx-done:focus-visible{outline:3px solid #ffd166;outline-offset:2px}
+.pts-pill{font-weight:800;white-space:nowrap}
+.afx-bump{animation:afxBump .4s ease-out}
+@keyframes afxBump{0%{transform:scale(1)}35%{transform:scale(1.18)}100%{transform:scale(1)}}
+.afx-burst{position:fixed;z-index:950;width:0;height:0;pointer-events:none}
+.afx-pts{position:absolute;left:0;top:0;transform:translate(-50%,-50%);font:900 28px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#ffd166;text-align:center;white-space:nowrap;
+  padding:6px 12px;border-radius:14px;background:rgba(14,6,30,.9);border:2px solid rgba(255,209,102,.7);box-shadow:0 4px 16px rgba(0,0,0,.5);
+  text-shadow:0 0 8px rgba(255,209,102,.6);animation:afxRise .9s ease-out forwards}
+.afx-pts small{display:block;font-size:16px;font-weight:800;color:#fff;margin-top:4px;text-shadow:none}
+.afx-dot{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);animation:afxDot .6s ease-out forwards}
+@keyframes afxRise{0%{opacity:0;transform:translate(-50%,-60%) scale(.8)}15%{opacity:1;transform:translate(-50%,-100%) scale(1.06)}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-165%) scale(1)}}
+@keyframes afxDot{0%{opacity:1;transform:translate(0,0) scale(.5)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1)}}
+@keyframes afxFade{0%{opacity:0}10%{opacity:1}75%{opacity:1}100%{opacity:0}}
+.afx-burst.still .afx-pts{transform:translate(-50%,-100%);animation:afxFade .9s linear forwards}
+@media (prefers-reduced-motion:reduce){
+  .afx-dot{display:none}
+  .afx-pts{transform:translate(-50%,-100%);animation:afxFade .9s linear forwards !important}
+  .afx-bump{animation:none}
+  .afx-sw,.afx-knob{transition:none}
+}
+@media (max-width:520px){ .afx-row{min-height:68px;gap:10px} .afx-txt small{font-size:14px} }
+
+/* AURAFX-CSS-END */
+.hud-r{display:flex;align-items:center;gap:8px}
+#end .end-fx{position:absolute;top:10px;right:14px}
+.end-pts{font-size:18px;font-weight:700;color:var(--gold)}
+.end-pts b{font-size:20px}
 </style>
 </head>
 <body>
@@ -207,8 +253,8 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
   <!-- HOME -->
   <section id="home" class="screen active">
     <div class="hud">
-      <button class="icon-btn" id="btnMute" title="Sound" aria-label="Toggle sound">🔇</button>
-      <div class="pill" id="homeAura">✨ 0 aura</div>
+      <button class="icon-btn" data-fx="panel" aria-label="Sound settings">🔊</button>
+      <div class="pill pts-pill" id="homePts" aria-label="Points">⭐ <span class="ptsVal">0</span> points</div>
       <button class="icon-btn" id="btnChartHome" title="Chart" aria-label="Conjugation chart">📋</button>
     </div>
     <div class="hero">
@@ -227,8 +273,9 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
     <div class="hud">
       <button class="icon-btn" data-back aria-label="Back to menu">←</button>
       <div class="pill"><span id="l1Streak">🔥 0</span></div>
-      <div class="pill" id="l1Aura">✨ 0</div>
-      <button class="icon-btn" data-chart aria-label="Conjugation chart">📋</button>
+      <div class="pill pts-pill" id="l1Pts" aria-label="Points">⭐ <span class="ptsVal">0</span></div>
+      <div class="hud-r"><button class="icon-btn" data-fx="panel" aria-label="Sound settings">🔊</button>
+      <button class="icon-btn" data-chart aria-label="Conjugation chart">📋</button></div>
     </div>
     <div class="progress-rail"><div class="progress-fill" id="l1Prog"></div></div>
     <p class="howto" id="l1How">Does the Italian match the English? Swipe RIGHT or tap ✅ for yes. Swipe LEFT or tap ❌ for no.</p>
@@ -255,8 +302,9 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
     <div class="hud">
       <button class="icon-btn" data-back aria-label="Back to menu">←</button>
       <div class="pill"><span id="l2Streak">🔥 0</span></div>
-      <div class="pill" id="l2Aura">✨ 0</div>
-      <button class="icon-btn" data-chart aria-label="Conjugation chart">📋</button>
+      <div class="pill pts-pill" id="l2Pts" aria-label="Points">⭐ <span class="ptsVal">0</span></div>
+      <div class="hud-r"><button class="icon-btn" data-fx="panel" aria-label="Sound settings">🔊</button>
+      <button class="icon-btn" data-chart aria-label="Conjugation chart">📋</button></div>
     </div>
     <div class="progress-rail"><div class="progress-fill" id="l2Prog"></div></div>
     <p class="howto">Drag the correct form onto the drop zone, or just tap it. (Keyboard: Tab to a tile, then Enter.)</p>
@@ -280,8 +328,9 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
     <div class="hud">
       <button class="icon-btn" data-back aria-label="Back to menu">←</button>
       <div class="pill"><span id="l3Streak">🔥 0</span></div>
-      <div class="pill" id="l3Aura">✨ 0</div>
-      <button class="icon-btn" data-chart aria-label="Conjugation chart">📋</button>
+      <div class="pill pts-pill" id="l3Pts" aria-label="Points">⭐ <span class="ptsVal">0</span></div>
+      <div class="hud-r"><button class="icon-btn" data-fx="panel" aria-label="Sound settings">🔊</button>
+      <button class="icon-btn" data-chart aria-label="Conjugation chart">📋</button></div>
     </div>
     <div class="progress-rail"><div class="progress-fill" id="l3Prog"></div></div>
     <p class="howto">Tap tiles to build the missing verb. The English meaning is under the sentence. ⌫ Clear starts over.</p>
@@ -304,8 +353,9 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
     <div class="hud">
       <button class="icon-btn" data-back aria-label="Back to menu">←</button>
       <div class="pill timer-chip" id="l4Timer" aria-live="off">⏱ 75</div>
-      <div class="pill" id="l4Aura">✨ 0</div>
-      <button class="icon-btn" data-chart aria-label="Conjugation chart (pauses the timer)">📋</button>
+      <div class="pill pts-pill" id="l4Pts" aria-label="Points">⭐ <span class="ptsVal">0</span></div>
+      <div class="hud-r"><button class="icon-btn" data-fx="panel" aria-label="Sound settings">🔊</button>
+      <button class="icon-btn" data-chart aria-label="Conjugation chart (pauses the timer)">📋</button></div>
     </div>
     <div class="boss-area">
       <div class="boss-art" id="bossArt"></div>
@@ -324,11 +374,13 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
 
   <!-- END -->
   <section id="end" class="screen">
+    <button class="icon-btn end-fx" data-fx="panel" aria-label="Sound settings">🔊</button>
     <div class="end-art" id="endArt"></div>
     <h2 id="endTitle">You ate that.</h2>
     <div class="soft" id="endSub">Level complete</div>
     <div class="end-score" id="endScore">0/0</div>
     <div class="soft" id="endAura">total aura</div>
+    <div class="end-pts" id="endPts"></div>
     <div class="lock-list" id="lockList" style="display:none">
       <div style="font-weight:800;margin-bottom:4px;color:var(--gold)">🔒 Forms to lock in</div>
       <ul id="lockItems"></ul>
@@ -375,6 +427,322 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
 </div>
 
 <script>
+// AURAFX-JS-BEGIN
+/* ===================== AURA FX (shared by both Aura Farm games) =====================
+   Sound effects, calm procedural background music, the 🔊 sound panel and the points burst.
+   Master copy: /workspace/apps/shared/aurafx/aurafx.js (each game's build step inlines it).
+   Everything is generated with the Web Audio API: no audio files and no network requests.
+   Every audio call is wrapped in try/catch; with no AudioContext everything becomes a no-op.
+   The AudioContext is only created after a real user gesture (browser autoplay rules). */
+const AuraFX = (function(){
+  "use strict";
+  const S = {sfx:true, music:false};          /* classroom defaults: sounds on, music off */
+  let KEY = "auraFX.v1";
+  const W = typeof window!=="undefined" ? window : {};
+  const AC_CLASS = W.AudioContext || W.webkitAudioContext || null;
+  function load(){ try{ const v = JSON.parse(W.localStorage.getItem(KEY)); if(v && typeof v==="object"){ if(typeof v.sfx==="boolean") S.sfx=v.sfx; if(typeof v.music==="boolean") S.music=v.music; } }catch(e){} }
+  function save(){ try{ W.localStorage.setItem(KEY, JSON.stringify({sfx:S.sfx, music:S.music})); }catch(e){} }
+
+  /* ---------------- audio graph ---------------- */
+  let ac=null, out=null, sfxBus=null, unlocked=false;
+  function gestureSeen(){ try{ return unlocked || !!(navigator.userActivation && navigator.userActivation.hasBeenActive); }catch(e){ return unlocked; } }
+  function limiter(c){ const k=c.createDynamicsCompressor(); try{ k.threshold.value=-10; k.knee.value=8; k.ratio.value=12; k.attack.value=0.004; k.release.value=0.3; }catch(e){} return k; }
+  function ctx(){
+    if(ac) return ac;
+    if(!AC_CLASS || !gestureSeen()) return null;
+    try{
+      ac = new AC_CLASS();
+      out = limiter(ac); out.connect(ac.destination);
+      sfxBus = ac.createGain(); sfxBus.gain.value = 1; sfxBus.connect(out);
+    }catch(e){ ac=null; }
+    return ac;
+  }
+  function resume(){ try{ const c=ctx(); if(c && c.state==="suspended"){ const p=c.resume(); if(p && p.catch) p.catch(()=>{}); } }catch(e){} }
+
+  /* one enveloped oscillator: soft attack, exponential decay, optional glide and low-pass */
+  function voice(c, dest, t, f, dur, o){
+    o = o || {};
+    const osc=c.createOscillator(), g=c.createGain();
+    osc.type = o.type || "sine";
+    osc.frequency.setValueAtTime(f, t);
+    if(o.glide) osc.frequency.exponentialRampToValueAtTime(o.glide, t+dur*0.8);
+    if(o.detune) osc.detune.setValueAtTime(o.detune, t);
+    const a=o.attack||0.005, v=o.vol||0.1;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(v, t+a);
+    if(o.hold) g.gain.setValueAtTime(v, t+a+o.hold);
+    g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+    let node = osc;
+    if(o.lp){ const f2=c.createBiquadFilter(); f2.type="lowpass"; f2.frequency.setValueAtTime(o.lp, t); f2.Q.value=0.4; osc.connect(f2); node=f2; }
+    node.connect(g); g.connect(dest);
+    osc.start(t); osc.stop(t+dur+0.05);
+  }
+
+  /* ---------------- sound effects ---------------- */
+  const SFX = {
+    click(c,d,t){ voice(c,d,t,1100,0.06,{vol:0.1,attack:0.003,glide:700}); },
+    ok(c,d,t){      /* two-note chime, G5 then C6, with a soft bell partial */
+      [[784,0],[1046.5,0.1]].forEach(([f,dt])=>{ voice(c,d,t+dt,f,0.6,{vol:0.15,attack:0.004}); voice(c,d,t+dt,f*2,0.25,{vol:0.025,attack:0.004}); });
+    },
+    bad(c,d,t){     /* gentle low falling tone, filtered, no buzz */
+      voice(c,d,t,247,0.42,{type:"triangle",vol:0.12,attack:0.02,glide:196,lp:900});
+      voice(c,d,t,123.5,0.42,{vol:0.06,attack:0.02,glide:98});
+    },
+    fanfare(c,d,t){ /* C5 E5 G5, then a warm C major chord with C6 on top */
+      [523.25,659.25,783.99].forEach((f,i)=>voice(c,d,t+i*0.12,f,0.32,{type:"triangle",vol:0.1,attack:0.006,lp:2600}));
+      [523.25,659.25,783.99,1046.5].forEach((f,i)=>voice(c,d,t+0.38,f,1.3,{type:i===3?"sine":"triangle",vol:i===3?0.09:0.06,attack:0.01,lp:3000}));
+      voice(c,d,t+0.38,2093,0.5,{vol:0.02,attack:0.005});
+    },
+    soft(c,d,t){    /* "round over" without the fanfare (for a round that isn't Done yet) */
+      voice(c,d,t,587.33,0.5,{type:"triangle",vol:0.09,attack:0.01,lp:2000});
+      voice(c,d,t+0.16,440,0.8,{type:"triangle",vol:0.09,attack:0.01,lp:2000});
+    }
+  };
+  let lastClick=0;
+  function play(kind){
+    if(!S.sfx || !SFX[kind]) return;
+    try{
+      const c=ctx(); if(!c) return;
+      resume();
+      if(kind==="click"){ const n=c.currentTime; if(n-lastClick<0.035) return; lastClick=n; }
+      SFX[kind](c, sfxBus, c.currentTime+0.01);
+    }catch(e){}
+  }
+
+  /* ---------------- procedural music ----------------
+     68 BPM, F major. Warm pad chords (2 bars each), soft sine bass, a slow pentatonic melody
+     in 2-bar call-and-response phrases, and a light arpeggio in some sections.
+     Every 8 bars a new section picks another progression and which layers play, so it never
+     loops exactly but always stays in the same calm key. Original material. */
+  const BPM=68, BEAT=60/BPM, BAR=BEAT*4;
+  const mtof = m => 440*Math.pow(2,(m-69)/12);
+  const CH = {
+    F:  {pad:[53,57,60,64], bass:41, tones:[65,69,72,77,81]},  /* Fmaj7 */
+    Dm: {pad:[50,53,57,60], bass:38, tones:[62,65,69,72,74,77]},/* Dm7 */
+    Bb: {pad:[50,53,58,60], bass:46, tones:[62,65,72,74,77]},  /* Bb(add9) */
+    C:  {pad:[52,55,60,62], bass:36, tones:[67,72,74,79]},     /* Cadd9 */
+    Gm: {pad:[53,55,58,62], bass:43, tones:[67,74,77,79]},     /* Gm7 */
+    Am: {pad:[52,55,57,60], bass:45, tones:[69,72,79,81]}      /* Am7 */
+  };
+  const PROGS = [["F","Am","Bb","C"],["Dm","Bb","F","C"],["Bb","Am","Gm","C"],["F","Dm","Gm","Bb"],["Dm","Gm","Bb","C"],["F","C","Dm","Bb"]];
+  const MEL = [62,65,67,69,72,74,77,79,81];   /* F major pentatonic, D4 to A5 */
+  const RHY = [[0,1.5,3],[0,2],[0.5,2,3],[0,1,2.5],[1,2.5],[0,3],[0,1.5,2.5],[0,2,3]];
+  function rng(seed){ let a=seed>>>0; return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+  function impulse(c, secs){
+    const n=Math.floor(c.sampleRate*secs), b=c.createBuffer(2,n,c.sampleRate);
+    for(let ch=0;ch<2;ch++){ const d=b.getChannelData(ch); let lp=0; for(let i=0;i<n;i++){ lp = lp*0.6 + (Math.random()*2-1)*0.4; d[i]=lp*Math.pow(1-i/n,2.6); } }
+    return b;
+  }
+  function Engine(c, dest, seed){
+    const R = rng(seed);
+    const pick = a => a[Math.floor(R()*a.length)];
+    /* graph: layers -> mix -> dest; sends -> reverb / echo -> mix */
+    const mix=c.createGain(); mix.gain.value=0.55; mix.connect(dest);
+    const rev=c.createConvolver(); rev.buffer=impulse(c,3.2); const revG=c.createGain(); revG.gain.value=0.5; rev.connect(revG); revG.connect(mix);
+    const dly=c.createDelay(2); dly.delayTime.value=BEAT*0.75; const fb=c.createGain(); fb.gain.value=0.32; const dlp=c.createBiquadFilter(); dlp.type="lowpass"; dlp.frequency.value=2200;
+    dly.connect(dlp); dlp.connect(fb); fb.connect(dly); const dG=c.createGain(); dG.gain.value=0.28; dlp.connect(dG); dG.connect(mix); dG.connect(rev);
+    function pan(v){ if(c.createStereoPanner){ const p=c.createStereoPanner(); p.pan.value=v; return p; } return c.createGain(); }
+    const padB=c.createGain(); padB.gain.value=1; padB.connect(mix); const padS=c.createGain(); padS.gain.value=0.6; padB.connect(padS); padS.connect(rev);
+    const bassB=c.createGain(); bassB.gain.value=1; bassB.connect(mix);
+    const melP=pan(-0.12), melB=c.createGain(); melB.connect(melP); melP.connect(mix); const melS=c.createGain(); melS.gain.value=0.45; melP.connect(melS); melS.connect(rev); melP.connect(dly);
+    const arpP=pan(0.22), arpB=c.createGain(); arpB.connect(arpP); arpP.connect(mix); const arpS=c.createGain(); arpS.gain.value=0.5; arpP.connect(arpS); arpS.connect(rev);
+
+    let bar=0, sec=null, lastProg=-1, mi=4, rhyA=null;
+    function plan(n){
+      let p; do{ p=Math.floor(R()*PROGS.length); }while(p===lastProg); lastProg=p;
+      if(n===0) return {prog:PROGS[0], mel:false, arp:false, intro:true};
+      const r=R();
+      if(r<0.12) return {prog:PROGS[p], mel:false, arp:false};         /* breathing space */
+      if(r<0.50) return {prog:PROGS[p], mel:true,  arp:false};
+      if(r<0.78) return {prog:PROGS[p], mel:false, arp:true};
+      return {prog:PROGS[p], mel:true, arp:true, sparseArp:true};
+    }
+    function pad(t, chord){
+      const dur=BAR*2, rel=2.4, f=c.createBiquadFilter(); f.type="lowpass"; f.Q.value=0.5;
+      f.frequency.setValueAtTime(650,t); f.frequency.linearRampToValueAtTime(1150,t+dur*0.55); f.frequency.linearRampToValueAtTime(720,t+dur+rel);
+      const g=c.createGain(); g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(1,t+1.4); g.gain.setValueAtTime(1,t+dur); g.gain.linearRampToValueAtTime(0,t+dur+rel);
+      f.connect(g); g.connect(padB);
+      chord.pad.forEach((m,i)=>{ [[-7,"triangle",0.030],[7,"sine",0.034]].forEach(([dt,type,v])=>{
+        const o=c.createOscillator(), og=c.createGain(); o.type=type; o.frequency.value=mtof(m); o.detune.value=dt+(R()*4-2); og.gain.value=v*(i===0?1.1:1);
+        o.connect(og); og.connect(f); o.start(t); o.stop(t+dur+rel+0.1); }); });
+    }
+    function bass(t, chord, strong){
+      const o=c.createOscillator(), g=c.createGain(); o.type="sine"; o.frequency.value=mtof(chord.bass);
+      const v=strong?0.085:0.06; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+0.08); g.gain.exponentialRampToValueAtTime(v*0.35,t+BAR*0.9); g.gain.linearRampToValueAtTime(0,t+BAR+0.3);
+      o.connect(g); g.connect(bassB); o.start(t); o.stop(t+BAR+0.4);
+    }
+    function note(t, m, len, vel){
+      const f=mtof(m), g=c.createGain(); g.connect(melB);
+      g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vel,t+0.025); g.gain.exponentialRampToValueAtTime(vel*0.4,t+len*0.6); g.gain.exponentialRampToValueAtTime(0.0001,t+len+0.9);
+      [[1,"sine",1],[2,"sine",0.18],[1,"triangle",0.22]].forEach(([mul,type,v],k)=>{ const o=c.createOscillator(), og=c.createGain(); o.type=type; o.frequency.value=f*mul; if(k===2) o.detune.value=5; og.gain.value=v; o.connect(og); og.connect(g); o.start(t); o.stop(t+len+1); });
+    }
+    function melody(t, chord, barInPhrase){
+      if(barInPhrase===0){ if(R()<0.2) { rhyA=null; return; } rhyA=pick(RHY); }
+      else if(!rhyA || R()<0.3) return;        /* the answer bar sometimes rests */
+      const rh = barInPhrase===0 ? rhyA : (R()<0.6 ? rhyA : pick(RHY));
+      rh.forEach((b,k)=>{
+        if(k===0){ let best=mi, bd=99; MEL.forEach((m,j)=>{ if(chord.tones.includes(m)){ const d=Math.abs(j-mi)+R()*0.8; if(d<bd){bd=d;best=j;} } }); mi=best; }
+        else { mi = Math.max(1, Math.min(MEL.length-2, mi + pick([-2,-1,-1,1,1,2,0]))); }
+        const next = k+1<rh.length ? rh[k+1] : 4, len = Math.max(0.6, Math.min(1.8, next-b))*BEAT*0.95;
+        note(t+b*BEAT+(R()*0.02), MEL[mi], len, 0.11+R()*0.03);
+      });
+    }
+    function arp(t, chord, sparse){
+      const ns = chord.pad.map(m=>m+12), pat = pick([[0,1,2,3,2,1,2,3],[0,2,1,3,0,2,1,3],[3,2,1,0,1,2,3,2]]);
+      for(let s=0;s<8;s++){
+        if(R() > (sparse?0.5:0.85)) continue;
+        const tt=t+s*BEAT/2, m=ns[pat[s]], o=c.createOscillator(), g=c.createGain(), f=c.createBiquadFilter();
+        o.type="triangle"; o.frequency.value=mtof(m); f.type="lowpass"; f.frequency.value=1800;
+        const v=0.045+R()*0.015; g.gain.setValueAtTime(0,tt); g.gain.linearRampToValueAtTime(v,tt+0.006); g.gain.exponentialRampToValueAtTime(0.0001,tt+0.42);
+        o.connect(f); f.connect(g); g.connect(arpB); o.start(tt); o.stop(tt+0.45);
+      }
+    }
+    function scheduleBar(t){
+      const inSec = bar%8; if(inSec===0) sec = plan(Math.floor(bar/8));
+      const chord = CH[sec.prog[Math.floor(inSec/2)]];
+      if(inSec%2===0) pad(t, chord);
+      bass(t, chord, inSec%2===0);
+      if(sec.mel && !(sec.intro)) melody(t, chord, inSec%2);
+      if(sec.intro && inSec>=4) melody(t, chord, inSec%2);
+      if(sec.arp) arp(t, chord, sec.sparseArp);
+      bar++;
+    }
+    return { scheduleBar, get bar(){ return bar; } };
+  }
+
+  let eng=null, mBus=null, timer=null, nextT=0, playing=false, hiddenPause=false;
+  const MUSIC_LEVEL = 0.5;   /* music bus level: clearly quieter than the effects */
+  function tick(){
+    try{
+      const c=ac; if(!c || !eng) return;
+      if(nextT < c.currentTime+0.05) nextT = c.currentTime+0.1;   /* never schedule in the past */
+      while(nextT < c.currentTime+1.5){ eng.scheduleBar(nextT); nextT += BAR; }
+    }catch(e){}
+  }
+  function musicStart(){
+    if(playing || !S.music || (typeof document!=="undefined" && document.hidden)) return;
+    try{
+      const c=ctx(); if(!c) return;
+      resume();
+      mBus=c.createGain(); mBus.gain.setValueAtTime(0,c.currentTime); mBus.gain.linearRampToValueAtTime(MUSIC_LEVEL,c.currentTime+3); mBus.connect(out);
+      eng=Engine(c, mBus, (Math.random()*4294967295)>>>0);
+      nextT=c.currentTime+0.15; playing=true; tick(); timer=setInterval(tick, 250);
+    }catch(e){ playing=false; }
+  }
+  function musicStop(fade){
+    if(!playing) return;
+    playing=false; clearInterval(timer); timer=null; eng=null;
+    const b=mBus; mBus=null;
+    try{ const t=ac.currentTime, f=fade==null?0.8:fade; b.gain.cancelScheduledValues(t); b.gain.setValueAtTime(b.gain.value,t); b.gain.linearRampToValueAtTime(0,t+f); setTimeout(()=>{ try{ b.disconnect(); }catch(e){} }, f*1000+150); }catch(e){}
+  }
+  /* offline render for tests: returns {sampleRate, channels:[Float32Array,...]} */
+  function renderMusic(secs, sr, seed){
+    const OC = W.OfflineAudioContext || W.webkitOfflineAudioContext;
+    if(!OC) return Promise.reject(new Error("no OfflineAudioContext"));
+    const c = new OC(2, Math.ceil(secs*sr), sr);
+    const lim = limiter(c); lim.connect(c.destination);
+    const bus = c.createGain(); bus.gain.setValueAtTime(0,0); bus.gain.linearRampToValueAtTime(MUSIC_LEVEL,3); bus.connect(lim);
+    const e = Engine(c, bus, seed==null?12345:seed);
+    for(let t=0.1; t<secs; t+=BAR) e.scheduleBar(t);
+    return c.startRendering().then(buf=>({sampleRate:buf.sampleRate, channels:[buf.getChannelData(0), buf.getChannelData(1)]}));
+  }
+  function renderSfx(kind, sr){
+    const OC = W.OfflineAudioContext || W.webkitOfflineAudioContext;
+    const c = new OC(1, Math.ceil(2*sr), sr), lim=limiter(c); lim.connect(c.destination);
+    SFX[kind](c, lim, 0.01);
+    return c.startRendering().then(buf=>buf.getChannelData(0));
+  }
+
+  /* ---------------- 🔊 panel ---------------- */
+  let opener=null;
+  function el(id){ return document.getElementById(id); }
+  function buildPanel(){
+    if(el("afxPanel")) return;
+    const d=document.createElement("div");
+    d.id="afxPanel"; d.className="afx-backdrop"; d.setAttribute("role","dialog"); d.setAttribute("aria-modal","true"); d.setAttribute("aria-labelledby","afxTitle");
+    d.innerHTML =
+      '<div class="afx-modal">'+
+      '<h3 id="afxTitle">🔊 Sound settings</h3>'+
+      '<button type="button" class="afx-row" id="afxSfx" role="switch"><span class="afx-ico" aria-hidden="true">🔔</span>'+
+        '<span class="afx-txt"><b>Sounds</b><small>Clicks, right and wrong answers, round complete. On at the start.</small></span>'+
+        '<span class="afx-sw" aria-hidden="true"><span class="afx-knob"></span></span><span class="afx-state"></span></button>'+
+      '<button type="button" class="afx-row" id="afxMusic" role="switch"><span class="afx-ico" aria-hidden="true">🎵</span>'+
+        '<span class="afx-txt"><b>Music</b><small>Calm background music. Off at the start: turn it on if you like.</small></span>'+
+        '<span class="afx-sw" aria-hidden="true"><span class="afx-knob"></span></span><span class="afx-state"></span></button>'+
+      '<p class="afx-note" id="afxNote"></p>'+
+      '<button type="button" class="afx-done" id="afxDone">Done</button></div>';
+    document.body.appendChild(d);
+    d.addEventListener("click", e=>{ if(e.target===d) close(); });
+    el("afxSfx").addEventListener("click", ()=>{ S.sfx=!S.sfx; save(); sync(); if(S.sfx) play("ok"); });
+    el("afxMusic").addEventListener("click", ()=>{ S.music=!S.music; save(); unlocked=true; if(S.music) musicStart(); else musicStop(); sync(); });
+    el("afxDone").addEventListener("click", close);
+  }
+  function isOpen(){ const p=el("afxPanel"); return !!(p && p.classList.contains("show")); }
+  function open(from){ buildPanel(); opener=from||document.activeElement; sync(); el("afxPanel").classList.add("show"); setTimeout(()=>{ const b=el("afxSfx"); if(b) b.focus(); },30); }
+  function close(){ const p=el("afxPanel"); if(!p || !p.classList.contains("show")) return; p.classList.remove("show"); try{ if(opener && opener.focus && document.contains(opener)) opener.focus(); }catch(e){} opener=null; }
+  function sync(){
+    const on = S.sfx||S.music;
+    document.querySelectorAll('[data-fx="panel"]').forEach(b=>{
+      b.textContent = on ? "🔊" : "🔇";
+      const lab = `Sound settings. Sounds ${S.sfx?"on":"off"}, music ${S.music?"on":"off"}`;
+      b.setAttribute("aria-label", lab); b.title = lab;
+    });
+    [["afxSfx",S.sfx],["afxMusic",S.music]].forEach(([id,v])=>{ const b=el(id); if(!b) return; b.setAttribute("aria-checked", String(v)); b.classList.toggle("on", v); b.querySelector(".afx-state").textContent = v ? "On" : "Off"; });
+    const n=el("afxNote"); if(n) n.textContent = AC_CLASS ? "Your choice is saved on this device." : "Sound isn't available in this browser, but the game works fine without it.";
+  }
+
+  /* ---------------- points burst ---------------- */
+  const DOTS = ["#ffd166","#00f5d4","#ff4d9e","#c44dff"];
+  function reduced(){ try{ return W.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
+  function burst(anchor, text, sub){
+    try{
+      let x=W.innerWidth/2, y=W.innerHeight/2;
+      if(anchor && anchor.getBoundingClientRect){ const r=anchor.getBoundingClientRect(); if(r.width||r.height){ x=r.left+r.width/2; y=r.top+Math.min(10, r.height/2); } }
+      x=Math.max(105,Math.min(W.innerWidth-105,x)); y=Math.max(90,Math.min(W.innerHeight-20,y));
+      const still=reduced(), w=document.createElement("div");
+      w.className="afx-burst"+(still?" still":""); w.setAttribute("aria-hidden","true"); w.style.left=x+"px"; w.style.top=y+"px";
+      let h='<div class="afx-pts">'+text+(sub?'<small>'+sub+'</small>':'')+'</div>';
+      if(!still) for(let i=0;i<12;i++){ const a=i/12*Math.PI*2+Math.random()*0.4, r=30+Math.random()*28;
+        h+=`<i class="afx-dot" style="--dx:${(Math.cos(a)*r).toFixed(1)}px;--dy:${(Math.sin(a)*r).toFixed(1)}px;--c:${DOTS[i%4]}"></i>`; }
+      w.innerHTML=h; document.body.appendChild(w); setTimeout(()=>w.remove(), 950);
+    }catch(e){}
+  }
+  function bump(node){ try{ if(!node || reduced()) return; node.classList.remove("afx-bump"); void node.offsetWidth; node.classList.add("afx-bump"); }catch(e){} }
+
+  /* ---------------- wiring ---------------- */
+  function onGesture(e){
+    if(e && e.isTrusted===false) return;
+    unlocked=true; resume();
+    if(S.music && !playing) musicStart();
+  }
+  function init(opts){
+    opts = opts || {};
+    if(opts.key) KEY=opts.key;
+    load();
+    try{
+      ["pointerdown","keydown","touchend"].forEach(ev=>document.addEventListener(ev, onGesture, true));
+      /* soft click on every button / tile press (the panel's own switches included) */
+      document.addEventListener("click", e=>{ const b=e.target && e.target.closest && e.target.closest("button,[role=button]"); if(b && !b.disabled) play("click"); }, true);
+      document.addEventListener("click", e=>{ const b=e.target && e.target.closest && e.target.closest('[data-fx="panel"]'); if(b){ e.preventDefault(); open(b); } });
+      /* while the panel is open, keys go to the panel only (no answering behind it) */
+      W.addEventListener("keydown", e=>{ if(!isOpen()) return; if(e.key==="Escape"){ e.preventDefault(); close(); } e.stopImmediatePropagation(); }, true);
+      document.addEventListener("visibilitychange", ()=>{
+        if(document.hidden){ if(playing){ hiddenPause=true; musicStop(0.25); } setTimeout(()=>{ try{ if(document.hidden && ac && !playing && ac.state==="running") ac.suspend().catch(()=>{}); }catch(e){} }, 400); }
+        else { if(ac && gestureSeen()) resume(); if(hiddenPause){ hiddenPause=false; musicStart(); } }
+      });
+    }catch(e){}
+    sync();
+  }
+  return {
+    init, play, sync, open, close, isOpen, burst, bump,
+    click:()=>play("click"), ok:()=>play("ok"), bad:()=>play("bad"), fanfare:()=>play("fanfare"), soft:()=>play("soft"),
+    get sfx(){ return S.sfx; }, get music(){ return S.music; },
+    state:()=>({sfx:S.sfx, music:S.music, playing, hasAudio:!!AC_CLASS, ctx:ac?ac.state:null, bar:eng?eng.bar:0, open:isOpen()}),
+    renderMusic, renderSfx, _musicStart:musicStart, _musicStop:musicStop
+  };
+})();
+
+// AURAFX-JS-END
 /* =========================================================
    BRAND / THEME CONFIG — swap these for a rename later
    ========================================================= */
@@ -579,9 +947,11 @@ const store = {
 /* =========================================================
    STATE
    ========================================================= */
+function cleanPts(v){ const n=Number(v); return Number.isFinite(n) && n>0 ? Math.min(Math.floor(n), 999999) : 0; }
 const state = {
-  muted: true,
   aura: 0,
+  pts: cleanPts(store.get("auraFarmPoints", 0)),   /* ⭐ total points, saved (guarded) */
+  roundPts: 0,
   streak: 0,
   level: null,
   done: store.get("auraFarmDone", {}) || {},
@@ -590,23 +960,11 @@ const state = {
 };
 
 /* =========================================================
-   AUDIO (WebAudio beeps — mute default ON)
+   AUDIO: AuraFX (shared module above). Sounds on / music off by default; 🔊 opens the panel.
    ========================================================= */
-let AC=null;
-function beep(freq, dur, type="sine", vol=.08){
-  if(state.muted) return;
-  try{
-    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
-    const o=AC.createOscillator(), g=AC.createGain();
-    o.type=type; o.frequency.value=freq;
-    g.gain.value=vol; o.connect(g); g.connect(AC.destination);
-    o.start(); g.gain.exponentialRampToValueAtTime(.0001, AC.currentTime+dur);
-    o.stop(AC.currentTime+dur);
-  }catch(e){}
-}
-function sfxOk(){ beep(660,.08,"triangle",.07); setTimeout(()=>beep(990,.1,"triangle",.06),70); }
-function sfxBad(){ beep(180,.15,"sawtooth",.05); }
-function sfxSnap(){ beep(520,.05,"square",.04); }
+function sfxOk(){ try{ AuraFX.ok(); }catch(e){} }
+function sfxBad(){ try{ AuraFX.bad(); }catch(e){} }
+function sfxSnap(){ /* the tile press already plays the soft click */ }
 
 /* =========================================================
    UI HELPERS
@@ -628,25 +986,17 @@ function flash(ok){
   el.classList.add("show");
   setTimeout(()=>el.classList.remove("show"), 220);
 }
-function auraPop(pts, x, y){
-  const d=document.createElement("div");
-  const app=$("app").getBoundingClientRect();
-  d.className="aura-pop"; d.textContent=`+${pts} ${BRAND.auraLabel}`;
-  d.style.left=((x!=null?x:app.left+app.width*0.62)-app.left-40)+"px";
-  d.style.top=((y!=null?y:app.top+58)-app.top)+"px"; // just under the HUD, never over the prompt
-  $("app").appendChild(d); setTimeout(()=>d.remove(),700);
-}
-function addAura(n, x, y){
-  const mult = Math.min(5, 1+Math.floor(state.streak/3));
-  const gain = n*mult;
-  state.aura += gain;
+/* ⭐ POINTS: +10 for each answer right on the first try, +5 streak bonus when the 🔥 streak is 3 or more.
+   Saved in guarded localStorage. They never change the scores, Done badges or battle. */
+const PTS_BASE=10, PTS_STREAK=5, PTS_STREAK_FROM=3;
+function awardPoints(anchor){
+  const bonus = state.streak>=PTS_STREAK_FROM ? PTS_STREAK : 0, n=PTS_BASE+bonus;
+  state.pts=Math.min(999999, state.pts+n); state.roundPts+=n; store.set("auraFarmPoints", state.pts);
   updateAuraHUD();
-  auraPop(gain, x, y);
-  return gain;
+  try{ AuraFX.burst(anchor, "+"+PTS_BASE, bonus ? "🔥 +"+bonus+" streak bonus" : ""); document.querySelectorAll(".screen.active .pts-pill").forEach(p=>AuraFX.bump(p)); }catch(e){}
 }
 function updateAuraHUD(){
-  const a = state.aura;
-  ["homeAura","l1Aura","l2Aura","l3Aura","l4Aura"].forEach(id=>{ const el=$(id); if(el) el.textContent=`✨ ${a} ${BRAND.auraLabel}`; });
+  document.querySelectorAll(".ptsVal").forEach(el=>el.textContent=state.pts);
   ["l1Streak","l2Streak","l3Streak"].forEach(id=>{ const el=$(id); if(el) el.innerHTML = state.streak>=2 ? `<span class="fire">🔥</span> ${state.streak}` : `🔥 ${state.streak}`; });
 }
 /* wrong / right side effects (no toasts: feedback goes in the in-flow box) */
@@ -836,7 +1186,7 @@ function resolveL1(saidMatch){
   const pairing = `"${esc(c.eng)}" = ${c.subj} + ${c.verb} = ${it(need)}`;
   if(correct){
     L.correct++;
-    const cheer=celebrate(); addAura(10);
+    const cheer=celebrate(); awardPoints(saidMatch?$("btnSwipeYes"):$("btnSwipeNo"));
     fb.className="card-fb ok";
     fb.innerHTML = c.match
       ? `<span class="fb-title">✓ ${cheer}Match!</span>${pairing}`
@@ -953,7 +1303,7 @@ function submitL2(el){
     L.busy=true;
     if(!L.missedThis) L.firstTry++;
     dz.classList.add("filled"); dz.textContent=val; dz.lang="it";
-    sfxSnap(); const cheer=celebrate(); addAura(12);
+    sfxSnap(); const cheer=celebrate(); if(!L.missedThis) awardPoints(el);
     setFb("l2Fb","ok",`✓ ${cheer}${it(r.subj+" "+val)} = ${ENG_FULL[r.verb][r.subj]}`);
     setTimeout(()=>{ L.i++; renderL2(); }, 1100);
   } else {
@@ -1070,7 +1420,7 @@ $("btnBuildCheck").onclick=()=>{
   if(got===r.ans){
     L.busy=true;
     if(!L.missedThis) L.firstTry++;
-    const cheer=celebrate(); addAura(14);
+    const cheer=celebrate(); if(!L.missedThis) awardPoints($("l3Blank"));
     $("l3Blank").classList.add("snap");
     setFb("l3Fb","ok",`✓ ${cheer}${it(fullSentence(r))} = ${esc(r.gloss.replace(/ \(literally.*\)$/,""))}`);
     setTimeout(()=>{ L.i++; renderL3(); }, 1300);
@@ -1115,7 +1465,7 @@ function renderTimer(){
 function battleTick(){
   const B=state.l4;
   if(B.over) return;
-  if(chartIsOpen() || document.hidden || !$("l4").classList.contains("active")) return; // paused
+  if(chartIsOpen() || AuraFX.isOpen() || document.hidden || !$("l4").classList.contains("active")) return; // paused
   B.time--;
   renderTimer();
   if(B.time<=0){ endBattle(B.bossHp<=0); }
@@ -1126,7 +1476,7 @@ function nextBattlePrompt(){
   do { verb=pick(["essere","avere"]); subj=pick(PRONOUNS); }
   while(B.current && B.current.verb===verb && B.current.subj===subj);
   const ans=formFor(verb,subj);
-  B.current={ verb, subj, ans };
+  B.current={ verb, subj, ans }; B.missedThis=false;
   $("bEng").textContent = `${ENG_FULL[verb][subj]} · ${verb==="essere"?"to be":"to have"}`;
   $("bPrompt").textContent = `${subj} + ${verb} = ?`;
   spawnTargets(ans);
@@ -1155,14 +1505,14 @@ function hitTarget(f, el){
     const dmg=12+Math.min(10,state.streak*2);
     B.bossHp=Math.max(0, B.bossHp-dmg);
     $("bossHp").style.width=`${(B.bossHp/B.bossMax)*100}%`;
-    addAura(8);
+    if(!B.missedThis) awardPoints(el);
     $("hitFlash").classList.remove("show"); void $("hitFlash").offsetWidth; $("hitFlash").classList.add("show");
     $("bossArt").classList.add("shake"); setTimeout(()=>$("bossArt").classList.remove("shake"),350);
     setFb("l4Fb","ok",`✓ ${cheer}${it(cur.subj+" "+cur.ans)} = ${ENG_FULL[cur.verb][cur.subj]}. Hit for ${dmg}!`);
     if(B.bossHp<=0){ endBattle(true); return; }
     nextBattlePrompt();
   } else {
-    B.wrongs++;
+    B.wrongs++; B.missedThis=true;
     markWrong();
     B.playerHp=Math.max(0, B.playerHp-12);
     $("playerHp").style.width=`${(B.playerHp/B.playerMax)*100}%`;
@@ -1178,7 +1528,7 @@ function endBattle(won){
   B.over=true;
   clearInterval(B.timer); B.timer=null;
   $("battleRing").classList.add("locked");
-  if(won){ addAura(40); toast("Boss defeated. Big aura."); }
+  if(won){ toast("Boss defeated. Big aura."); }
   else toast(B.time<=0 ? "Time's up! Rematch whenever." : "Aura low. Rematch whenever.");
   setTimeout(()=>finishLevel(4, won), 900);
 }
@@ -1205,7 +1555,9 @@ function finishLevel(n, won){
   $("endTitle").textContent = titles[n]||"Nice work.";
   $("endSub").textContent = LEVEL_META[n-1].title;
   $("endScore").textContent = `${correct}/${total}`;
-  $("endAura").textContent = `${scoreLabel} · ✨ ${state.aura} total aura`;
+  $("endAura").textContent = scoreLabel;
+  $("endPts").innerHTML = `⭐ <b>+${state.roundPts}</b> points this round · ${state.pts} total`;
+  try{ (n===4 && !won) ? AuraFX.soft() : AuraFX.fanfare(); }catch(e){}
   $("endArt").innerHTML = (n===4 && !won) ? bossArt(state.l4.boss) : SVG.object("trophy");
   if(state.misses.length){
     $("lockList").style.display="block";
@@ -1218,7 +1570,7 @@ function finishLevel(n, won){
   renderHome();
 }
 function startLevel(n){
-  state.aura = n===1?0:state.aura; // keep cumulative within session except fresh Swipe Match
+  state.roundPts = 0;
   closeChart();
   if(n===1) startL1();
   else if(n===2) startL2();
@@ -1235,12 +1587,6 @@ function goHome(){
    WIRE GLOBAL CONTROLS
    ========================================================= */
 $("btnStart").onclick=()=>startLevel(1);
-$("btnMute").onclick=()=>{
-  state.muted=!state.muted;
-  $("btnMute").textContent = state.muted?"🔇":"🔊";
-  toast(state.muted?"Sound off":"Sound on");
-  if(!state.muted) sfxOk();
-};
 $("btnChartHome").onclick=openChart;
 $("btnCloseChart").onclick=closeChart;
 $("chartModal").addEventListener("click",e=>{ if(e.target.id==="chartModal") closeChart(); });
@@ -1256,6 +1602,7 @@ document.addEventListener("keydown",e=>{
   }
 });
 
+AuraFX.init({key:"auraFarm.v1.audio"});
 renderHome();
 </script>
 </body>
