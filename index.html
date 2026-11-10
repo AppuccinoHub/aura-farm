@@ -100,8 +100,8 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
 .level-card .thumb{width:76px;height:76px;border-radius:14px;display:grid;place-items:center;background:rgba(0,0,0,.25);overflow:hidden}
 .level-card h3{font-size:19px;margin-bottom:2px}
 .level-card p{font-size:16px;color:var(--muted);line-height:1.3}
-.mech{display:inline-block;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--neon2);background:rgba(0,245,212,.12);padding:2px 8px;border-radius:6px;margin-bottom:3px}
-.done-badge{display:inline-block;margin-left:8px;font-size:13px;font-weight:800;color:#0a0614;background:var(--ok);padding:2px 8px;border-radius:6px;vertical-align:1px}
+.mech{display:inline-block;font-size:16px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--neon2);background:rgba(0,245,212,.12);padding:2px 8px;border-radius:6px;margin-bottom:3px}
+.done-badge{display:inline-block;margin-left:8px;font-size:16px;font-weight:800;color:#0a0614;background:var(--ok);padding:2px 8px;border-radius:6px;vertical-align:1px}
 .home-foot{padding-top:8px;flex:0 0 auto}
 
 /* L1 SWIPE */
@@ -111,7 +111,7 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
 .swipe-card .illu{width:100%;flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;padding:6px 0}
 .swipe-card .illu svg{max-height:100%}
 .swipe-card .form{font-size:46px;font-weight:900;letter-spacing:-.01em;text-shadow:0 0 24px rgba(196,77,255,.6);flex:0 0 auto;line-height:1.1}
-.swipe-card .badge{margin-top:4px;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--neon2);flex:0 0 auto}
+.swipe-card .badge{margin-top:4px;font-size:16px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--neon2);flex:0 0 auto}
 .card-fb{display:none;width:100%;margin-top:8px;border-radius:14px;padding:10px 12px;font-size:17px;line-height:1.38;text-align:center;flex:0 0 auto}
 .card-fb .fb-title{font-weight:900;font-size:19px;margin-bottom:3px;display:block}
 .card-fb b[lang="it"]{color:#fff}
@@ -172,7 +172,7 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
 .boss-area{flex:0 0 auto;text-align:center;padding:0 8px 4px}
 .boss-art{height:120px;display:grid;place-items:center;margin-bottom:2px;filter:drop-shadow(0 0 20px rgba(255,92,122,.4))}
 .boss-name{font-weight:900;font-size:19px;margin-bottom:4px}
-.hp-label{font-size:15px;color:var(--muted);margin:4px 0 3px;text-align:left}
+.hp-label{font-size:16px;color:var(--muted);margin:4px 0 3px;text-align:left}
 .hp-bar{height:14px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;border:1px solid rgba(255,92,122,.5);position:relative}
 .hp-fill{height:100%;background:linear-gradient(90deg,var(--bad),var(--gold));width:100%;transition:width .2s}
 .player-hp .hp-bar{border-color:rgba(0,245,212,.5)}
@@ -274,6 +274,88 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
 #end .end-fx{position:absolute;top:10px;right:14px}
 .end-pts{font-size:18px;font-weight:700;color:var(--gold)}
 .end-pts b{font-size:20px}
+/* QUIZ-VOCAB-CSS-BEGIN (Quiz + Vocab sections, added 2026-11-10) */
+.q-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:10px;padding:2px 2px 8px;-webkit-overflow-scrolling:touch}
+.q-scroll>*{flex:0 0 auto}
+.name-bar{flex:0 0 auto;display:flex;align-items:center;gap:8px;background:rgba(0,245,212,.10);border:1px solid rgba(0,245,212,.55);border-radius:14px;padding:7px 12px;font-size:17px;font-weight:700;margin-bottom:6px;min-width:0}
+.name-bar .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.name-bar .lk{margin-left:auto;font-size:16px;color:var(--muted);white-space:nowrap;font-weight:700}
+.q-label{display:block;font-weight:800;font-size:18px;margin-bottom:6px}
+.q-input{width:100%;min-height:52px;font:inherit;font-size:21px;padding:10px 14px;border-radius:14px;border:2px solid var(--stroke);background:#120a22;color:var(--text)}
+.q-input:focus{outline:3px solid var(--gold);outline-offset:1px}
+.q-input[readonly]{background:rgba(0,245,212,.08);border-color:rgba(0,245,212,.55);color:var(--text)}
+.q-input.bad{border-color:var(--bad)}
+.q-input::placeholder{color:#a99cc2}
+.q-box{background:rgba(255,255,255,.05);border:1px solid var(--stroke);border-radius:16px;padding:12px 14px;font-size:16px;line-height:1.4}
+.q-box h3{font-size:19px;margin-bottom:6px}
+.q-box ul{padding-left:20px}
+.q-box li{margin:4px 0}
+.q-pick{width:100%;display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid var(--stroke);border-radius:18px;padding:10px 12px;text-align:left}
+.q-pick .thumb{width:76px;height:76px;border-radius:14px;display:grid;place-items:center;background:rgba(0,0,0,.25);overflow:hidden}
+.q-pick h3{font-size:19px;margin-bottom:2px}
+.q-pick p{font-size:16px;color:var(--muted);line-height:1.3}
+.q-pick.locked{border-color:var(--bad)}
+.q-card{background:linear-gradient(160deg,#2a1548,#140a28);border:1px solid var(--stroke);border-radius:20px;padding:12px 14px;text-align:center}
+.q-dir{font-size:17px;color:var(--text);margin:4px 0 8px;line-height:1.35}
+.q-it{font-size:27px;font-weight:800;line-height:1.35;word-wrap:break-word}
+.q-it .blank{display:inline-block;min-width:84px;min-height:1.2em;border-bottom:3px solid var(--neon2);color:var(--neon2);padding:0 4px}
+.q-it .inf{color:#e2a6ff;font-weight:700}
+.q-en{font-size:18px;color:var(--text);margin-top:6px}
+.q-en.big{font-size:24px;font-weight:800}
+.type-dock{flex:0 0 auto;display:flex;flex-direction:column;gap:8px;padding-top:6px;background:var(--bg);position:relative;z-index:6}
+.acc-row{flex:0 0 auto;display:flex;gap:8px;justify-content:center}
+.acc-btn{flex:1 1 0;max-width:72px;min-width:44px;min-height:48px;border-radius:12px;border:2px solid var(--stroke);background:rgba(255,255,255,.08);font-size:24px;font-weight:800;color:var(--text);touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.acc-btn:active{transform:scale(.94)}
+.acc-btn:disabled{opacity:.4}
+.q-actions{display:flex;gap:10px}
+.q-actions>button{flex:1;min-height:52px}
+.q-actions .big-btn{padding:12px 14px}
+.hide{display:none!important}
+.build-line{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;min-height:58px;padding:8px;background:rgba(0,0,0,.25);border-radius:14px;border:1px dashed rgba(255,255,255,.25)}
+.build-line .ph{color:var(--muted);font-size:16px}
+.word-chip{padding:8px 14px;min-height:46px;border-radius:12px;background:rgba(0,245,212,.15);border:1px solid var(--neon2);font-weight:800;font-size:21px;color:var(--text)}
+.word-tray{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.word-tile{padding:10px 16px;border-radius:12px;background:linear-gradient(160deg,#3a2060,#1e1038);border:2px solid var(--stroke);font-size:22px;font-weight:800;min-width:60px;min-height:52px;color:var(--text)}
+.word-tile.used{opacity:.25;pointer-events:none}
+.q-fb{min-height:56px;border-radius:14px;padding:10px 12px;font-size:17px;line-height:1.4;text-align:left;border:1px solid transparent;color:var(--muted)}
+.q-fb.ok{background:rgba(57,255,136,.1);border-color:rgba(57,255,136,.5);color:#d8ffe6}
+.q-fb.bad{background:rgba(255,92,122,.12);border-color:rgba(255,92,122,.55);color:#ffe0e6}
+.q-fb.info{background:rgba(255,255,255,.05);border-color:var(--stroke);color:var(--text)}
+.q-fb.warn{background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.6);color:#fff3d1}
+.q-fb b[lang="it"]{color:#fff}
+.q-fb .t{font-weight:900;font-size:18px;display:block;margin-bottom:2px}
+.res-card{background:linear-gradient(160deg,#2a1548,#140a28);border:1px solid var(--stroke);border-radius:20px;padding:14px;text-align:center}
+.res-score{font-size:46px;font-weight:900;color:var(--gold);line-height:1.1}
+.res-meta{font-size:17px;color:var(--text);margin-top:4px;line-height:1.4}
+.res-code{display:inline-block;margin-top:8px;font:800 28px ui-monospace,Menlo,Consolas,monospace;letter-spacing:.08em;color:#0a0614;background:var(--neon2);padding:6px 14px;border-radius:10px}
+.miss-list{list-style:none;padding:0;margin:0;text-align:left}
+.miss-list li{border-top:1px solid rgba(255,255,255,.12);padding:8px 2px;font-size:16px;line-height:1.4}
+.miss-list .p{font-weight:800;color:var(--text)}
+.miss-list .y{color:#ffc2cd}
+.miss-list .c{color:#b9ffd3}
+.miss-list .h{color:var(--gold);font-weight:700}
+.q-warm .choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+.choice-btn{min-height:52px;padding:8px 6px;border-radius:14px;background:linear-gradient(160deg,#3a2060,#1e1038);border:2px solid var(--stroke);font-size:20px;font-weight:800;color:var(--text)}
+.choice-btn.tried{opacity:.45;border-color:var(--bad);text-decoration:line-through}
+.choice-btn.right{border-color:var(--ok);background:linear-gradient(160deg,#1f5a3e,#123524)}
+.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.v-pic{height:120px;display:grid;place-items:center}
+.v-pic svg{max-height:100%}
+.lock-big{font-size:56px;text-align:center}
+.shot-img{display:block;margin-left:auto;margin-right:auto;max-width:100%;max-height:46vh;width:auto;height:auto;border-radius:12px;border:1px solid var(--stroke);background:#fff}
+.modal .row{display:flex;gap:8px;margin-top:8px}
+.modal .row>.q-input{flex:1;min-width:0}
+.modal .row>button{flex:0 0 auto;min-height:52px}
+.modal label{font-size:17px;font-weight:700;display:block;margin-top:10px}
+.modal .soft{margin-top:4px}
+.bonus-tag{display:inline-block;font-size:16px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:#0a0614;background:var(--gold);padding:3px 10px;border-radius:8px}
+#bonusModal .q-it{margin:8px 0}
+textarea.q-input{min-height:160px;font-size:16px}
+@media (max-width:440px){ .acc-row{gap:6px} .q-it{font-size:25px} .res-score{font-size:40px} }
+@media (max-height:700px){ .acc-btn{min-height:44px} .v-pic{height:96px} .q-card{padding:8px 12px} .q-dir{margin:2px 0 4px} .q-it{font-size:24px} .q-en.big{font-size:22px} .name-bar{padding:5px 12px;margin-bottom:4px} }
+.q-fb:empty{display:none}
+#homeMore{width:100%;margin-bottom:8px;padding:8px 12px;font-size:16px;color:var(--neon2);border-color:rgba(0,245,212,.5)}
+/* QUIZ-VOCAB-CSS-END */
 </style>
 </head>
 <body>
@@ -292,6 +374,7 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
     </div>
     <div class="level-list" id="levelList"></div>
     <div class="home-foot">
+      <button class="ghost-btn hide" id="homeMore">↓ More below: Word Farm (vocab) and Quiz Time</button>
       <button class="big-btn" id="btnStart">✨ Start farming</button>
     </div>
   </section>
@@ -417,10 +500,230 @@ button:focus-visible,.conj-tile:focus-visible{outline:3px solid var(--gold);outl
     <button class="ghost-btn" id="btnHome">Back to menu</button>
   </section>
 
+  <!-- QUIZ-VOCAB-HTML-BEGIN (added 2026-11-10) -->
+  <!-- QUIZ HOME -->
+  <section id="quiz" class="screen">
+    <div class="hud">
+      <button class="icon-btn" data-back aria-label="Back to menu">←</button>
+      <div class="pill">📝 Quiz</div>
+      <div class="hud-r"><button class="icon-btn" data-fx="panel" aria-label="Sound settings">🔊</button></div>
+    </div>
+    <div class="q-scroll">
+      <div>
+        <label class="q-label" for="qNameIn">Your name (first and last)</label>
+        <input id="qNameIn" class="q-input" type="text" autocomplete="off" autocapitalize="words" spellcheck="false" maxlength="40" placeholder="Type your name here">
+        <p class="soft" id="qNameNote" style="margin-top:6px">Type your name first. It locks when the quiz starts and shows on your result.</p>
+      </div>
+      <div id="qList"></div>
+      <div class="q-box">
+        <h3>How the quiz works</h3>
+        <ul>
+          <li>No hints and no chart. Accent buttons <span lang="it">à è é ì ò ù</span> are always there.</li>
+          <li>Right on the first try = 1 point.</li>
+          <li>Wrong? You see why and the right answer. Then you get one more try for ½ point.</li>
+          <li>At the end, take a screenshot and upload it to Google Classroom.</li>
+          <li>You have 2 tries on this device. A try counts as soon as you start it.</li>
+        </ul>
+      </div>
+      <div class="q-box q-warm" id="qWarm"></div>
+      <button class="ghost-btn" id="qLastBtn">See my last result</button>
+      <button class="ghost-btn" id="qTeacherBtn">Teacher tools</button>
+      <p class="soft" id="qStoreNote" style="display:none">Note: this browser isn't saving quiz tries, so they reset if the page reloads.</p>
+    </div>
+  </section>
+
+  <!-- QUIZ PLAY -->
+  <section id="qplay" class="screen">
+    <div class="hud">
+      <button class="icon-btn" id="qLeave" aria-label="Leave the quiz">←</button>
+      <div class="pill" id="qCount">Question 1 of 12</div>
+      <div class="hud-r"><button class="icon-btn" data-fx="panel" aria-label="Sound settings">🔊</button></div>
+    </div>
+    <div class="name-bar"><span aria-hidden="true">👤</span><span class="nm qNameShow"></span><span class="lk">🔒 locked</span></div>
+    <div class="progress-rail"><div class="progress-fill" id="qProg"></div></div>
+    <div class="q-scroll" id="qBody">
+      <div class="q-card">
+        <div class="mech" id="qType">VERB FILL-IN</div>
+        <div class="q-dir" id="qDir"></div>
+        <div class="q-it" id="qPrompt" lang="it"></div>
+        <div class="q-en" id="qEn"></div>
+      </div>
+      <div class="q-fb" id="qFb" aria-live="polite"></div>
+    </div>
+    <div class="type-dock" id="qDock">
+      <div id="qTypeWrap">
+        <input id="qIn" class="q-input" type="text" lang="it" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Your answer" placeholder="Type your answer">
+      </div>
+      <div id="qBuildWrap" class="hide">
+        <div class="build-line" id="qBuildLine" lang="it" aria-label="Your sentence"></div>
+        <div class="word-tray" id="qTray" lang="it" style="margin-top:8px"></div>
+      </div>
+      <div class="acc-row" id="qAcc" role="group" aria-label="Accent buttons"></div>
+      <div class="q-actions">
+        <button class="ghost-btn" id="qClear">⌫ Clear</button>
+        <button class="big-btn" id="qCheck">Check ✓</button>
+        <button class="big-btn hide" id="qRetry">Try again for ½ point</button>
+        <button class="big-btn hide" id="qNext">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ RESULT -->
+  <section id="qend" class="screen">
+    <div class="hud">
+      <button class="icon-btn" id="qEndHome" aria-label="Back to menu">←</button>
+      <div class="pill">📝 Quiz result</div>
+      <div class="hud-r"><button class="icon-btn" data-fx="panel" aria-label="Sound settings">🔊</button></div>
+    </div>
+    <div class="name-bar"><span aria-hidden="true">👤</span><span class="nm qNameShow"></span><span class="lk">🔒 locked</span></div>
+    <div class="q-scroll" id="qEndBody">
+      <div class="res-card" id="qResCard">
+        <div class="mech" id="qResQuiz">QUIZ</div>
+        <div class="res-score" id="qResScore">0 / 12</div>
+        <div class="res-meta" id="qResMeta"></div>
+        <div class="res-code" id="qResCode">-----</div>
+        <div class="res-meta">Verification code for your teacher</div>
+      </div>
+      <div class="q-actions">
+        <button class="big-btn" id="qShot">📸 Screenshot</button>
+        <button class="ghost-btn" id="qCopy">Copy text</button>
+      </div>
+      <p class="soft" style="text-align:center">📸 Screenshot saves a picture of this result. Upload that picture to your Google Classroom assignment.</p>
+      <div class="q-fb" id="qEndFb" aria-live="polite" style="display:none"></div>
+      <div class="q-box">
+        <h3 id="qMissHead">Missed items</h3>
+        <ul class="miss-list" id="qMissList"></ul>
+      </div>
+      <div class="q-box">
+        <h3>Practice (not graded)</h3>
+        <p>Review the forms you missed in a practice mode.</p>
+        <div class="q-actions" style="margin-top:8px">
+          <button class="ghost-btn" data-practice="2">Lock In Drop</button>
+          <button class="ghost-btn" data-practice="5">Vocab</button>
+        </div>
+      </div>
+      <button class="ghost-btn" id="qEndHome2">Back to menu</button>
+    </div>
+  </section>
+
+  <!-- QUIZ LOCKED -->
+  <section id="qlock" class="screen">
+    <div class="hud">
+      <button class="icon-btn" data-back aria-label="Back to menu">←</button>
+      <div class="pill">🔒 Quiz locked</div>
+      <div class="hud-r"><button class="icon-btn" data-fx="panel" aria-label="Sound settings">🔊</button></div>
+    </div>
+    <div class="name-bar"><span aria-hidden="true">👤</span><span class="nm qNameShow"></span><span class="lk">🔒 locked</span></div>
+    <div class="q-scroll">
+      <div class="lock-big" aria-hidden="true">🔒</div>
+      <div class="q-box" style="text-align:center">
+        <h3 id="qLockTitle">This quiz is locked</h3>
+        <p>You used both tries on this device. Ask your teacher to unlock it.</p>
+      </div>
+      <div class="q-box">
+        <label class="q-label" for="qLockCode">Teacher code</label>
+        <div class="q-actions"><input id="qLockCode" class="q-input" type="password" inputmode="numeric" autocomplete="off" maxlength="8" aria-label="Teacher code" style="flex:1;min-width:0"><button class="big-btn" id="qLockGo" style="flex:0 0 auto;width:auto">Unlock</button></div>
+        <div class="q-fb" id="qLockFb" aria-live="polite" style="margin-top:8px"></div>
+      </div>
+      <div class="q-box q-warm" id="qWarmLock"></div>
+      <button class="ghost-btn" id="qLockLast">See my last result</button>
+      <button class="ghost-btn" data-practice="5">Practice: Vocab</button>
+    </div>
+  </section>
+
+  <!-- VOCAB (L5) -->
+  <section id="l5" class="screen">
+    <div class="hud">
+      <button class="icon-btn" data-back aria-label="Back to menu">←</button>
+      <div class="pill"><span id="l5Streak">🔥 0</span></div>
+      <div class="pill pts-pill" id="l5Pts" aria-label="Points">⭐ <span class="ptsVal">0</span></div>
+      <div class="hud-r"><button class="icon-btn" data-fx="panel" aria-label="Sound settings">🔊</button></div>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="l5Prog"></div></div>
+    <div class="q-scroll" id="l5Body">
+      <div class="q-card">
+        <div class="mech" id="l5Type">MEANING MATCH</div>
+        <div class="q-dir" id="l5Dir"></div>
+        <div class="v-pic hide" id="l5Pic"></div>
+        <div class="q-it" id="l5Word"></div>
+      </div>
+      <div class="q-fb" id="l5Fb" aria-live="polite"></div>
+      <div class="choice-grid" id="l5Choices"></div>
+    </div>
+    <div class="type-dock hide" id="l5Dock">
+      <input id="l5In" class="q-input" type="text" lang="it" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Type the Italian word" placeholder="Type the Italian word">
+      <div class="acc-row" id="l5Acc" role="group" aria-label="Accent buttons"></div>
+      <div class="q-actions">
+        <button class="big-btn" id="l5Check">Check ✓</button>
+      </div>
+    </div>
+  </section>
+  <!-- QUIZ-VOCAB-HTML-END -->
   <div class="flash-ok" id="flashOk"></div>
   <div class="flash-bad" id="flashBad"></div>
   <div class="toast" id="toast" role="status"></div>
 
+  <!-- QUIZ-VOCAB-MODALS-BEGIN -->
+  <div class="modal-backdrop" id="qStartModal" role="dialog" aria-modal="true" aria-label="Start the quiz">
+    <div class="modal">
+      <h3>Ready to start?</h3>
+      <p class="soft" id="qStartInfo"></p>
+      <div class="q-actions" style="margin-top:12px">
+        <button class="ghost-btn" id="qStartNo">Not yet</button>
+        <button class="big-btn" id="qStartYes">Start quiz</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="qLeaveModal" role="dialog" aria-modal="true" aria-label="Leave the quiz">
+    <div class="modal">
+      <h3>Leave the quiz?</h3>
+      <p class="soft">If you leave now, this try still counts. Questions you didn't answer get 0 points, and you go to your result.</p>
+      <div class="q-actions" style="margin-top:12px">
+        <button class="big-btn" id="qLeaveNo">Stay in the quiz</button>
+        <button class="ghost-btn" id="qLeaveYes">Leave and finish</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="qTeacherModal" role="dialog" aria-modal="true" aria-label="Teacher tools">
+    <div class="modal">
+      <h3>Teacher tools</h3>
+      <label for="qTCode">Unlock this device (teacher code)</label>
+      <div class="row"><input id="qTCode" class="q-input" type="password" inputmode="numeric" autocomplete="off" maxlength="8"><button class="big-btn" id="qTUnlock" style="width:auto">Unlock</button></div>
+      <p class="soft">Resets the 2 tries and unlocks the name field.</p>
+      <label for="qTCheck">Check a student's verification code</label>
+      <div class="row"><input id="qTCheck" class="q-input" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="8" placeholder="e.g. 7KQ-M4"><button class="big-btn" id="qTCheckGo" style="width:auto">Check</button></div>
+      <div class="q-fb" id="qTFb" aria-live="polite" style="margin-top:10px"></div>
+      <button class="ghost-btn" id="qTClose" style="width:100%;margin-top:12px">Close</button>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="qShotModal" role="dialog" aria-modal="true" aria-label="Your screenshot">
+    <div class="modal">
+      <h3>📸 Your screenshot</h3>
+      <p class="soft" id="qShotMsg">The picture was saved to your Downloads. Upload it to your Google Classroom assignment.</p>
+      <p class="soft">If it didn't download: press and hold the picture (phone) or right-click it (Chromebook) and choose “Save image”.</p>
+      <img class="shot-img" id="qShotImg" alt="Picture of your quiz result" style="margin-top:8px">
+      <button class="big-btn" id="qShotClose" style="margin-top:12px">Done</button>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="qCopyModal" role="dialog" aria-modal="true" aria-label="Copy your result">
+    <div class="modal">
+      <h3>Copy your result</h3>
+      <p class="soft">Copying is blocked on this device. Select all the text below and copy it.</p>
+      <textarea class="q-input" id="qCopyText" readonly style="margin-top:8px;width:100%"></textarea>
+      <button class="big-btn" id="qCopyClose" style="margin-top:12px">Done</button>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="bonusModal" role="dialog" aria-modal="true" aria-label="Bonus word">
+    <div class="modal" style="text-align:center">
+      <span class="bonus-tag">⭐ Bonus word</span>
+      <p class="q-dir" style="margin-top:8px">What does this Italian word mean? It doesn't change your score. A right answer gives +10 ⭐.</p>
+      <div class="q-it" id="bonusWord" lang="it"></div>
+      <div class="choice-grid" id="bonusChoices" style="grid-template-columns:1fr"></div>
+      <div class="q-fb" id="bonusFb" aria-live="polite" style="margin-top:10px;display:none"></div>
+      <button class="big-btn hide" id="bonusGo" style="margin-top:10px">Continue →</button>
+    </div>
+  </div>
+  <!-- QUIZ-VOCAB-MODALS-END -->
   <div class="modal-backdrop" id="chartModal" role="dialog" aria-modal="true" aria-label="Conjugation chart">
     <div class="modal">
       <h3>📋 Conjugation chart</h3>
@@ -1089,7 +1392,7 @@ function $(id){ return document.getElementById(id); }
 function clearGhosts(){ document.querySelectorAll(".ghost").forEach(g=>g.remove()); }
 function showScreen(id){
   clearGhosts(); fxCancelAuto();
-  if(!/^l[1-4]$/.test(id)) fxTempo(1);   /* music back to normal tempo off the play screens */
+  if(!/^l[1-5]$/.test(id)) fxTempo(1);   /* music back to normal tempo off the play screens */
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   $(id).classList.add("active");
 }
@@ -1114,7 +1417,7 @@ function awardPoints(anchor){
 }
 function updateAuraHUD(){
   document.querySelectorAll(".ptsVal").forEach(el=>el.textContent=state.pts);
-  ["l1Streak","l2Streak","l3Streak"].forEach(id=>{ const el=$(id); if(el) el.innerHTML = state.streak>=2 ? `<span class="fire">🔥</span> ${state.streak}` : `🔥 ${state.streak}`; });
+  ["l1Streak","l2Streak","l3Streak","l5Streak"].forEach(id=>{ const el=$(id); if(el) el.innerHTML = state.streak>=2 ? `<span class="fire">🔥</span> ${state.streak}` : `🔥 ${state.streak}`; });
 }
 /* wrong / right side effects (no toasts: feedback goes in the in-flow box) */
 function markWrong(){ state.streak=0; updateAuraHUD(); sfxBad(); flash(false); }
@@ -1141,7 +1444,9 @@ const LEVEL_META = [
   { id:1, mech:"SWIPE", title:"Swipe Match", desc:"Each card shows English and Italian. Swipe right (✅) if they match, left (❌) if they don't.", thumb:()=>SVG.object("phone") },
   { id:2, mech:"DRAG", title:"Lock In Drop", desc:"Drag or tap the right form of essere or avere.", thumb:()=>SVG.person("io") },
   { id:3, mech:"BUILD", title:"September Builder", desc:"Tap tiles to build the missing verb in a sentence: fame, sete & friends.", thumb:()=>SVG.object("gelato") },
-  { id:4, mech:"BATTLE", title:"Aura Battle", desc:"Timed battle vs a silly boss. Tap the right form to hit it.", thumb:()=>SVG.object("dragon") }
+  { id:4, mech:"BATTLE", title:"Aura Battle", desc:"Timed battle vs a silly boss. Tap the right form to hit it.", thumb:()=>SVG.object("dragon") },
+  { id:5, mech:"VOCAB", title:"Word Farm", desc:"Practice the game's Italian words: match meanings and pictures, and type them.", thumb:()=>SVG.object("book") },
+  { id:6, mech:"QUIZ", title:"Quiz Time", desc:"Graded quiz on essere & avere. No hints, 2 tries. Screenshot your result for Google Classroom.", thumb:()=>SVG.object("trophy") }
 ];
 
 function renderHome(){
@@ -1161,6 +1466,7 @@ function renderHome(){
     list.appendChild(btn);
   });
   updateAuraHUD();
+  try{ requestAnimationFrame(homeMoreSync); }catch(e){}
 }
 
 /* =========================================================
@@ -1214,6 +1520,7 @@ function renderL1Card(){
   const L=state.l1, {deck,i}=L;
   $("l1Prog").style.width = `${(i/deck.length)*100}%`;
   if(i>=deck.length){ finishLevel(1); return; }
+  if(bonusGate(L, i, 1, renderL1Card)) return;   /* ⭐ bonus word mid-round */
   fxTempo(qTempo(i, deck.length));   /* gentle music lift over the last 3 cards */
   const c=deck[i];
   $("swipeCue").textContent = c.eng;
@@ -1349,6 +1656,7 @@ function renderL2(){
   const L=state.l2, {rounds,i}=L;
   $("l2Prog").style.width=`${(i/rounds.length)*100}%`;
   if(i>=rounds.length){ finishLevel(2); return; }
+  if(bonusGate(L, i, 2, renderL2)) return;   /* ⭐ bonus word mid-round */
   fxTempo(qTempo(i, rounds.length));
   const r=rounds[i];
   const ans=formFor(r.verb,r.subj);
@@ -1478,6 +1786,7 @@ function renderL3(){
   const L=state.l3, {rounds,i}=L;
   $("l3Prog").style.width=`${(i/rounds.length)*100}%`;
   if(i>=rounds.length){ finishLevel(3); return; }
+  if(bonusGate(L, i, 3, renderL3)) return;   /* ⭐ bonus word mid-round */
   fxTempo(qTempo(i, rounds.length));
   const r=rounds[i];
   L.built=[]; L.busy=false; L.missedThis=false;
@@ -1655,7 +1964,8 @@ function endBattle(won){
   $("battleRing").classList.add("locked");
   if(won){ toast("Boss defeated. Big aura."); }
   else toast(B.time<=0 ? "Time's up! Rematch whenever." : "Aura low. Rematch whenever.");
-  setTimeout(()=>finishLevel(4, won), 900);
+  setTimeout(()=>{ if(state.level!==4 || state.l4!==B || !$("l4").classList.contains("active")) return;
+    if(!bonusGate(B, 0, 4, ()=>finishLevel(4, won))) finishLevel(4, won); }, 900);   /* ⭐ bonus word after the battle */
 }
 
 /* =========================================================
@@ -1671,10 +1981,12 @@ function finishLevel(n, won){
   if(n===2){ correct=state.l2.firstTry; total=state.l2.rounds.length; scoreLabel="right on the first try"; }
   if(n===3){ correct=state.l3.firstTry; total=state.l3.rounds.length; scoreLabel="right on the first try"; }
   if(n===4){ correct=state.l4.hits; total=state.l4.hits+state.l4.wrongs; scoreLabel="taps correct"; }
+  if(n===5){ correct=state.l5.firstTry; total=state.l5.items.length; scoreLabel="right on the first try"; }
   const titles = {
     1: correct>=total-2 ? "You ate that swipe." : "Swipe session done.",
     2: "Locked in.",
     3: "Sentence arc complete.",
+    5: "Words locked in.",
     4: won ? "Boss defeated · big aura." : (state.l4.time<=0 ? "Time's up! Nice try, farm again!" : "Battle over. Nice try, farm again!")
   };
   $("endTitle").textContent = titles[n]||"Nice work.";
@@ -1701,10 +2013,13 @@ function startLevel(n){
   else if(n===2) startL2();
   else if(n===3) startL3();
   else if(n===4) startL4();
+  else if(n===5) startL5();
+  else if(n===6) openQuizHome();
 }
 function goHome(){
   if(state.l4 && state.l4.timer){ clearInterval(state.l4.timer); state.l4.timer=null; state.l4.over=true; }
-  state.level=null;
+  state.level=null; Q=null;
+  Q_MODALS.forEach(closeM);
   showScreen("home"); renderHome();
 }
 
@@ -1720,13 +2035,764 @@ document.querySelectorAll("[data-chart]").forEach(b=>b.onclick=openChart);
 $("btnHome").onclick=goHome;
 document.addEventListener("keydown",e=>{
   if(e.key==="Escape" && chartIsOpen()){ closeChart(); return; }
-  if(chartIsOpen()) return;
+  if(chartIsOpen() || qModalOpen()) return;
   if(state.level===1 && $("l1").classList.contains("active")){
     if(e.key==="ArrowRight" && !state.l1.awaitingNext){ e.preventDefault(); resolveL1(true); }
     else if(e.key==="ArrowLeft" && !state.l1.awaitingNext){ e.preventDefault(); resolveL1(false); }
   }
 });
 
+/* =========================================================
+   QUIZ-VOCAB-JS-BEGIN  (Quiz + Vocab + Bonus words, added 2026-11-10)
+   Only Italian the game already teaches: present tense of essere / avere,
+   subject pronouns, avere + fame / sete / freddo / caldo / sonno, and the
+   words in the 12 builder sentences. No new words.
+   ========================================================= */
+const ACCENTS = ["à","è","é","ì","ò","ù"];
+function stripAcc(s){ return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+function normAns(s){
+  return String(s||"").normalize("NFC").replace(/[\u2019\u2018`\u00b4]/g,"'").toLowerCase()
+    .replace(/[.,;:!?]+/g," ").replace(/\s+/g," ").trim();
+}
+function toks(s){ return normAns(s).split(" ").filter(Boolean); }
+/* short words students type by mistake for ho / ha / è: say what they really are */
+const LOOKALIKE = { e:"means “and”", o:"means “or”", a:"means “to” or “at”" };
+function fineP(){ try{ return matchMedia("(pointer:fine)").matches; }catch(e){ return false; } }
+function cap1(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
+function sentOf(tokens){ return cap1(tokens.join(" "))+"."; }
+function lsOK(){ try{ const k="auraFarm.t"; window.localStorage.setItem(k,"1"); window.localStorage.removeItem(k); return true; }catch(e){ return false; } }
+
+/* ---------- VOCAB: every word below is already used in the game ---------- */
+const VOCAB = [
+  { it:"fame",      en:"hunger",       note:"avere fame = to be hungry",  pic:"fame",    picEn:"a pizza box (hunger)" },
+  { it:"sete",      en:"thirst",       note:"avere sete = to be thirsty", pic:"sete",    picEn:"a glass of water (thirst)" },
+  { it:"freddo",    en:"cold",         note:"avere freddo = to feel cold", pic:"freddo", picEn:"a snowflake (cold)" },
+  { it:"caldo",     en:"heat (hot)",   note:"avere caldo = to feel hot",  pic:"caldo",   picEn:"the sun (heat)" },
+  { it:"sonno",     en:"sleep (sleepiness)", note:"avere sonno = to be sleepy", pic:"sonno",   picEn:"someone sleeping (sleepiness)" },
+  { it:"gelato",    en:"ice cream",    note:"un gelato = an ice cream",   pic:"gelato",  picEn:"an ice cream cone", alt:["un gelato","il gelato"] },
+  { it:"amici",     en:"friends",      note:"noi siamo amici = we are friends", pic:"friends", picEn:"two friends", alt:["gli amici"] },
+  { it:"studente",  en:"student (one)", note:"io sono studente = I am a student", alt:["lo studente","uno studente"] },
+  { it:"studenti",  en:"students",     note:"voi siete studenti = you all are students", alt:["gli studenti"] },
+  { it:"simpatico", en:"nice",         note:"tu sei simpatico = you are nice" },
+  { it:"italiana",  en:"Italian (a girl or woman)", note:"lei è italiana = she is Italian" },
+  { it:"Roma",      en:"Rome",         note:"loro sono a Roma = they are in Rome" }
+];
+const vocabBy = w => VOCAB.find(v=>v.it===w);
+
+/* ---------- QUIZ DATA (one quiz per tense the game teaches: presente) ---------- */
+const QUIZZES = [{
+  id:1, key:"pres", title:"Presente: essere & avere",
+  items:[
+    { type:"verb", parts:["Io","___","studente."], inf:"essere", ans:"sono", subj:"io", en:"I am a student.", easy:true,
+      why:`With ${it("io")}, ${it("essere")} is ${it("sono")} (I am).` },
+    { type:"blank", parts:["Tu","___","sete."], ans:"hai", subj:"tu", en:"You are thirsty.",
+      why:`Italian says ${it("avere sete")} (literally “to have thirst”). With ${it("tu")}, ${it("avere")} is ${it("hai")}.` },
+    { type:"build", en:"We are in Rome.", tokens:["noi","siamo","a","Roma"], extra:["abbiamo"], ans:"siamo", subj:"noi",
+      why:`“We are” = ${it("noi siamo")} (${it("essere")}). With a city, “in” is ${it("a")}: ${it("a Roma")}.` },
+    { type:"verb", parts:["Loro","___","fame."], inf:"avere", ans:"hanno", subj:"loro", en:"They are hungry.",
+      why:`Italian says ${it("avere fame")} (literally “to have hunger”). With ${it("loro")}, ${it("avere")} is ${it("hanno")} (silent h, double n).` },
+    { type:"en2it", en:"She is Italian.", answers:["Lei è italiana.","È italiana."], ans:"è", subj:"lei",
+      why:`With ${it("lei")}, ${it("essere")} is ${it("è")}, with an accent (${it("e")} without the accent means “and”). ${it("italiana")} ends in -a because ${it("lei")} is feminine.` },
+    { type:"blank", parts:["Voi","___","caldo."], ans:"avete", subj:"voi", en:"You all feel hot.",
+      why:`For feeling hot, Italian says ${it("avere caldo")} (literally “to have heat”). With ${it("voi")}, ${it("avere")} is ${it("avete")}.` },
+    { type:"verb", parts:["Lui","___","simpatico."], inf:"essere", ans:"è", subj:"lui", en:"He is nice.",
+      why:`With ${it("lui")}, ${it("essere")} is ${it("è")}, with an accent. Without the accent, ${it("e")} means “and”.` },
+    { type:"build", en:"I am sleepy.", tokens:["io","ho","sonno"], extra:["sono"], ans:"ho", subj:"io",
+      why:`Italian says ${it("avere sonno")} (literally “to have sleep”), so “I am sleepy” = ${it("io ho sonno")}. Careful: ${it("sono")} (I am) and ${it("sonno")} (sleep) look alike.` },
+    { type:"en2it", en:"We have an ice cream.", answers:["Noi abbiamo un gelato.","Abbiamo un gelato."], ans:"abbiamo", subj:"noi",
+      why:`With ${it("noi")}, ${it("avere")} is ${it("abbiamo")} (double b). ${it("gelato")} is masculine, so “an ice cream” is ${it("un gelato")}.` },
+    { type:"blank", parts:["Lei","___","freddo."], ans:"ha", subj:"lei", en:"She feels cold.",
+      why:`For feeling cold, Italian says ${it("avere freddo")} (literally “to have cold”). With ${it("lei")}, ${it("avere")} is ${it("ha")}: the h is silent (${it("a")} without h means “to”).`,
+      notes:{ "è":`${it("è")} = lui/lei + essere (he / she is). That would describe her, not how she feels.` } },
+    { type:"verb", parts:["Voi","___","amici."], inf:"essere", ans:"siete", subj:"voi", en:"You all are friends.",
+      why:`With ${it("voi")}, ${it("essere")} is ${it("siete")} (you all are).` },
+    { type:"build", en:"They are students.", tokens:["loro","sono","studenti"], extra:["hanno","studente"], ans:"sono", subj:"loro",
+      why:`With ${it("loro")}, ${it("essere")} is ${it("sono")} (the same form as io). More than one student is ${it("studenti")}.`,
+      notes:{ "studente":`${it("studente")} means one student.` } }
+  ]
+}];
+const TRIES_PER_QUIZ = 2, TEACHER_CODE = "5697";
+const TYPE_LABEL = { verb:"VERB FILL-IN", blank:"FILL IN THE BLANK", en2it:"ENGLISH → ITALIAN", build:"BUILD A SENTENCE" };
+const TYPE_DIR = {
+  verb:"Type the correct form of the verb in parentheses.",
+  blank:"Type the missing verb. Is it essere or avere?",
+  en2it:"Write this sentence in Italian.",
+  build:"Tap the words in order to build the sentence. Some words are extra."
+};
+function qFull(item){
+  if(item.type==="en2it") return item.answers[0];
+  if(item.type==="build") return sentOf(item.tokens);
+  return item.parts.map(p=>p==="___"?item.ans:p).join(" ");
+}
+function qPromptText(item){
+  if(item.type==="verb") return item.parts.map(p=>p==="___"?`___ (${item.inf})`:p).join(" ");
+  if(item.type==="blank") return item.parts.join(" ")+` (${item.en})`;
+  if(item.type==="en2it") return `In Italian: ${item.en}`;
+  return `Build: ${item.en}`;
+}
+function qAccepts(item){
+  if(item.type==="en2it") return item.answers.map(normAns);
+  if(item.type==="build") return [normAns(item.tokens.join(" "))];
+  const full=normAns(qFull(item));
+  return [item.ans, item.subj+" "+item.ans, full].map(normAns);
+}
+function qIsRight(item, got){ return qAccepts(item).includes(normAns(got)); }
+
+/* Why is a typed / built answer wrong? Always true, never guesses. */
+function formDiag(g, item){
+  if(g.includes(" ")){   /* typed more than the verb: look at the one extra word */
+    const known=new Set(toks(item.parts.join(" ")).concat([item.subj]));
+    const t=toks(g).filter(x=>!known.has(x));
+    if(t.length===1) g=t[0]; else return `Type only the missing verb in the blank. ${it(g)} is not one verb form.`;
+  }
+  if(item.notes && item.notes[g]) return item.notes[g];
+  const ans=item.ans;
+  if(/^[aeiou]'$/.test(g) && stripAcc(ans)===g.charAt(0) && ans!==g.charAt(0)) return `Use the accent buttons: ${it(ans)} is one letter, not a letter + apostrophe.`;
+  if(g!==ans && stripAcc(g)===stripAcc(ans)) return `Check the accent: it is ${it(ans)}.`;
+  if("h"+g===ans) return `${it(g)} is missing the h. The forms ${it("ho, hai, ha, hanno")} all start with a silent h.`;
+  if(LOOKALIKE[g]) return `${it(g)} ${LOOKALIKE[g]}. It is not a verb form.`;
+  if(g==="essere"||g==="avere") return `${it(g)} is the infinitive (the dictionary form). Change it to match the subject.`;
+  if(FORM_INFO[g]) return `${it(g)} = ${describe(g)}.`;
+  return `${it(g)} is not a form of ${it("essere")} or ${it("avere")}.`;
+}
+function sentDiag(item, gotStr){
+  const got=toks(gotStr);
+  let exp;
+  const shown={}; (item.tokens||[]).concat(item.answers?toks(item.answers[0]):[]).forEach(t=>shown[t.toLowerCase()]=t);
+  const sh=t=>it(shown[t]||t);
+  if(item.type==="build") exp=item.tokens.map(t=>t.toLowerCase());
+  else { const full=toks(item.answers[0]), short=toks(item.answers[1]||item.answers[0]); exp = got.includes(full[0]) ? full : short; }
+  const notes=[];
+  const verbs=got.filter(t=>FORM_INFO[t]);
+  if(item.notes) got.forEach(t=>{ if(item.notes[t] && t!==item.ans) notes.push(item.notes[t]); });
+  if(!verbs.includes(item.ans)){
+    const v=verbs.find(t=>t!==item.ans && !(item.notes&&item.notes[t]));
+    const near=got.find(t=>t!==item.ans && (stripAcc(t)===stripAcc(item.ans) || "h"+t===item.ans || /^[aeiou]'$/.test(t)));
+    if(near) notes.push(formDiag(near,item));
+    else if(v) notes.push(`${it(v)} = ${describe(v)}.`);
+    else if(!notes.length) notes.push(`Your sentence needs the verb ${it(item.ans)}.`);
+  } else {
+    if(notes.length) return notes.join(" ");   /* an item note already names the problem */
+    const missing=exp.filter(t=>t!==item.ans && !got.includes(t));
+    const extra=got.filter(t=>!exp.includes(t) && !(item.notes&&item.notes[t]));
+    if(missing.length) notes.push(`Missing or misspelled: ${missing.map(sh).join(", ")}.`);
+    if(extra.length) notes.push(`Not needed or misspelled: ${extra.map(x=>FORM_INFO[x]?`${it(x)}, which is ${describe(x)}`:it(x)).join("; ")}.`);
+    if(!missing.length && !extra.length && !notes.length) notes.push(got.length!==exp.length ? "A word is repeated. Use each word once." : "The words are right, but the order is not. Italian order here: subject, verb, then the rest.");
+  }
+  return notes.join(" ");
+}
+function qHelp(item, got){
+  const g=normAns(got);
+  const diag = (item.type==="verb"||item.type==="blank") ? formDiag(g,item) : sentDiag(item,got);
+  return `${diag} ${item.why} Correct: ${it(qFull(item))}`;
+}
+
+/* ---------- SAFE QUIZ STORAGE (works in memory if storage is blocked) ---------- */
+const QSTORE_KEY="auraFarm.quiz.v1";
+const QStore = (function(){
+  const mem={ name:"", nameLocked:false, q:{} };
+  let saving=lsOK();
+  function cleanRec(r){
+    r = (r && typeof r==="object") ? r : {};
+    const n=x=>{ const v=Number(x); return Number.isFinite(v)&&v>0 ? Math.min(Math.floor(v),99) : 0; };
+    return { used:n(r.used), total:n(r.total), inProgress:!!r.inProgress, last:(r.last && typeof r.last==="object" && typeof r.last.code==="string") ? r.last : null };
+  }
+  try{
+    const raw=window.localStorage.getItem(QSTORE_KEY);
+    if(raw){ const v=JSON.parse(raw);
+      if(v && typeof v==="object"){
+        if(typeof v.name==="string") mem.name=v.name.slice(0,40);
+        mem.nameLocked=!!v.nameLocked && !!mem.name;
+        if(v.q && typeof v.q==="object") Object.keys(v.q).forEach(k=>{ mem.q[k]=cleanRec(v.q[k]); });
+      } }
+  }catch(e){}
+  /* a try that was open when the page closed already counted; just close it */
+  Object.values(mem.q).forEach(r=>{ r.inProgress=false; });
+  function save(){ try{ window.localStorage.setItem(QSTORE_KEY, JSON.stringify(mem)); saving=true; }catch(e){ saving=false; } }
+  return {
+    get name(){ return mem.name; }, get nameLocked(){ return mem.nameLocked; },
+    setName(n, lock){ mem.name=n; mem.nameLocked=!!lock; save(); },
+    rec(key){ if(!mem.q[key]) mem.q[key]=cleanRec(null); return mem.q[key]; },
+    save, saving:()=>saving,
+    unlockAll(){ Object.values(mem.q).forEach(r=>{ r.used=0; r.inProgress=false; }); mem.nameLocked=false; save(); }
+  };
+})();
+
+/* ---------- VERIFICATION CODE ----------
+   P = (quizId*25 + halfPoints)*10 + attempt      (halfPoints 0..24, attempt 1..9)
+   X = (P*2731 + 9157) mod 32768   -> 3 symbols;   C = (7P² + 113P + 421) mod 1024 -> 2 symbols
+   Symbols: 23456789ABCDEFGHJKLMNPQRSTUVWXYZ (no 0/O/1/I). Code = XXX-CC. Decode steps are in NOTES.md. */
+const CODE_ALPH="23456789ABCDEFGHJKLMNPQRSTUVWXYZ", CODE_MUL=2731, CODE_ADD=9157, CODE_MOD=32768;
+function modInv(a,m){ let [t,nt,r,nr]=[0,1,m,a%m]; while(nr){ const q=Math.floor(r/nr); [t,nt]=[nt,t-q*nt]; [r,nr]=[nr,r-q*nr]; } return ((t%m)+m)%m; }
+const CODE_INV=modInv(CODE_MUL,CODE_MOD);
+function codeCheck(P){ return (7*P*P + 113*P + 421) % 1024; }
+function b32(n,len){ let s=""; for(let i=0;i<len;i++){ s=CODE_ALPH[n%32]+s; n=Math.floor(n/32); } return s; }
+function makeCode(quizId, half, attempt){
+  const a=Math.max(1,Math.min(9,attempt|0));
+  const P=(quizId*25+half)*10+a, X=(P*CODE_MUL+CODE_ADD)%CODE_MOD;
+  return b32(X,3)+"-"+b32(codeCheck(P),2);
+}
+function readCode(code){
+  const s=String(code||"").toUpperCase().replace(/[^0-9A-Z]/g,"").replace(/O/g,"0").replace(/I/g,"1");
+  if(s.length!==5) return null;
+  const v=[...s].map(ch=>CODE_ALPH.indexOf(ch)); if(v.some(x=>x<0)) return null;
+  const X=v[0]*1024+v[1]*32+v[2], C=v[3]*32+v[4];
+  const P=(((X-CODE_ADD)%CODE_MOD+CODE_MOD)%CODE_MOD*CODE_INV)%CODE_MOD;
+  if(codeCheck(P)!==C) return null;
+  const attempt=P%10, half=Math.floor(P/10)%25, quizId=Math.floor(P/250);
+  const quiz=QUIZZES.find(q=>q.id===quizId);
+  if(!quiz || attempt<1 || half>quiz.items.length*2) return null;
+  return { quiz, half, attempt };
+}
+function fmtHalf(h){ return (h%2 ? (h-1)/2+".5" : String(h/2)); }
+function nowLabel(d){
+  try{ return d.toLocaleString(undefined,{ year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"2-digit", timeZoneName:"short" }); }
+  catch(e){ return d.toString(); }
+}
+
+/* ---------- accent buttons + phone keyboard dock (same approach as Aura Farm · Tempi) ---------- */
+function syncTypeDock(){
+  const dock=document.querySelector(".screen.active .type-dock");
+  document.querySelectorAll(".type-dock").forEach(d=>{ if(d!==dock) d.style.transform=""; });
+  if(!dock) return;
+  const vv=window.visualViewport;
+  if(!vv){ dock.style.transform=""; return; }
+  const gap=Math.max(0, window.innerHeight - (vv.offsetTop + vv.height));
+  dock.style.transform = gap>2 ? `translateY(-${gap}px)` : "";
+}
+(function(){
+  const run=()=>syncTypeDock();
+  if(window.visualViewport){ visualViewport.addEventListener("resize", run); visualViewport.addEventListener("scroll", run); }
+  window.addEventListener("resize", run); window.addEventListener("focusin", run);
+  window.addEventListener("focusout", ()=>setTimeout(run, 80));
+})();
+function bindAccents(inp, row){
+  row.innerHTML = ACCENTS.map(c=>`<button type="button" class="acc-btn" data-ch="${c}" aria-label="Type ${c}" lang="it">${c}</button>`).join("");
+  let caret=null;
+  const keep=()=>{ try{ caret=[inp.selectionStart, inp.selectionEnd]; }catch(_){} };
+  ["keyup","keydown","click","blur","select","mouseup","touchend","input"].forEach(ev=>inp.addEventListener(ev,keep));
+  inp.addEventListener("input",()=>inp.classList.remove("bad"));
+  const insert=ch=>{
+    if(!ch || inp.disabled || inp.readOnly) return;
+    const live=document.activeElement===inp && inp.selectionStart!=null;
+    let a,z;
+    if(live){ a=inp.selectionStart; z=inp.selectionEnd; }
+    else if(caret && caret[0]!=null){ a=caret[0]; z=caret[1]!=null?caret[1]:caret[0]; }
+    else { a=z=inp.value.length; }
+    if(typeof a!=="number"||typeof z!=="number"||a<0||z<0||a>inp.value.length){ a=z=inp.value.length; }
+    inp.value=inp.value.slice(0,a)+ch+inp.value.slice(z);
+    const c=a+ch.length;
+    inp.focus({preventScroll:true});
+    try{ inp.setSelectionRange(c,c); }catch(_){}
+    caret=[c,c];
+    try{ inp.dispatchEvent(new Event("input",{bubbles:true})); }catch(_){}
+    syncTypeDock();
+  };
+  row.querySelectorAll(".acc-btn").forEach(b=>{
+    let armed=0;
+    const go=e=>{
+      e.preventDefault(); e.stopPropagation();
+      if(e.type==="click" && Date.now()-armed<600) return;   /* pointerdown already typed it */
+      if(e.type!=="click") armed=Date.now();
+      insert(b.dataset.ch);
+    };
+    b.addEventListener("pointerdown", go, {passive:false});
+    b.addEventListener("click", go);
+  });
+  return { reset(){ caret=null; } };
+}
+
+/* ---------- small modal helpers ---------- */
+const Q_MODALS=["qStartModal","qLeaveModal","qTeacherModal","qShotModal","qCopyModal","bonusModal"];
+function qModalOpen(){ return Q_MODALS.some(id=>$(id).classList.contains("show")); }
+function openM(id){ $(id).classList.add("show"); }
+function closeM(id){ $(id).classList.remove("show"); }
+
+/* ---------- Warm-up (not graded): pronoun tap, so every quiz screen has active Italian ---------- */
+const WARM = [["I","io"],["you (one friend)","tu"],["we","noi"],["you all","voi"],["they","loro"]];
+function renderWarm(box){
+  const [en, ans] = pick(WARM);
+  const opts = shuffle([ans, ...shuffle(WARM.map(w=>w[1]).filter(x=>x!==ans)).slice(0,3)]);
+  box.innerHTML = `<h3>Warm-up (not graded)</h3><p>Tap the Italian word for “${esc(en)}”.</p>
+    <div class="choices">${opts.map(o=>`<button type="button" class="choice-btn" lang="it" data-v="${o}">${o}</button>`).join("")}</div>
+    <div class="q-fb info" style="margin-top:8px" aria-live="polite">Pick one.</div>`;
+  const fb=box.querySelector(".q-fb"); let done=false;
+  box.querySelectorAll(".choice-btn").forEach(b=>b.onclick=()=>{
+    if(done || b.classList.contains("tried")) return;
+    const v=b.dataset.v;
+    if(v===ans){ done=true; b.classList.add("right"); sfxOk(); fb.className="q-fb ok"; fb.innerHTML=`✓ ${it(ans)} = ${esc(en)}.`;
+      setTimeout(()=>{ if(box.isConnected && box.closest(".screen.active")) renderWarm(box); }, 1400); }
+    else { sfxBad(); b.classList.add("tried"); const w=WARM.find(x=>x[1]===v); fb.className="q-fb bad"; fb.innerHTML=`✗ ${it(v)} = ${esc(w[0])}. “${esc(en)}” is a different word. Try again.`; }
+  });
+}
+
+/* =========================================================
+   QUIZ SCREENS
+   ========================================================= */
+let Q=null;           /* the quiz being played */
+let qShown=null;      /* the result on the result screen */
+let qAccIn=null;
+function curQuiz(){ return QUIZZES[0]; }
+function showNames(){ document.querySelectorAll(".qNameShow").forEach(el=>el.textContent = QStore.name || "(no name yet)"); }
+function nameValid(n){ return /^[\p{L}][\p{L} .'\-]{0,39}$/u.test(n) && (n.match(/\p{L}/gu)||[]).length>=2; }
+function openQuizHome(){
+  state.level=null; Q=null;
+  showScreen("quiz");
+  const inp=$("qNameIn");
+  inp.value = QStore.name;
+  inp.readOnly = QStore.nameLocked;
+  const note=$("qNameNote");
+  note.style.color="";
+  note.textContent = QStore.nameLocked ? "🔒 Your name is locked on this device. Your teacher can unlock it." : "Type your name first. It locks when the quiz starts and shows on your result.";
+  const list=$("qList"); list.innerHTML="";
+  QUIZZES.forEach(qz=>{
+    const r=QStore.rec(qz.key), left=Math.max(0,TRIES_PER_QUIZ-r.used);
+    const b=document.createElement("button"); b.type="button"; b.className="q-pick"+(left?"":" locked"); b.dataset.quiz=qz.key;
+    b.innerHTML=`<div class="thumb">${SVG.object("trophy")}</div><div><div class="mech">QUIZ · ${qz.items.length} QUESTIONS</div><h3 lang="it">${esc(qz.title)}</h3>
+      <p>${left ? `Tries left on this device: ${left} of ${TRIES_PER_QUIZ}. Tap to start.` : `🔒 Locked: both tries used. Ask your teacher.`}</p></div>`;
+    b.onclick=()=>askStart(qz);
+    list.appendChild(b);
+  });
+  $("qLastBtn").style.display = QStore.rec(curQuiz().key).last ? "" : "none";
+  $("qStoreNote").style.display = QStore.saving() ? "none" : "";
+  renderWarm($("qWarm"));
+  showNames();
+}
+function askStart(qz){
+  const r=QStore.rec(qz.key);
+  if(r.used>=TRIES_PER_QUIZ){ showLock(qz); return; }
+  const inp=$("qNameIn"), n=inp.value.replace(/\s+/g," ").trim();
+  if(!nameValid(n)){
+    const note=$("qNameNote"); note.style.color="#ffc2cd";
+    note.textContent="Please type your first and last name before you start (letters only).";
+    inp.classList.add("bad"); inp.focus(); return;
+  }
+  inp.classList.remove("bad");
+  $("qStartInfo").innerHTML = `Name: <b>${esc(n)}</b><br>Quiz: <b lang="it">${esc(qz.title)}</b><br>This is try ${r.used+1} of ${TRIES_PER_QUIZ} on this device. It counts as soon as you start.<br>Your name locks now. No hints. A wrong answer gets one second try for ½ point.`;
+  $("qStartYes").onclick=()=>{ closeM("qStartModal"); startQuiz(qz, n); };
+  openM("qStartModal"); $("qStartYes").focus();
+}
+function startQuiz(qz, name){
+  const r=QStore.rec(qz.key);
+  if(r.used>=TRIES_PER_QUIZ){ showLock(qz); return; }
+  QStore.setName(name, true);
+  r.used++; r.total=Math.min(99,r.total+1); r.inProgress=true; QStore.save();
+  Q={ quiz:qz, i:0, phase:"answer", res:[], attempt:r.total, built:[], tray:[], shownAt:0 };
+  showScreen("qplay"); showNames(); renderQ();
+}
+function renderQ(){
+  const item=Q.quiz.items[Q.i], n=Q.quiz.items.length;
+  $("qCount").textContent=`Question ${Q.i+1} of ${n}`;
+  $("qProg").style.width=`${(Q.i/n)*100}%`;
+  $("qType").textContent=TYPE_LABEL[item.type];
+  $("qDir").textContent=TYPE_DIR[item.type];
+  const P=$("qPrompt"), E=$("qEn");
+  if(item.type==="verb"){ P.innerHTML=item.parts.map(p=>p==="___"?`<span class="blank" id="qBlank" aria-label="blank">&nbsp;</span> <span class="inf">(${esc(item.inf)})</span>`:esc(p)).join(" "); P.lang="it"; E.className="q-en"; E.textContent=item.en; }
+  else if(item.type==="blank"){ P.innerHTML=item.parts.map(p=>p==="___"?`<span class="blank" id="qBlank" aria-label="blank">&nbsp;</span>`:esc(p)).join(" "); P.lang="it"; E.className="q-en"; E.textContent=item.en; }
+  else { P.innerHTML=""; P.removeAttribute("lang"); E.className="q-en big"; E.textContent=item.en; }
+  Q.phase="answer"; Q.built=[];
+  const build=item.type==="build";
+  $("qTypeWrap").classList.toggle("hide", build);
+  $("qAcc").classList.toggle("hide", build);
+  $("qBuildWrap").classList.toggle("hide", !build);
+  $("qIn").value="";
+  if(build) qMakeTray(item); else { const inp=$("qIn"); inp.value=""; inp.disabled=false; inp.classList.remove("bad"); qAccIn && qAccIn.reset();
+    inp.placeholder = item.type==="en2it" ? "Type the Italian sentence" : "Type the verb";
+    if(fineP()) setTimeout(()=>{ if(Q && $("qplay").classList.contains("active") && !qModalOpen()) inp.focus({preventScroll:true}); }, 30); }
+  qButtons("check");
+  qFb("info", build ? "Tap the words in order, then Check." : "Type your answer, then Check. Accents count.");
+  $("qBody").scrollTop=0;
+  syncTypeDock();
+}
+function qMakeTray(item){
+  Q.tray=shuffle([...item.tokens, ...item.extra].map((w,i)=>({w, id:"t"+i})));
+  const tray=$("qTray"); tray.innerHTML="";
+  Q.tray.forEach(t=>{ const b=document.createElement("button"); b.type="button"; b.className="word-tile"; b.textContent=t.w; b.dataset.id=t.id;
+    b.onclick=()=>{ if(Q.phase==="help"||Q.phase==="done"||b.classList.contains("used")) return; b.classList.add("used"); Q.built.push(t); qSyncBuild(); };
+    tray.appendChild(b); });
+  qSyncBuild();
+}
+function qSyncBuild(){
+  const line=$("qBuildLine"); line.innerHTML="";
+  if(!Q.built.length){ line.innerHTML=`<span class="ph">Your sentence appears here</span>`; return; }
+  Q.built.forEach((t,i)=>{ const c=document.createElement("button"); c.type="button"; c.className="word-chip";
+    c.textContent = i===0 ? cap1(t.w) : t.w; if(i===Q.built.length-1) c.textContent+=".";
+    c.setAttribute("aria-label","Remove "+t.w);
+    c.onclick=()=>{ if(Q.phase==="help"||Q.phase==="done") return; Q.built.splice(i,1); const tile=$("qTray").querySelector(`[data-id="${t.id}"]`); if(tile) tile.classList.remove("used"); qSyncBuild(); };
+    line.appendChild(c); });
+}
+function qButtons(mode){
+  $("qCheck").classList.toggle("hide", mode!=="check");
+  $("qClear").classList.toggle("hide", mode!=="check");
+  $("qRetry").classList.toggle("hide", mode!=="retry");
+  $("qNext").classList.toggle("hide", mode!=="next");
+  const lockIn = mode!=="check";
+  $("qTray").classList.toggle("hide", lockIn);   /* tiles step aside so the help text has room */
+  $("qIn").disabled = lockIn;
+  $("qAcc").querySelectorAll("button").forEach(b=>b.disabled=lockIn);
+  Q.shownAt=performance.now();
+  if(mode==="next") setTimeout(()=>{ if(!$("qNext").classList.contains("hide")) $("qNext").focus({preventScroll:true}); }, 60);
+  if(mode==="retry") setTimeout(()=>{ if(!$("qRetry").classList.contains("hide")) $("qRetry").focus({preventScroll:true}); }, 60);
+}
+function qFb(kind, html){ const f=$("qFb"); f.className="q-fb"+(kind?" "+kind:""); f.innerHTML=html;
+  requestAnimationFrame(()=>{ try{ const b=$("qBody"), r=f.getBoundingClientRect(), br=b.getBoundingClientRect(); if(r.bottom>br.bottom) b.scrollTop += Math.min(r.bottom-br.bottom, r.top-br.top); }catch(e){} }); }
+function qGot(item){ return item.type==="build" ? Q.built.map(t=>t.w).join(" ") : $("qIn").value; }
+function qShowGot(item, got){ return item.type==="build" ? (got ? sentOf(got.split(" ")) : "") : got.replace(/\s+/g," ").trim(); }
+function qCheck(){
+  if(!Q || (Q.phase!=="answer" && Q.phase!=="retry")) return;
+  const item=Q.quiz.items[Q.i], raw=qGot(item);
+  if(!normAns(raw)){ qFb("info", item.type==="build" ? "Tap the words first, then Check." : "Type your answer first, then Check."); if(item.type!=="build") $("qIn").focus(); return; }
+  const ok=qIsRight(item, raw), shown=qShowGot(item, raw);
+  if(Q.phase==="answer"){
+    if(ok){ Q.res[Q.i]={ credit:1, got:shown }; sfxOk(); flash(true);
+      qFb("ok", `<span class="t">✓ Right! 1 point.</span>${it(qFull(item))} = ${esc(item.en)}`); qButtons("next"); }
+    else { Q.res[Q.i]={ credit:0, got:shown }; sfxBad(); flash(false); $("qIn").classList.add("bad");
+      qFb("bad", `<span class="t">✗ Not quite.</span>${qHelp(item, raw)}`); Q.phase="help"; qButtons("retry"); }
+  } else {
+    const r=Q.res[Q.i]; r.got2=shown;
+    if(ok){ r.credit=0.5; sfxOk(); qFb("ok", `<span class="t">✓ Right on the second try: ½ point.</span>${it(qFull(item))} = ${esc(item.en)}`); }
+    else { r.credit=0; sfxBad(); qFb("bad", `<span class="t">✗ Still not right: 0 points for this one.</span>Correct: ${it(qFull(item))} (${esc(item.en)})`); }
+    Q.phase="done"; qButtons("next");
+  }
+  if(Q.phase==="answer") Q.phase="done";
+}
+function qRetry(){
+  if(!Q || Q.phase!=="help" || performance.now()-Q.shownAt<700) return;
+  const item=Q.quiz.items[Q.i];
+  Q.phase="retry"; Q.built=[];
+  if(item.type==="build") qMakeTray(item); else { const inp=$("qIn"); inp.value=""; inp.classList.remove("bad"); qAccIn && qAccIn.reset(); }
+  qButtons("check");
+  qFb("warn", `<span class="t">Second try for ½ point.</span>Answer from memory. Accents count.`);
+  if(item.type!=="build") $("qIn").focus({preventScroll:true});
+}
+function qNext(){
+  if(!Q || Q.phase!=="done" || performance.now()-Q.shownAt<400) return;
+  Q.i++;
+  if(Q.i>=Q.quiz.items.length) finishQuiz(); else renderQ();
+}
+function finishQuiz(){
+  const qz=Q.quiz, items=qz.items;
+  let half=0; const misses=[];
+  items.forEach((item,i)=>{
+    const r=Q.res[i] || { credit:0, got:"(not answered)", skipped:true };
+    half+=Math.round(r.credit*2);
+    if(r.credit<1) misses.push({ n:i+1, prompt:qPromptText(item), got:r.got||"(blank)", got2:r.got2||"", correct:qFull(item), credit:r.credit, skipped:!!r.skipped });
+  });
+  const d=new Date();
+  const R={ quizId:qz.id, key:qz.key, title:qz.title, name:QStore.name, half, total:items.length, attempt:Q.attempt,
+    date:nowLabel(d), iso:d.toISOString(), code:makeCode(qz.id, half, Q.attempt), misses };
+  const rec=QStore.rec(qz.key); rec.inProgress=false; rec.last=R; QStore.save();
+  Q=null;
+  try{ AuraFX.fanfare(); }catch(e){}
+  showQEnd(R);
+}
+function showQEnd(R){
+  qShown=R;
+  showScreen("qend"); showNames();
+  document.querySelectorAll("#qend .qNameShow").forEach(el=>el.textContent=R.name||"(no name)");
+  $("qResQuiz").textContent="QUIZ · "+R.title.toUpperCase();
+  $("qResQuiz").lang="it";
+  $("qResScore").textContent=`${fmtHalf(R.half)} / ${R.total}`;
+  $("qResMeta").innerHTML=`${Math.round(R.half/2/R.total*100)}% · Try #${R.attempt} on this device<br>Finished ${esc(R.date)}`;
+  $("qResCode").textContent=R.code;
+  $("qMissHead").textContent = R.misses.length ? `Missed items (${R.misses.length})` : "Missed items: none. Perfect score!";
+  $("qMissList").innerHTML = R.misses.map(m=>`<li><div class="p">${m.n}. <span lang="it">${esc(m.prompt)}</span></div>
+    <div class="y">Your answer: <span lang="it">${esc(m.got)}</span>${m.got2?` · 2nd try: <span lang="it">${esc(m.got2)}</span>`:""}</div>
+    <div class="c">Correct: <b lang="it">${esc(m.correct)}</b></div>
+    <div class="h">${m.credit===0.5?"½ point (right on the 2nd try)":(m.skipped?"0 points (not answered)":"0 points")}</div></li>`).join("");
+  $("qEndFb").style.display="none";
+  $("qEndBody").scrollTop=0;
+}
+function showLock(qz){
+  showScreen("qlock"); showNames();
+  $("qLockTitle").innerHTML=`<span lang="it">${esc(qz.title)}</span> is locked`;
+  $("qLockCode").value=""; $("qLockFb").className="q-fb"; $("qLockFb").textContent="";
+  $("qLockLast").style.display = QStore.rec(qz.key).last ? "" : "none";
+  renderWarm($("qWarmLock"));
+}
+function resultText(R){
+  const lines=[`Aura Farm Quiz: ${R.title}`, `Name: ${R.name}`, `Score: ${fmtHalf(R.half)} / ${R.total} (${Math.round(R.half/2/R.total*100)}%)`,
+    `Try #${R.attempt} · ${R.date}`, `Verification code: ${R.code}`, R.misses.length?`Missed items:`:`Missed items: none`];
+  R.misses.forEach(m=>lines.push(`${m.n}. ${m.prompt} | Your answer: ${m.got}${m.got2?` | 2nd try: ${m.got2}`:""} | Correct: ${m.correct} | ${m.credit===0.5?"1/2 point":"0 points"}`));
+  return lines.join("\n");
+}
+function qEndMsg(kind, html){ const f=$("qEndFb"); f.style.display=""; f.className="q-fb "+kind; f.innerHTML=html; }
+function copyResult(){
+  const R=qShown; if(!R) return;
+  const text=resultText(R);
+  const fallback=()=>{
+    let ok=false;
+    try{ const ta=document.createElement("textarea"); ta.value=text; ta.setAttribute("readonly",""); ta.style.position="fixed"; ta.style.left="-9999px"; document.body.appendChild(ta); ta.select(); ok=document.execCommand && document.execCommand("copy"); ta.remove(); }catch(e){ ok=false; }
+    if(ok) qEndMsg("ok","✓ Copied. Paste it in Google Classroom if your teacher asks for text.");
+    else { $("qCopyText").value=text; openM("qCopyModal"); setTimeout(()=>{ try{ $("qCopyText").focus(); $("qCopyText").select(); }catch(e){} },50); }
+  };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(()=>qEndMsg("ok","✓ Copied. Paste it in Google Classroom if your teacher asks for text."), fallback);
+    } else fallback();
+  }catch(e){ fallback(); }
+}
+
+/* ---------- 📸 screenshot: the result card is drawn straight onto a canvas (no libraries, works offline) ---------- */
+function drawResultCanvas(R){
+  const W=1080, PAD=64, MAXW=W-PAD*2;
+  const FF='system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+  const F=(w,s)=>`${w} ${s}px ${FF}`;
+  const cv=document.createElement("canvas"); const x=cv.getContext("2d");
+  const wrap=(t,font,maxW)=>{ x.font=font; const out=[]; String(t).split("\n").forEach(par=>{ let line=""; par.split(" ").forEach(w=>{ const test=line?line+" "+w:w; if(x.measureText(test).width>maxW && line){ out.push(line); line=w; } else line=test; }); out.push(line); }); return out; };
+  const blocks=[];
+  const add=(t,font,color,size,after=8,indent=0)=>blocks.push({ kind:"text", lines:wrap(t,font,MAXW-indent), font, color, lh:Math.round(size*1.3), after, indent });
+  const pct=Math.round(R.half/2/R.total*100);
+  add("Name", F(700,28), "#c3b8d8", 28, 2); add(R.name||"(no name)", F(800,46), "#ffffff", 46, 18);
+  add("Quiz", F(700,28), "#c3b8d8", 28, 2); add(R.title, F(800,36), "#ffffff", 36, 18);
+  add("Score", F(700,28), "#c3b8d8", 28, 2); add(`${fmtHalf(R.half)} / ${R.total}   (${pct}%)`, F(900,68), "#ffd166", 68, 10);
+  add(`Try #${R.attempt} on this device · Finished ${R.date}`, F(600,28), "#ffffff", 28, 22);
+  blocks.push({ kind:"code", h:96, after:30 });
+  add(R.misses.length ? `Missed items (${R.misses.length})` : "Missed items: none. Perfect score!", F(800,34), "#ffd166", 34, 12);
+  R.misses.forEach(m=>{
+    blocks.push({ kind:"rule", h:2, after:14 });
+    add(`${m.n}. ${m.prompt}`, F(800,30), "#ffffff", 30, 4);
+    add(`Your answer: ${m.got}${m.got2?`  ·  2nd try: ${m.got2}`:""}`, F(600,28), "#ffc2cd", 28, 4, 28);
+    add(`Correct: ${m.correct}`, F(700,28), "#b9ffd3", 28, 4, 28);
+    add(m.credit===0.5?"½ point (right on the 2nd try)":(m.skipped?"0 points (not answered)":"0 points"), F(700,26), "#ffd166", 26, 14, 28);
+  });
+  blocks.push({ kind:"rule", h:2, after:18 });
+  add("📸 Upload this picture to your Google Classroom assignment.", F(600,28), "#c3b8d8", 28, 0);
+  const HEAD=190;
+  let H=HEAD+40; blocks.forEach(b=>{ H += (b.kind==="text" ? b.lines.length*b.lh : b.h) + b.after; }); H+=PAD;
+  cv.width=W; cv.height=H;
+  x.fillStyle="#140a22"; x.fillRect(0,0,W,H);
+  const g=x.createLinearGradient(0,0,W,HEAD); g.addColorStop(0,"#5b1f8f"); g.addColorStop(1,"#0f5e57");
+  x.fillStyle=g; x.fillRect(0,0,W,HEAD);
+  x.textBaseline="alphabetic"; x.fillStyle="#ffffff"; x.font=F(900,54); x.fillText("Aura Farm · Quiz result", PAD, 92);
+  x.fillStyle="#bffcf2"; x.font=F(700,30); x.fillText("Italian 2 · Essere & Avere", PAD, 144);
+  let y=HEAD+40;
+  blocks.forEach(b=>{
+    if(b.kind==="text"){ x.font=b.font; x.fillStyle=b.color; b.lines.forEach(l=>{ y+=b.lh; x.fillText(l, PAD+b.indent, y-Math.round(b.lh*0.24)); }); }
+    else if(b.kind==="code"){ x.fillStyle="#00f5d4"; x.fillRect(PAD, y, MAXW, b.h); x.fillStyle="#0a0614"; x.font=F(700,28); x.fillText("Verification code", PAD+24, y+58);
+      x.font='900 50px ui-monospace,Menlo,Consolas,"Courier New",monospace'; const cw=x.measureText(R.code).width; x.fillText(R.code, PAD+MAXW-24-cw, y+66); y+=b.h; }
+    else if(b.kind==="rule"){ x.fillStyle="rgba(255,255,255,.22)"; x.fillRect(PAD, y, MAXW, b.h); y+=b.h; }
+    y+=b.after;
+  });
+  return cv;
+}
+function slug(s){ return (String(s||"student").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9]+/g,"-").replace(/^-|-$/g,"")||"student").slice(0,30); }
+let shotURL=null;
+function takeShot(){
+  const R=qShown; if(!R) return;
+  let cv; try{ cv=drawResultCanvas(R); }catch(e){ qEndMsg("bad","Sorry, the picture could not be made on this device. Use your device's screenshot keys instead."); return; }
+  const day=(R.iso||"").slice(0,10)||"result";
+  const fname=`AuraFarm-Quiz-${slug(R.name)}-${day}.png`;
+  const show=url=>{
+    const a=document.createElement("a"); a.href=url; a.download=fname; a.style.display="none"; document.body.appendChild(a);
+    try{ a.click(); }catch(e){}
+    setTimeout(()=>a.remove(), 0);
+    $("qShotImg").src=url;
+    $("qShotMsg").textContent=`The picture “${fname}” was saved to your Downloads. Upload it to your Google Classroom assignment.`;
+    openM("qShotModal");
+  };
+  try{
+    if(cv.toBlob){ cv.toBlob(b=>{ if(!b){ show(cv.toDataURL("image/png")); return; } if(shotURL) URL.revokeObjectURL(shotURL); shotURL=URL.createObjectURL(b); show(shotURL); }, "image/png"); }
+    else show(cv.toDataURL("image/png"));
+  }catch(e){ try{ show(cv.toDataURL("image/png")); }catch(e2){ qEndMsg("bad","Sorry, the picture could not be made on this device. Use your device's screenshot keys instead."); } }
+}
+
+/* ---------- Teacher tools ---------- */
+function teacherUnlock(code, fbEl){
+  if(String(code).trim()===TEACHER_CODE){
+    QStore.unlockAll();
+    fbEl.className="q-fb ok"; fbEl.textContent="✓ Unlocked. Tries are back to 2, and the name can be changed.";
+    return true;
+  }
+  fbEl.className="q-fb bad"; fbEl.textContent="That teacher code is not right.";
+  return false;
+}
+function teacherCheck(){
+  const v=$("qTCheck").value, r=readCode(v), fb=$("qTFb");
+  if(!v.trim()){ fb.className="q-fb info"; fb.textContent="Type the student's code, for example 7KQ-M4."; return; }
+  if(!r){ fb.className="q-fb bad"; fb.textContent="✗ Not a valid code. Check the letters (the code has 5 letters/numbers, like 7KQ-M4)."; return; }
+  fb.className="q-fb ok";
+  fb.innerHTML=`✓ Real code.<br>Quiz: <span lang="it">${esc(r.quiz.title)}</span><br>Score: <b>${fmtHalf(r.half)} / ${r.quiz.items.length}</b> (${Math.round(r.half/2/r.quiz.items.length*100)}%)<br>Try #${r.attempt} on the student's device`;
+}
+
+/* =========================================================
+   VOCAB (level 5): meaning match, picture match, type it
+   ========================================================= */
+const PIC_WORDS = VOCAB.filter(v=>v.pic).map(v=>v.it);
+function buildL5(){
+  const pics=shuffle([...PIC_WORDS]).slice(0,3);
+  const rest=shuffle(VOCAB.map(v=>v.it).filter(w=>!pics.includes(w)));
+  const types=rest.slice(0,3), means=rest.slice(3,7);
+  const items=[...pics.map(w=>({kind:"pic",w})), ...types.map(w=>({kind:"type",w})), ...means.map(w=>({kind:"meaning",w}))];
+  return shuffle(items);
+}
+let l5Acc=null;
+function startL5(){
+  state.level=5; state.streak=0; state.misses=[];
+  state.l5={ items:buildL5(), i:0, firstTry:0, busy:false, missedThis:false };
+  showScreen("l5"); hideToast(); updateAuraHUD(); renderL5();
+}
+function renderL5(){
+  const L=state.l5, {items,i}=L;
+  $("l5Prog").style.width=`${(i/items.length)*100}%`;
+  if(i>=items.length){ finishLevel(5); return; }
+  fxTempo(qTempo(i, items.length));
+  const item=items[i], v=vocabBy(item.w);
+  L.busy=false; L.missedThis=false;
+  const pic=$("l5Pic"), word=$("l5Word"), ch=$("l5Choices"), dock=$("l5Dock");
+  pic.classList.toggle("hide", item.kind!=="pic"); pic.innerHTML = item.kind==="pic" ? SVG.object(v.pic) : "";
+  dock.classList.toggle("hide", item.kind!=="type");
+  ch.innerHTML="";
+  if(item.kind==="meaning"){
+    $("l5Type").textContent="MEANING MATCH"; $("l5Dir").textContent="What does this Italian word mean? Tap the English.";
+    word.lang="it"; word.className="q-it"; word.textContent=v.it;
+    const opts=shuffle([v, ...shuffle(VOCAB.filter(o=>o!==v)).slice(0,3)]);
+    opts.forEach(o=>ch.appendChild(l5Choice(o.en, o, v, false)));
+    setFb5("", "Tap the meaning.");
+  } else if(item.kind==="pic"){
+    $("l5Type").textContent="PICTURE MATCH"; $("l5Dir").textContent="Which Italian word goes with the picture?";
+    word.textContent=""; word.className="q-it hide";
+    const opts=shuffle([v, ...shuffle(VOCAB.filter(o=>o.pic && o!==v)).slice(0,3)]);
+    opts.forEach(o=>ch.appendChild(l5Choice(o.it, o, v, true)));
+    setFb5("", "Tap the Italian word.");
+  } else {
+    $("l5Type").textContent="TYPE IT"; $("l5Dir").textContent="Type the Italian word. The accent buttons are below if you need them.";
+    word.removeAttribute("lang"); word.className="q-en big"; word.textContent=v.en;
+    const inp=$("l5In"); inp.value=""; inp.disabled=false; inp.classList.remove("bad"); l5Acc && l5Acc.reset();
+    setFb5("", "Type it, then Check.");
+    if(fineP()) setTimeout(()=>{ if(state.level===5 && !qModalOpen()) inp.focus({preventScroll:true}); }, 30);
+  }
+  $("l5Body").scrollTop=0; syncTypeDock();
+}
+function setFb5(kind, html){ const f=$("l5Fb"); f.className="q-fb"+(kind?" "+kind:""); f.innerHTML=html; }
+function l5Choice(label, o, v, isIt){
+  const b=document.createElement("button"); b.type="button"; b.className="choice-btn"; b.textContent=label; if(isIt) b.lang="it";
+  b.onclick=()=>{
+    const L=state.l5; if(state.level!==5 || L.busy || b.classList.contains("tried")) return;
+    if(o===v) l5Right(b, v);
+    else {
+      L.missedThis=true; markWrong(); b.classList.add("tried");
+      if(isIt) setFb5("bad", `✗ The picture shows ${esc(v.picEn)}. ${it(o.it)} means “${esc(o.en)}”. Try again.`);
+      else setFb5("bad", `✗ ${it(v.it)} doesn't mean “${esc(o.en)}” (that is ${it(o.it)}). Try again.`);
+      addMiss(`l5|${v.it}|${o.it}`, `${it(v.it)} = ${esc(v.en)} · you picked ${isIt?it(o.it):"“"+esc(o.en)+"”"}`);
+    }
+  };
+  return b;
+}
+function l5Right(anchor, v){
+  const L=state.l5; L.busy=true;
+  if(!L.missedThis) L.firstTry++;
+  const cheer=celebrate(); if(!L.missedThis) awardPoints(anchor);
+  if(anchor.classList) anchor.classList.add("right");
+  setFb5("ok", `✓ ${cheer}${it(v.it)} = ${esc(v.en)} (${it(v.note.split(" = ")[0])} = ${esc(v.note.split(" = ")[1])})`);
+  const idx=L.i; fxAuto(()=>{ if(state.level===5 && state.l5===L && L.i===idx && $("l5").classList.contains("active")){ L.i++; renderL5(); } }, AUTO_MS);
+}
+function l5Check(){
+  const L=state.l5; if(state.level!==5 || L.busy) return;
+  const item=L.items[L.i]; if(!item || item.kind!=="type") return;
+  const v=vocabBy(item.w), inp=$("l5In"), g=normAns(inp.value);
+  if(!g){ setFb5("info","Type the Italian word first."); inp.focus(); return; }
+  const okList=[v.it, ...(v.alt||[])].map(normAns);
+  if(okList.includes(g)){ inp.disabled=true; l5Right($("l5Check"), v); return; }
+  L.missedThis=true; markWrong(); inp.classList.add("bad");
+  const other=VOCAB.find(o=>normAns(o.it)===g);
+  setFb5("bad", `✗ “${esc(v.en)}” is ${it(v.it)}${other?`. ${it(other.it)} means “${esc(other.en)}”`:""}. Type ${it(v.it)} to keep going.`);
+  addMiss(`l5|${v.it}|typed`, `“${esc(v.en)}” = ${it(v.it)} · you typed ${it(inp.value.trim())}`);
+}
+
+/* =========================================================
+   ⭐ BONUS WORD: one per round in Swipe, Drag, Build (mid-round) and Battle (after the battle).
+   It never changes the round score, misses list or Done badge. A right answer gives +10 ⭐.
+   ========================================================= */
+const BONUS_AT={1:7, 2:5, 3:5, 4:0};
+function bonusGate(L, i, level, cb){
+  if(window.AF_TEST_NO_BONUS || !L || L.bonusDone || BONUS_AT[level]!==i) return false;
+  L.bonusDone=true; openBonus(cb); return true;
+}
+function openBonus(cb){
+  const v=pick(VOCAB);
+  const opts=shuffle([v, ...shuffle(VOCAB.filter(o=>o!==v)).slice(0,2)]);
+  $("bonusWord").textContent=v.it;
+  const fb=$("bonusFb"); fb.style.display="none"; fb.className="q-fb";
+  const go=$("bonusGo"); go.classList.add("hide");
+  const box=$("bonusChoices"); box.innerHTML="";
+  let done=false;
+  opts.forEach(o=>{
+    const b=document.createElement("button"); b.type="button"; b.className="choice-btn"; b.textContent=o.en;
+    b.onclick=()=>{
+      if(done) return; done=true;
+      box.querySelectorAll("button").forEach(x=>x.disabled=true);
+      fb.style.display="";
+      if(o===v){ b.classList.add("right"); sfxOk();
+        state.pts=Math.min(999999,state.pts+10); state.roundPts+=10; store.set("auraFarmPoints", state.pts); updateAuraHUD();
+        fb.className="q-fb ok"; fb.innerHTML=`✓ ${it(v.it)} = ${esc(v.en)}. +10 ⭐ bonus!`; }
+      else { b.classList.add("tried"); sfxBad();
+        fb.className="q-fb bad"; fb.innerHTML=`✗ ${it(v.it)} means “${esc(v.en)}” (${it(v.note.split(" = ")[0])} = ${esc(v.note.split(" = ")[1])}). “${esc(o.en)}” is ${it(o.it)}.`; }
+      go.classList.remove("hide"); setTimeout(()=>go.focus({preventScroll:true}),50);
+    };
+    box.appendChild(b);
+  });
+  go.onclick=()=>{ closeM("bonusModal"); cb(); };
+  openM("bonusModal");
+}
+
+/* home: a small cue when Word Farm / Quiz Time are below the fold (laptop screens) */
+function homeMoreSync(){
+  const l=$("levelList"), b=$("homeMore"); if(!l||!b) return;
+  const more = l.scrollHeight > l.clientHeight+4 && l.scrollTop + l.clientHeight < l.scrollHeight-24;
+  b.classList.toggle("hide", !more);
+}
+/* ---------- wiring ---------- */
+(function wireQuiz(){
+  $("homeMore").onclick=()=>{ const l=$("levelList"); try{ l.scrollTo({top:l.scrollHeight, behavior: reducedMotion()?"auto":"smooth"}); }catch(e){ l.scrollTop=l.scrollHeight; } };
+  $("levelList").addEventListener("scroll", homeMoreSync, {passive:true});
+  window.addEventListener("resize", ()=>{ if($("home").classList.contains("active")) homeMoreSync(); });
+  qAccIn=bindAccents($("qIn"), $("qAcc"));
+  l5Acc=bindAccents($("l5In"), $("l5Acc"));
+  $("qIn").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); qCheck(); } });
+  /* show what is typed inside the blank (verb fill-in and fill-in-the-blank) */
+  const live=()=>{ const b=$("qBlank"); if(b && $("qplay").classList.contains("active")) b.textContent = $("qIn").value.trim() || "\u00a0"; };
+  $("qIn").addEventListener("input", live); $("qAcc").addEventListener("pointerdown", ()=>setTimeout(live,0)); $("qAcc").addEventListener("click", ()=>setTimeout(live,0));
+  $("qClear").addEventListener("click", ()=>setTimeout(live,0)); $("qRetry").addEventListener("click", ()=>setTimeout(live,0));
+  $("l5In").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); l5Check(); } });
+  $("l5Check").onclick=l5Check;
+  $("qCheck").onclick=qCheck; $("qRetry").onclick=qRetry; $("qNext").onclick=qNext;
+  $("qClear").onclick=()=>{ if(!Q||(Q.phase!=="answer"&&Q.phase!=="retry")) return; const item=Q.quiz.items[Q.i];
+    if(item.type==="build"){ Q.built=[]; $("qTray").querySelectorAll(".word-tile").forEach(t=>t.classList.remove("used")); qSyncBuild(); }
+    else { $("qIn").value=""; qAccIn.reset(); $("qIn").focus(); } };
+  $("qLeave").onclick=()=>{ if(Q) openM("qLeaveModal"); };
+  $("qLeaveNo").onclick=()=>closeM("qLeaveModal");
+  $("qLeaveYes").onclick=()=>{ closeM("qLeaveModal"); if(Q) finishQuiz(); };
+  $("qStartNo").onclick=()=>closeM("qStartModal");
+  $("qLastBtn").onclick=()=>{ const r=QStore.rec(curQuiz().key); if(r.last) showQEnd(r.last); };
+  $("qLockLast").onclick=()=>{ const r=QStore.rec(curQuiz().key); if(r.last) showQEnd(r.last); };
+  $("qEndHome").onclick=goHome; $("qEndHome2").onclick=goHome;
+  $("qShot").onclick=takeShot; $("qCopy").onclick=copyResult;
+  $("qShotClose").onclick=()=>closeM("qShotModal");
+  $("qCopyClose").onclick=()=>closeM("qCopyModal");
+  $("qTeacherBtn").onclick=()=>{ $("qTCode").value=""; $("qTCheck").value=""; $("qTFb").className="q-fb"; $("qTFb").textContent=""; openM("qTeacherModal"); $("qTCode").focus(); };
+  $("qTClose").onclick=()=>{ closeM("qTeacherModal"); if($("quiz").classList.contains("active")) openQuizHome(); };
+  $("qTUnlock").onclick=()=>teacherUnlock($("qTCode").value, $("qTFb"));
+  $("qTCode").addEventListener("keydown",e=>{ if(e.key==="Enter") teacherUnlock($("qTCode").value, $("qTFb")); });
+  $("qTCheckGo").onclick=teacherCheck;
+  $("qTCheck").addEventListener("keydown",e=>{ if(e.key==="Enter") teacherCheck(); });
+  const lockGo=()=>{ if(teacherUnlock($("qLockCode").value, $("qLockFb"))) setTimeout(()=>{ if($("qlock").classList.contains("active")) openQuizHome(); }, 1200); };
+  $("qLockGo").onclick=lockGo;
+  $("qLockCode").addEventListener("keydown",e=>{ if(e.key==="Enter") lockGo(); });
+  $("qNameIn").addEventListener("input",()=>{ $("qNameIn").classList.remove("bad"); });
+  $("qNameIn").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); askStart(curQuiz()); } });
+  document.querySelectorAll("[data-practice]").forEach(b=>b.onclick=()=>startLevel(Number(b.dataset.practice)));
+  /* modal backdrops: tap outside closes the info modals (never the bonus or the leave dialog) */
+  ["qTeacherModal","qShotModal","qCopyModal","qStartModal"].forEach(id=>$(id).addEventListener("click",e=>{ if(e.target.id===id) closeM(id); }));
+  document.addEventListener("keydown",e=>{
+    if(e.key!=="Escape") return;
+    ["qTeacherModal","qShotModal","qCopyModal","qStartModal","qLeaveModal"].forEach(id=>{ if($(id).classList.contains("show")) closeM(id); });
+  });
+  document.addEventListener("keydown",e=>{ if(e.key==="Enter" && Q && $("qplay").classList.contains("active") && !qModalOpen() && document.activeElement!==$("qIn")){
+    if(!$("qNext").classList.contains("hide")){ e.preventDefault(); qNext(); }
+    else if(!$("qCheck").classList.contains("hide") && Q.quiz.items[Q.i].type==="build" && document.activeElement && !document.activeElement.closest(".word-tray,.build-line,.q-actions")){ e.preventDefault(); qCheck(); } } });
+})();
+/* QUIZ-VOCAB-JS-END */
 AuraFX.init({key:"auraFarm.v1.audio", paused:()=>chartIsOpen()});
 renderHome();
 </script>
